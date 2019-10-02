@@ -4,12 +4,19 @@ namespace models;
 
 class Cine
 {
+	private $id;
 	private $nombre;
 	private $direccion;
 	private $capacidad;
 	private $valor_Entrada;
 
-	
+	public function getId(){
+		return $this->id;
+	}
+
+	public function setId($id){
+		$this->id = $id;
+	}
 
 	public function  getNombre()
 	{

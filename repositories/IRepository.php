@@ -1,10 +1,10 @@
 <?php 
-namespace repository;
+namespace repositories;
 
 interface IRepository {
 
-    function Add($value);
-    function GetAll();
-    function Delete($value);
+    function agregar($value);
+    function getAll();
+    function borrarPorId($value);
 
 }

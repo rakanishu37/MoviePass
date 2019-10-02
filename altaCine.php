@@ -8,7 +8,12 @@
 </head>
 <body>
     <form method='POST' action="processes/processAltaCine.php">
-        
+        <label>Nombre del cine</label>
+
+        <input type="text" name="nombreCine" id="123">
+
+        <label>Direccion del cine</label>
+        <input type="text" name ="direccionCine">
         <button type="submit">A ver si llegamos </button>
     </form>
 </body>
