@@ -1,10 +1,21 @@
 <?php
     include "autoload.php";
 
-    /*
-	Aca va a estar el new request, route
-	*/
-	//asdasdasd
+    use models\carpeta1\Genero;
+
+
+    $var;
+    $varVacia = array();
+    $num = 5;
+    
+   $genero = array( new Genero('Horror'),
+                    new Genero('Accion'),
+                    new Genero('Comedia')
+                );
+ 
+   
+    
+    var_dump(!isset($noExiste) && empty($noExiste));
 
    
 ?>
