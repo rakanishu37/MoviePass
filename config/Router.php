@@ -4,10 +4,6 @@ namespace config;
 
 class Router
 {
-    public function __construct()
-    {
-        # code...
-    }
     /**
      * @method route
      * Se encarga de direccionar a la pagina solicitada

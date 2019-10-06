@@ -1,7 +1,7 @@
 <?php 
-namespace repositories;
+namespace dao;
 
-interface IRepository {
+interface IDAO {
 
     function add($value);
     function getAll();

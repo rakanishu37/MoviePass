@@ -1,14 +1,24 @@
-<?php
-    include ROOT.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'autoload.php';
-    
-    use models\Cine as Cine;
-    
-    
-    $va = new Cine ();
-    
-    /* echo ;
-    echo '<br>';
-    
-    echo __DIR__;*/
-    //$val= $_SERVER['Directory']
+<?php   
+    namespace controllers;
+    use models\Cinema as Cinema;
+    use dao\DAOCinema as DAOCinema;
+
+    class CinemaController
+    {
+        private $daoCinema;
+
+        public function __construct()
+        {
+            $this->daoCinema = new DAOCinema();
+        }
+
+        public function add(Cinema $newCinema)
+        {
+            $this->daoCinema->add($newCinema);
+
+            echo '<pre>';
+            print_r($this->daoCinema->getAll());
+            echo '</pre>';
+        }
+    }
 ?>

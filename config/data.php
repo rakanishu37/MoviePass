@@ -1,9 +1,9 @@
 <?php
-    define('ROOT', dirname(__DIR__));
+    define('ROOT', dirname(__DIR__).'/');
 
-    define('VIEWS', ROOT . '/views');
-    define('ADMIN_VIEWS', ROOT . '/views/admin');
-    define('IMG_UPLOADS', ROOT . '/asset/uploads/img');
+    define('VIEWS', ROOT . 'views/');
+    define('ADMIN_VIEWS', ROOT . '/views/admin/');
+    define('IMG_UPLOADS', ROOT . '/asset/uploads/img/');
     
     //capas nos sirve en algun momento
     /* FRONT 

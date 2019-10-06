@@ -1,36 +1,35 @@
 <?php
-    include "autoload.php";
+    /*include "config/data.php";
+    include "config/Autoload.php";
+    use Config\Autoload as Autoload;
 
-    /*
-	Aca va a estar el new request, route
-	*/
-	//asdasdasd
-<?php
+    Autoload::start();
 
-$curl = curl_init();
+    use controllers\GenreController as generoCon;
+    echo '<pre>';
+    generoCon::getGenreList();
+    echo '</pre>';
+    */
+    
+    ini_set('display_errors',1);
+    ini_set('display_startup_errors',1);
+    error_reporting(E_ALL);
 
-curl_setopt_array($curl, array(
-  CURLOPT_URL => "http://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=783ce81a4a4455d3719eb5ca1f039861",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "GET",
-  CURLOPT_POSTFIELDS => "{}",
-));
+    require "config/Autoload.php";
+    require "config/data.php";
 
-$response = curl_exec($curl);
+    use Config\Autoload as Autoload;
+    use config\Request as Request;
+    use config\Router as Router;
+    
+    Autoload::start();
 
-$err = curl_error($curl);
+    session_start();
 
-curl_close($curl);
+    require_once(VIEWS.'header.php');
+    
+    Router::route(new Request());
 
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  echo $response;
-}
-var_dump ($response);
-   
+    require_once(VIEWS.'footer.php');
+    
 ?>
