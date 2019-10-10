@@ -1,5 +1,4 @@
 <?php
-
 namespace dao;
 
 use dao\IDAO as IDAO;
@@ -7,8 +6,8 @@ use models\Cinema as Cinema;
 
 class DAOCinema implements IDAO
 {
-    private $cinemaList = array();
-
+    private $cinemaList;
+    
     public function add($newCinema)
     {
         $this->retrieveData();
@@ -40,7 +39,7 @@ class DAOCinema implements IDAO
         $arrayToEncode = array();
 
         foreach ($this->cinemaList as $cinema) {
-            $valueArray['id'] = $cinema->getId();
+            $valueArray['id'] = hash("md5",count($this->cinemaList));
             $valueArray['name'] = $cinema->getName();
             $valueArray['address'] = $cinema->getAddress();
             $valueArray['capacity'] = $cinema->getCapacity();
@@ -48,15 +47,16 @@ class DAOCinema implements IDAO
 
             array_push($arrayToEncode, $valueArray);
         }
+        $jsonPath = $this->getJsonFilePath();
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-        file_put_contents('../data/cinema.json', $jsonContent);
+        file_put_contents(getJsonFilePath(), $jsonContent);
     }
 
     private function retrieveData()
     {
         $this->cinemaList = array();
 
-        $jsonPath = $this->GetJsonFilePath();
+        $jsonPath = $this->getJsonFilePath();
 
         // $jsonContent = file_get_contents('../Data/cinema.json');
         $jsonContent = file_get_contents($jsonPath);
@@ -64,24 +64,20 @@ class DAOCinema implements IDAO
         $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
 
         foreach ($arrayToDecode as $valueArray) {
-            $cinema = new Cinema;
-            //new Beer($valueArray['id'],$valueArray['name'],$valueArray['description'],$valueArray['type']);
-
+            $cinema = new Cinema($valueArray['name'],$valueArray['address'],
+                                    $valueArray['capacity'],$valueArray['ticketPrice']);
+            $cinema->setId($valueArray['id']);
+            
             array_push($this->cinemaList, $cinema);
         }
     }
 
     //Es necesario para evitar los problemas de requires por el ruteo
-    function GetJsonFilePath()
+    function getJsonFilePath()
     {
-
-        $initialPath = "data/cinema.json";
-        if (file_exists($initialPath)) {
-            $jsonFilePath = $initialPath;
-        } else {
-            $jsonFilePath = "../" . $initialPath;
-        }
-
+        $jsonFilePath = ROOT."data/cinema.json";
+        if (!file_exists($jsonFilePath))
+            file_put_contents($jsonFilePath,"") ;
         return $jsonFilePath;
     }
 }

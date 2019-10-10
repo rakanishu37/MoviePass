@@ -6,7 +6,7 @@ class User
 {
     private $email;
     private $password;
-
+    private $role;//admin or client
     /**
      * Get the value of email
      */
@@ -41,5 +41,15 @@ class User
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 }

@@ -3,10 +3,12 @@
     class Genre
     {
         private $name;
+        private $api_key;
 
-        public function __construct($name)
+        public function __construct($name,$api_key)
         {
-            $this->name = $name;
+            setName($name);
+            $this->api_key = $api_key;
         }
         /**
          * Get the value of name
@@ -23,6 +25,11 @@
         public function setName($name)
         {
                 $this->name = $name;
+        }
+
+        public function getApiKey()
+        {
+            return $this->api_key;
         }
     }   
 ?>

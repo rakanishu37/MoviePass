@@ -12,13 +12,23 @@
             $this->daoCinema = new DAOCinema();
         }
 
-        public function add(Cinema $newCinema)
+        public function add($name,$address,$capacity,$ticketPrice)
         {
+            $newCinema = new Cinema($name,$address,$capacity,$ticketPrice);
+            
             $this->daoCinema->add($newCinema);
 
+            $this->mostrarCines();
+        }
+
+        public function showCinemas()
+        {
+            
             echo '<pre>';
-            print_r($this->daoCinema->getAll());
+            var_dump($this->daoCinema->getAll());
             echo '</pre>';
+            
+            //cargo la lista de cines y luego incluyo una vista que recorra esa lista
         }
     }
 ?>
