@@ -49,7 +49,7 @@ class DAOCinema implements IDAO
         }
         $jsonPath = $this->getJsonFilePath();
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-        file_put_contents(getJsonFilePath(), $jsonContent);
+        file_put_contents($jsonPath , $jsonContent);
     }
 
     private function retrieveData()

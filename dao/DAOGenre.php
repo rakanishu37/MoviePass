@@ -1,21 +1,37 @@
 <?php
 namespace dao;
 use dao\IDAO as IDAO;
+use models\Genre;
 
-class DAOGenre implements IDAO
+//implements IDAO
+class DAOGenre 
 {
     private $genreList;
 
     public function getAll()
-    {//carga el archivo y luego retorna la lista
-        if (!file_exists(ROOT."data/genre.json")){
-                  
-            $this->genreList = $this->retriveGenreList();
-            $this->saveData();
-        }
+    {
+        //retriveData
         return $this->genreList;   
     } 
 
+    //cambiar las cosas para genero
+    private function retrieveData()
+    {
+        $this->cinemaList = array();
+
+        $jsonPath = $this->getJsonFilePath();
+
+        
+        $jsonContent = file_get_contents($jsonPath);
+
+        $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+
+        foreach ($arrayToDecode as $valueArray) {
+            $genre= new Genre($valueArray['name'],$valueArray['api_key']);
+            
+            array_push($this->cinemaList, $genre);
+        }
+    }
     private function saveData()
     {
         $arrayToEncode = array();
@@ -31,7 +47,9 @@ class DAOGenre implements IDAO
         file_put_contents($jsonPath, $jsonContent);
     }
 
-    private function retriveGenreList(){
+    
+    private function retriveGenreJSON()
+    {
         //se podria lograr lo mismo con un file_get_contents ya que es un json lo que viene de la api
         //inicia la session cURL
         $curl = curl_init();

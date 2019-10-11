@@ -18,7 +18,7 @@
             
             $this->daoCinema->add($newCinema);
 
-            $this->mostrarCines();
+            $this->showCinemas();
         }
 
         public function showCinemas()
