@@ -1,10 +1,12 @@
 <?php 
 namespace dao;
+use models\Cinema as Cinema
 
 interface IDAO {
 
-    function add($value);
+    function add(Cinema $value);
     function getAll();
     function deleteById($value);
 
 }
+?>

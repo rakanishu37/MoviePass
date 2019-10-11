@@ -72,12 +72,12 @@ class DAOCinema implements IDAO
         }
     }
 
-    //Es necesario para evitar los problemas de requires por el ruteo
+     //modificar para que pueda venir la url por parametro
     function getJsonFilePath()
     {
         $jsonFilePath = ROOT."data/cinema.json";
         if (!file_exists($jsonFilePath))
-            file_put_contents($jsonFilePath,"") ;
+            file_put_contents($jsonFilePath,"");
         return $jsonFilePath;
     }
 }

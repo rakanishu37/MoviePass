@@ -26,7 +26,7 @@
             
             echo '<pre>';
             var_dump($this->daoCinema->getAll());
-            echo '</pre>';
+            echo '</pre>';  
             
             //cargo la lista de cines y luego incluyo una vista que recorra esa lista
         }

@@ -1,23 +1,47 @@
 <?php
 namespace dao;
-use dao\IDAO as IDAO;
+use dao\IDAOGenre as IDAOGenre;
 use models\Genre;
 
-//implements IDAO
+//implements IDAOGenre
 class DAOGenre 
 {
     private $genreList;
 
+    public function __construnct(){
+        //se asegura de cargar el archivo json de genero
+        if (empty ( file_get_contents($this->getJsonFilePath() ) ) ){
+            $this-> createGenreFile();
+        }
+    }
+
     public function getAll()
     {
-        //retriveData
+        $this->retrieveData();
+
         return $this->genreList;   
     } 
 
-    //cambiar las cosas para genero
+
+    private function createGenreFile(){
+            $jsonContent = $this->getGenreJSON();
+            
+            $arrayToDecode = array();     
+            $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+
+            foreach ($arrayToDecode as $valueArray) {
+                $genre= new Genre($valueArray['name'],$valueArray['api_key']);
+                
+                array_push($this->genreList, $genre);
+            }
+            $this->saveData();
+        }
+    }
+
+
     private function retrieveData()
     {
-        $this->cinemaList = array();
+        $this->genreList = array();
 
         $jsonPath = $this->getJsonFilePath();
 
@@ -29,7 +53,7 @@ class DAOGenre
         foreach ($arrayToDecode as $valueArray) {
             $genre= new Genre($valueArray['name'],$valueArray['api_key']);
             
-            array_push($this->cinemaList, $genre);
+            array_push($this->genreList, $genre);
         }
     }
     private function saveData()
@@ -48,7 +72,7 @@ class DAOGenre
     }
 
     
-    private function retriveGenreJSON()
+    private function getGenreJSON()
     {
         //se podria lograr lo mismo con un file_get_contents ya que es un json lo que viene de la api
         //inicia la session cURL
@@ -80,6 +104,7 @@ class DAOGenre
         
     }
 
+    //modificar para que pueda venir la url por parametro
     function getJsonFilePath()
     {
         $jsonFilePath = ROOT."data/genre.json";

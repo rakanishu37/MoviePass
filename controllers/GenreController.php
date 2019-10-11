@@ -1,16 +1,22 @@
 <?php
-namespace controllers;
+    namespace controllers;
 
-use dao\DAOGenre as DAOGenre;
+    use dao\DAOGenre as DAOGenre;
 
     class GenreController
     {   
+        private $daoGenre;
 
-        
-        public function getGenreList(){
-            return $this->retriveGenreList();
+        public function __construct()
+        {
+            $this->daoGenre = new DAOGenre();
         }
-
         
-
+        public function showGenres(){
+            
+            echo '<pre>';
+            var_dump($this->daoGenre->getAll());
+            echo '</pre>';  
+        }
+    }
 ?>
