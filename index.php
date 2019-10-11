@@ -26,15 +26,11 @@
 
     session_start();
 
-    require_once(VIEWS.'header.php');
+    //sacarlos y dejar que cada controladora incluya las vistas que sean necesarias
+    //require_once(VIEWS.'header.php');
     
     Router::route(new Request());
 
-    require_once(VIEWS.'footer.php');
-
-    /*"Cual es el sentido de la vida el universo y todo lo demas?
-        42
-        Testeo de lauty para comitear algo
-    */
+    //require_once(VIEWS.'footer.php');
     
 ?>
