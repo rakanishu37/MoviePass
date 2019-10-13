@@ -1,8 +1,8 @@
 <?php 
 namespace dao;
-use models\Cinema as Cinema
+use models\Cinema as Cinema;
 
-interface IDAO {
+interface IDAOCinema {
 
     function add(Cinema $value);
     function getAll();

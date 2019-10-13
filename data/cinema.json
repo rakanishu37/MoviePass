@@ -1,0 +1,26 @@
+[
+    {
+        "id": "cfcd208495d565ef66e7dff9f98764da",
+        "name": "Atmos",
+        "address": "en el aldrey",
+        "capacity": "200",
+        "ticketPrice": "350",
+        "status": 0
+    },
+    {
+        "id": "c4ca4238a0b923820dcc509a6f75849b",
+        "name": "El paseo",
+        "address": "Falsa 999",
+        "capacity": "250",
+        "ticketPrice": "111",
+        "status": "1"
+    },
+    {
+        "id": "c81e728d9d4c2f636f067f89cc14862c",
+        "name": "Diagonal",
+        "address": "en los gallegos",
+        "capacity": "399",
+        "ticketPrice": "500",
+        "status": "1"
+    }
+]

@@ -1,17 +1,47 @@
 <?php
 namespace dao;
 
-use dao\IDAO as IDAO;
+use dao\IDAOCinema as IDAOCinema;
 use models\Cinema as Cinema;
 
-class DAOCinema implements IDAO
+class DAOCinema implements IDAOCinema
 {
     private $cinemaList;
     
-    public function add($newCinema)
+    public function add(Cinema $newCinema)
     {
         $this->retrieveData();
+        $newCinema->setId(hash("md5",count($this->cinemaList)));
         array_push($this->cinemaList, $newCinema);
+        $this->saveData();
+    }
+
+    private function findIndex($id){
+        $this->retrieveData();
+        $foundIndex = '';
+        foreach ($this->cinemaList as $index=>$cinema) {
+            if($cinema->getId() == $id){
+                $foundIndex = $index;
+            }
+        }
+        return $foundIndex;
+    }
+    public function getByID($id){
+        $this->retrieveData();
+        $index = $this->findIndex($id);
+        //var_dump($this->cinemaList[$index]);
+        return $this->cinemaList[$index];
+    }
+
+    
+    public function update(Cinema $modifiedCinema){
+        //Consigo el cine que va a ser modificado
+        $this->retrieveData();
+        $index = $this->findIndex($modifiedCinema->getId());
+        
+        //Piso el valor
+        $this->cinemaList[$index] = $modifiedCinema;
+        
         $this->saveData();
     }
 
@@ -21,30 +51,18 @@ class DAOCinema implements IDAO
         return $this->cinemaList;
     }
 
-    public function deleteById($id)
-    {
-        $this->retrieveData();
-        $newList = array();
-        foreach ($this->cinemaList as $cinema) {
-            if ($cinema->getId() != $id) {
-                array_push($newList, $cinema);
-            }
-        }
-        $this->cinemaList = $newList;
-        $this->saveData();
-    }
-
     private function saveData()
     {
         $arrayToEncode = array();
 
         foreach ($this->cinemaList as $cinema) {
-            $valueArray['id'] = hash("md5",count($this->cinemaList));
+            $valueArray['id'] = $cinema->getId();
             $valueArray['name'] = $cinema->getName();
             $valueArray['address'] = $cinema->getAddress();
             $valueArray['capacity'] = $cinema->getCapacity();
             $valueArray['ticketPrice'] = $cinema->getTicketPrice();
-
+            $valueArray['status'] = $cinema->getStatus();
+            
             array_push($arrayToEncode, $valueArray);
         }
         $jsonPath = $this->getJsonFilePath();
@@ -65,13 +83,26 @@ class DAOCinema implements IDAO
 
         foreach ($arrayToDecode as $valueArray) {
             $cinema = new Cinema($valueArray['name'],$valueArray['address'],
-                                    $valueArray['capacity'],$valueArray['ticketPrice']);
+                                    $valueArray['capacity'],$valueArray['ticketPrice'],$valueArray['status']);
             $cinema->setId($valueArray['id']);
             
             array_push($this->cinemaList, $cinema);
         }
     }
 
+    
+    public function deleteById($id)
+    {
+        $this->retrieveData();
+        $newList = array();
+        foreach ($this->cinemaList as $cinema) {
+            if ($cinema->getId() != $id) {
+                array_push($newList, $cinema);
+            }
+        }
+        $this->cinemaList = $newList;
+        $this->saveData();
+    }
      //modificar para que pueda venir la url por parametro
     function getJsonFilePath()
     {

@@ -1,8 +1,8 @@
 <?php
 namespace dao;
-use dao\IDAO as IDAO;
+use dao\IDAOMovie as IDAOMovie;
 
-class DAOMovie implements IDAO
+class DAOMovie implements IDAOMovie
 {
     
 }

@@ -9,12 +9,14 @@ class Cinema
 	private $address;
 	private $capacity;
 	private $ticketPrice;
+	private $active;
 
-	public function __construct($name = '', $address = '', $capacity = '', $ticketPrice = '') {
+	public function __construct($name = '', $address = '', $capacity = '', $ticketPrice = '',$active = 1) {
 		$this->setName($name);
 		$this->setAddress($address);
 		$this->setCapacity($capacity);
 		$this->setTicketPrice($ticketPrice);
+		$this->active = $active;
 	}
 	public function getId()
 	{
@@ -64,5 +66,13 @@ class Cinema
 	public function setTicketPrice($ticketPrice)
 	{
 		$this->ticketPrice= $ticketPrice;
+	}
+
+	public function getStatus(){
+		return $this->active;
+	}
+
+	public function setStatus($status){
+		$this->active =$status;
 	}
 }

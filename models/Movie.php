@@ -2,8 +2,6 @@
 
 namespace models;
 
-require "models/Genre.php";
-
 use models\Genre as Genre;
 
 class Movie
@@ -13,6 +11,7 @@ class Movie
         private $language;
         private $image;
         private $genre;
+        private $imageURL;
 
 
         /**
@@ -105,4 +104,14 @@ class Movie
         {
                 $this->genre = $genre;
         }
+
+        public function getImageURL()
+	{
+		return $this->imageURL;
+	}
+	public function setImageURL($imageURL)
+	{
+		$this->imageURL = $imageURL;
+	}
+
 }

@@ -4,10 +4,8 @@ namespace controllers;
     class HomeController
     {
         public function index(){
-            echo 'se va a incluir el formulario de agregar cines'.'<br>';
-            echo ROOT.'<br>';
-            echo FRONT_ROOT.'<br>';
-            include VIEWS.'addCinema.php';
+            
+            include VIEWS.'menuTemporal.php';
         }
 
         public function metodo($a){

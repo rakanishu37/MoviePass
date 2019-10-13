@@ -1,5 +1,3 @@
-<form action="<?php ROOT?>cinema/add" method="post">
-
 <label>Nombre del cine</label>
 <input type="text" name="name">
 <br>
@@ -7,10 +5,8 @@
 <input type="text" name="address">
 <br>
 <label>Capacidad del cine</label>
-<input type="text" name="capacity">
+<input type="number" name="capacity" min="1">
 <br>
 <label>Precio de la entrada</label>
-<input type="text" name="ticketPrice">
+<input type="number" name="ticketPrice" min="1">
 <br>
-<button type="submit">Crear cine</button>
-</form>
