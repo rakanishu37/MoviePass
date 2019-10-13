@@ -7,49 +7,28 @@ class User
     private $email;
     private $password;
     private $role;//admin or client
-    /**
-     * Get the value of email
-     */
-    public function getEmail()
-    {
+
+    public function getEmail(){
         return $this->email;
     }
 
-    /**
-     * Set the value of email
-     *
-      
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Get the value of password
-     */
-    public function getPassword()
-    {
+    public function getPassword(){
         return $this->password;
     }
 
-    /**
-     * Set the value of password
-     *
-      
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }
-
-    public function getRole()
-    {
+    public function getRole(){
         return $this->role;
     }
 
-    public function setRole($role)
-    {
+    public function setEmail($email){
+        $this->email = $email;
+    }
+
+    public function setPassword($password){
+        $this->password = $password;
+    }
+
+    public function setRole($role){
         $this->role = $role;
     }
 }
