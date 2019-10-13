@@ -1,4 +1,4 @@
-<form action="<?php echo FRONT_ROOT?>Login/login" method="post" > 
+<form action="<?php echo FRONT_ROOT?>User/login" method="post" > 
         <label>Mail</label>
         <input type="email" name="email">
         <br>

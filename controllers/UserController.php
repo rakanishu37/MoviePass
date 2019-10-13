@@ -4,7 +4,7 @@
     use models\User as User;
     use dao\DAOUser as DAOUser;
 
-    class LoginController{
+    class UserController{
 
         public function login(){
             if($_POST){
