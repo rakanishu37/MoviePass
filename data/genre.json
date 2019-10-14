@@ -1,0 +1,78 @@
+[
+    {
+        "api_key": 28,
+        "name": "Action"
+    },
+    {
+        "api_key": 12,
+        "name": "Adventure"
+    },
+    {
+        "api_key": 16,
+        "name": "Animation"
+    },
+    {
+        "api_key": 35,
+        "name": "Comedy"
+    },
+    {
+        "api_key": 80,
+        "name": "Crime"
+    },
+    {
+        "api_key": 99,
+        "name": "Documentary"
+    },
+    {
+        "api_key": 18,
+        "name": "Drama"
+    },
+    {
+        "api_key": 10751,
+        "name": "Family"
+    },
+    {
+        "api_key": 14,
+        "name": "Fantasy"
+    },
+    {
+        "api_key": 36,
+        "name": "History"
+    },
+    {
+        "api_key": 27,
+        "name": "Horror"
+    },
+    {
+        "api_key": 10402,
+        "name": "Music"
+    },
+    {
+        "api_key": 9648,
+        "name": "Mystery"
+    },
+    {
+        "api_key": 10749,
+        "name": "Romance"
+    },
+    {
+        "api_key": 878,
+        "name": "Science Fiction"
+    },
+    {
+        "api_key": 10770,
+        "name": "TV Movie"
+    },
+    {
+        "api_key": 53,
+        "name": "Thriller"
+    },
+    {
+        "api_key": 10752,
+        "name": "War"
+    },
+    {
+        "api_key": 37,
+        "name": "Western"
+    }
+]

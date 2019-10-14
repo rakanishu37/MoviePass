@@ -17,6 +17,9 @@
         <li>
             <a href='<?php echo FRONT_ROOT?>movie/showMovies'>Ver peliculas</a>
         </li>
+        <li>
+            <a href='<?php echo FRONT_ROOT?>genre/showGenres'>Ver generos</a>
+        </li>
     </ul>
 
     

@@ -14,9 +14,10 @@
         
         public function showGenres(){
             
-            echo '<pre>';
-            var_dump($this->daoGenre->getAll());
+            echo '<pre>';            
+            $this->daoGenre->getAll();
             echo '</pre>';  
+            include VIEWS.'footer.php';
         }
     }
 ?>

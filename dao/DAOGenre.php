@@ -1,18 +1,28 @@
 <?php
 namespace dao;
 use dao\IDAOGenre as IDAOGenre;
-use models\Genre;
+use models\Genre as Genre;
 
-//implements IDAOGenre
-class DAOGenre 
+    
+class DAOGenre implements IDAOGenre
 {
     private $genreList;
 
-    public function __construnct(){
-        //se asegura de cargar el archivo json de genero
+    public function __construct(){
+        
         if (empty ( file_get_contents($this->getJsonFilePath() ) ) ){
-            $this-> createGenreFile();
+            $genreList = $this-> getGenreListFromJSON();
+            
+            //Nos aseguramos de tener el archivo con los generos que provee la api
+            foreach($genreList as $genre){
+                $this->add($genre);
+            }
         }
+    }
+    public function add(Genre $newGenre){
+        $this->retrieveData();
+        array_push($this->genreList, $newGenre);
+        $this->saveData(); 
     }
 
     public function getAll()
@@ -23,20 +33,25 @@ class DAOGenre
     } 
 
 
-    private function createGenreFile(){
-            $jsonContent = $this->getGenreJSON();
+    /**
+     * Consigue el json de la api de los generos y lo retorna como array de objetos de tipo genre
+     */
+    private function getGenreListFromJSON(){
+        $genreList = array();
+        $jsonContent = $this->getGenreJSON();
+        
+        $arrayToDecode = array();     
+        $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+        
+        foreach ($arrayToDecode['genres'] as $value) {
+            $genre= new Genre($value['name'],$value['id']);
             
-            $arrayToDecode = array();     
-            $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-            foreach ($arrayToDecode as $valueArray) {
-                $genre= new Genre($valueArray['name'],$valueArray['api_key']);
-                
-                array_push($this->genreList, $genre);
-            }
-            $this->saveData();
+            array_push($genreList, $genre);
         }
+        
+        return $genreList;
     }
+    
 
 
     private function retrieveData()
@@ -80,7 +95,7 @@ class DAOGenre
 
         //setea las variables
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "http://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=783ce81a4a4455d3719eb5ca1f039861",
+        CURLOPT_URL => "http://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=".API_KEY,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
@@ -105,7 +120,7 @@ class DAOGenre
     }
 
     //modificar para que pueda venir la url por parametro
-    function getJsonFilePath()
+    private function getJsonFilePath()
     {
         $jsonFilePath = ROOT."data/genre.json";
         if (!file_exists($jsonFilePath))

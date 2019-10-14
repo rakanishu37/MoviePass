@@ -6,7 +6,6 @@
 
         function add(Genre $value);
         function getAll();
-        function deleteById($value);
-
+       
     }
 ?>

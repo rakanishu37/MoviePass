@@ -8,7 +8,23 @@
     define('ADMIN_VIEWS', ROOT . '/views/admin/');
     define('IMG_UPLOADS', ROOT . '/asset/uploads/img/');
     
+    define('API_KEY','783ce81a4a4455d3719eb5ca1f039861');
+
+    define('API_IMAGE_URL','https://image.tmdb.org/t/p/');
+    define('POSTER_WIDTH_92', "w92");
+    define('POSTER_WIDTH_154', "w154");
+    define('POSTER_WIDTH_185', "w185");
+    define('POSTER_WIDTH_342', "w342");
+    define('POSTER_WIDTH_500', "w500");
+    define('POSTER_WIDTH_780', "w780");
+    define('POSTER_WIDTH_ORIGINAL', "original");
     
+      
+      
+     
+      
+     
+
     //capas nos sirve en algun momento
     /* FRONT 
     define('ADMIN_FRONT_ROOT', FRONT_ROOT . '/admin');

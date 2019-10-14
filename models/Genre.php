@@ -7,7 +7,7 @@
 
         public function __construct($name,$api_key)
         {
-            setName($name);
+            $this->setName($name);
             $this->api_key = $api_key;
         }
         /**

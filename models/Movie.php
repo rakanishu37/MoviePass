@@ -2,18 +2,33 @@
 
 namespace models;
 
-use models\Genre as Genre;
-
 class Movie
 {
+        private $id;
         private $name;
-        private $runningTime;
+        private $runtime;
         private $language;
-        private $image;
         private $genre;
         private $imageURL;
 
+        public function __construct($id = '', $name = '', $runtime = '', $language = '', $genre = '', $imageURL = '') {
+                $this->setId($id);
+                $this->setName($name);
+                $this->setRuntime($runtime);
+                $this->setLanguage($language);
+                $this->setGenre($genre);
+                $this->setImageURL($imageURL);
+        }
 
+        public function getId()
+        {
+                return $this->id;
+        }
+
+        public function setId($id)
+        {
+                $this->id = $id;
+        }
         /**
          * Get the value of name
          */
@@ -23,11 +38,11 @@ class Movie
         }
 
         /**
-         * Get the value of runningTime
+         * Get the value of runtime
          */
-        public function getRunningTime()
+        public function getRuntime()
         {
-                return $this->runningTime;
+                return $this->runtime;
         }
 
         /**
@@ -36,14 +51,6 @@ class Movie
         public function getLanguage()
         {
                 return $this->language;
-        }
-
-        /**
-         * Get the value of image
-         */
-        public function getImage()
-        {
-                return $this->image;
         }
 
         /**
@@ -66,13 +73,13 @@ class Movie
         }
 
         /**
-         * Set the value of runningTime
+         * Set the value of runtime
          *
       
          */
-        public function setrunningTime($runningTime)
+        public function setRuntime($runtime)
         {
-                $this->runningTime = $runningTime;
+                $this->runtime = $runtime;
         }
 
         /**
@@ -86,32 +93,21 @@ class Movie
         }
 
         /**
-         * Set the value of image
-         *
-      
-         */
-        public function setImage($image)
-        {
-                $this->image = $image;
-        }
-
-        /**
          * Set the value of genre
          *
       
          */
-        public function setGenre(Genre $genre)
+        public function setGenre($genre)
         {
                 $this->genre = $genre;
         }
 
         public function getImageURL()
-	{
-		return $this->imageURL;
-	}
-	public function setImageURL($imageURL)
-	{
-		$this->imageURL = $imageURL;
-	}
-
+        {
+                return $this->imageURL;
+        }
+        public function setImageURL($imageURL)
+        {
+                $this->imageURL = $imageURL;
+        }
 }

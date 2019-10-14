@@ -68,7 +68,7 @@ class DAOUser implements IDAOUser
         }
     }
 
-    function getJsonFilePath()
+    private function getJsonFilePath()
     {
         $jsonFilePath = ROOT."data/User.json";
         if (!file_exists($jsonFilePath))

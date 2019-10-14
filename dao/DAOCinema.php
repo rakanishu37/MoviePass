@@ -104,7 +104,7 @@ class DAOCinema implements IDAOCinema
         $this->saveData();
     }
      //modificar para que pueda venir la url por parametro
-    function getJsonFilePath()
+    private function getJsonFilePath()
     {
         $jsonFilePath = ROOT."data/cinema.json";
         if (!file_exists($jsonFilePath))
