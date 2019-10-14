@@ -11,9 +11,9 @@ class DAOMovie implements IDAOMovie
     
     public function __construct(){
         if (empty ( file_get_contents($this->getJsonFilePath() ) ) ){
-            $movieList = $this-> getLatestMovies();
+            $latestMovieList = $this-> getLatestMovies();
             
-            foreach($movieList as $movie){
+            foreach($latestMovieList as $movie){
                 $this->add($movie);
             }
         }
@@ -23,17 +23,12 @@ class DAOMovie implements IDAOMovie
     {
         $this->retrieveData();
         array_push($this->movieList, $movie);
-        $this->saveData(); 
+        $this->saveData();
     }
 
     public function getAll()
     {
         $this->retrieveData();
-
-        echo'<pre>';
-        echo'En retrive vardump de movielist'.'<br>';
-        var_dump($this->movieList);
-        echo'</pre>';
         return $this->movieList;   
     } 
 
@@ -46,14 +41,18 @@ class DAOMovie implements IDAOMovie
         $jsonContent = file_get_contents($jsonPath);
 
         $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
         foreach ($arrayToDecode as $valueArray) {
-            $urlFixed = $valueArray['imageURL'];
-            //var_dump($urlFixed);
+            $genreList = array();
+            
+            foreach($valueArray['genre'] as $value){
+                $genre = new Genre($value['name'],$value['id']);
+                array_push($genreList,$genre);
+            }
+            
+            $urlFixed = trim($valueArray['imageURL'],"\\");
 
-            //sacar la barra que le agrego el json decode
-            $movie = new movie($valueArray['id'],$valueArray['name'],$valueArray['runtime'],
-            $valueArray['language'],$valueArray['genre'],$valueArray['imageURL'] );
+            $movie = new Movie($valueArray['id'],$valueArray['name'],$valueArray['runtime'],
+                        $valueArray['language'],$genreList,$urlFixed );
 
             array_push($this->movieList, $movie);
         }
@@ -62,8 +61,8 @@ class DAOMovie implements IDAOMovie
     private function saveData()
     {
         $arrayToEncode = array();
-        
         foreach ($this->movieList as $movie) {
+            
             $valueArray['id'] = $movie->getId();
             $valueArray['name'] = $movie->getName();
             $valueArray['runtime'] = $movie->getRuntime();
@@ -72,37 +71,22 @@ class DAOMovie implements IDAOMovie
             
             $genreList = $movie->getGenre();
             $genreArrayToEncode = array();
-            // echo '<pre>';
-            //     var_dump($genreList);
-            //     echo '</pre';
             
-            echo 'va a entrar en el foreach'. '<br>';
             foreach($genreList as $genre){
-                echo 'inicio  del foreach'. '<br>';
-                
                 $genreArrayValue['name'] = $genre->getName();
                 $genreArrayValue['id'] = $genre->getApiKey();
 
-                echo 'var dump del objeto genero'. '<br>';
-                echo '<pre>';
-                var_dump($genre);
-                echo '</pre';
-
-                echo 'antes del array push'. '<br>';
                 array_push($genreArrayToEncode,$genreArrayValue);
-                echo 'dsps del array push'. '<br>';
-                echo 'fin del foreach'. '<br>';
             }
             $valueArray['genre'] = $genreArrayToEncode;
             
-            echo 'afuera  del foreach'. '<br>';
+            
             array_push($arrayToEncode, $valueArray);
-            echo 'dsps de meter una peli al arreglo a encodear'. '<br>';
         }
-        echo 'antes de encodear'. '<br>';
+        
         $jsonPath = $this->getJsonFilePath();
         $jsonContent = json_encode($arrayToEncode, JSON_PRETTY_PRINT);
-        //file_put_contents($jsonPath , $jsonContent);
+        file_put_contents($jsonPath , $jsonContent);
     }
 
     /**
@@ -153,7 +137,7 @@ class DAOMovie implements IDAOMovie
         }
         
         $id = $arrayToDecode['id'];
-        $name = $arrayToDecode['original_title'];
+        $name = $arrayToDecode['title'];
         $runtime = $arrayToDecode['runtime'];
         $language = $arrayToDecode['original_language'];
         $imageURL = $arrayToDecode['poster_path'];
@@ -164,7 +148,7 @@ class DAOMovie implements IDAOMovie
     }
     
   
-    private function getLatestMoviesJSON(){
+    public function getLatestMoviesJSON(){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -172,7 +156,7 @@ class DAOMovie implements IDAOMovie
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
+        CURLOPT_TIMEOUT => 200,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_POSTFIELDS => "{}",
@@ -198,7 +182,7 @@ class DAOMovie implements IDAOMovie
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
+        CURLOPT_TIMEOUT => 200,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_POSTFIELDS => "{}",

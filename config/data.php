@@ -3,7 +3,7 @@
 
     $a = explode($_SERVER['DOCUMENT_ROOT'],ROOT);
     define('FRONT_ROOT',$a[1]);
-
+    define('DATA',ROOT.'data/');
     define('VIEWS', ROOT . 'views/');
     define('ADMIN_VIEWS', ROOT . '/views/admin/');
     define('IMG_UPLOADS', ROOT . '/asset/uploads/img/');

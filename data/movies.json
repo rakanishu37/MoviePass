@@ -1,0 +1,414 @@
+[
+    {
+        "id": 475557,
+        "name": "Joker",
+        "runtime": 122,
+        "language": "en",
+        "imageURL": "\/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",
+        "genre": [
+            {
+                "name": "Crime",
+                "id": 80
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            },
+            {
+                "name": "Drama",
+                "id": 18
+            }
+        ]
+    },
+    {
+        "id": 474350,
+        "name": "It Chapter Two",
+        "runtime": 169,
+        "language": "en",
+        "imageURL": "\/zfE0R94v1E8cuKAerbskfD3VfUt.jpg",
+        "genre": [
+            {
+                "name": "Horror",
+                "id": 27
+            }
+        ]
+    },
+    {
+        "id": 453405,
+        "name": "Gemini Man",
+        "runtime": 117,
+        "language": "en",
+        "imageURL": "\/uTALxjQU8e1lhmNjP9nnJ3t2pRU.jpg",
+        "genre": [
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            }
+        ]
+    },
+    {
+        "id": 301528,
+        "name": "Toy Story 4",
+        "runtime": 100,
+        "language": "en",
+        "imageURL": "\/w9kR8qbmQ01HwnvK4alvnQ2ca0L.jpg",
+        "genre": [
+            {
+                "name": "Adventure",
+                "id": 12
+            },
+            {
+                "name": "Animation",
+                "id": 16
+            },
+            {
+                "name": "Comedy",
+                "id": 35
+            },
+            {
+                "name": "Family",
+                "id": 10751
+            },
+            {
+                "name": "Fantasy",
+                "id": 14
+            }
+        ]
+    },
+    {
+        "id": 559969,
+        "name": "El Camino: A Breaking Bad Movie",
+        "runtime": 123,
+        "language": "en",
+        "imageURL": "\/ePXuKdXZuJx8hHMNr2yM4jY2L7Z.jpg",
+        "genre": [
+            {
+                "name": "Crime",
+                "id": 80
+            },
+            {
+                "name": "Drama",
+                "id": 18
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            }
+        ]
+    },
+    {
+        "id": 522938,
+        "name": "Rambo: Last Blood",
+        "runtime": 101,
+        "language": "en",
+        "imageURL": "\/kTQ3J8oTTKofAVLYnds2cHUz9KO.jpg",
+        "genre": [
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            }
+        ]
+    },
+    {
+        "id": 384018,
+        "name": "Fast & Furious Presents: Hobbs & Shaw",
+        "runtime": 136,
+        "language": "en",
+        "imageURL": "\/keym7MPn1icW1wWfzMnW3HeuzWU.jpg",
+        "genre": [
+            {
+                "name": "Action",
+                "id": 28
+            }
+        ]
+    },
+    {
+        "id": 458156,
+        "name": "John Wick: Chapter 3 - Parabellum",
+        "runtime": 131,
+        "language": "en",
+        "imageURL": "\/ziEuG1essDuWuC5lpWUaw1uXY2O.jpg",
+        "genre": [
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            },
+            {
+                "name": "Crime",
+                "id": 80
+            }
+        ]
+    },
+    {
+        "id": 466272,
+        "name": "Once Upon a Time... in Hollywood",
+        "runtime": 161,
+        "language": "en",
+        "imageURL": "\/8j58iEBw9pOXFD2L0nt0ZXeHviB.jpg",
+        "genre": [
+            {
+                "name": "Drama",
+                "id": 18
+            },
+            {
+                "name": "Comedy",
+                "id": 35
+            }
+        ]
+    },
+    {
+        "id": 513045,
+        "name": "Stuber",
+        "runtime": 93,
+        "language": "en",
+        "imageURL": "\/klkFYDZOetegK8floj6IjvbzzQ2.jpg",
+        "genre": [
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Comedy",
+                "id": 35
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            },
+            {
+                "name": "Crime",
+                "id": 80
+            }
+        ]
+    },
+    {
+        "id": 481084,
+        "name": "The Addams Family",
+        "runtime": 87,
+        "language": "en",
+        "imageURL": "\/uaXNjRkDdjfxfVuKHo25wkA6CiA.jpg",
+        "genre": [
+            {
+                "name": "Animation",
+                "id": 16
+            },
+            {
+                "name": "Comedy",
+                "id": 35
+            },
+            {
+                "name": "Family",
+                "id": 10751
+            },
+            {
+                "name": "Horror",
+                "id": 27
+            },
+            {
+                "name": "Fantasy",
+                "id": 14
+            }
+        ]
+    },
+    {
+        "id": 511987,
+        "name": "Crawl",
+        "runtime": 88,
+        "language": "en",
+        "imageURL": "\/4WH6AZd473lRZ3hUp8TYiv2LfZW.jpg",
+        "genre": [
+            {
+                "name": "Thriller",
+                "id": 53
+            },
+            {
+                "name": "Horror",
+                "id": 27
+            },
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Drama",
+                "id": 18
+            }
+        ]
+    },
+    {
+        "id": 428045,
+        "name": "The Mystery of the Dragon\u2019s Seal",
+        "runtime": 121,
+        "language": "ru",
+        "imageURL": "\/vS6TCG4HiUSCyX30f5wDGQDt1k3.jpg",
+        "genre": [
+            {
+                "name": "Adventure",
+                "id": 12
+            },
+            {
+                "name": "Fantasy",
+                "id": 14
+            }
+        ]
+    },
+    {
+        "id": 419704,
+        "name": "Ad Astra",
+        "runtime": 124,
+        "language": "en",
+        "imageURL": "\/lNnomQxXpRP9mgUwMuSZhA8LXfA.jpg",
+        "genre": [
+            {
+                "name": "Science Fiction",
+                "id": 878
+            },
+            {
+                "name": "Drama",
+                "id": 18
+            },
+            {
+                "name": "Adventure",
+                "id": 12
+            }
+        ]
+    },
+    {
+        "id": 568012,
+        "name": "One Piece: Stampede",
+        "runtime": 101,
+        "language": "ja",
+        "imageURL": "\/4E2lyUGLEr3yH4q6kJxPkQUhX7n.jpg",
+        "genre": [
+            {
+                "name": "Animation",
+                "id": 16
+            },
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Adventure",
+                "id": 12
+            }
+        ]
+    },
+    {
+        "id": 540901,
+        "name": "Hustlers",
+        "runtime": 107,
+        "language": "en",
+        "imageURL": "\/zBhv8rsLOfpFW2M5b6wW78Uoojs.jpg",
+        "genre": [
+            {
+                "name": "Comedy",
+                "id": 35
+            },
+            {
+                "name": "Crime",
+                "id": 80
+            },
+            {
+                "name": "Drama",
+                "id": 18
+            }
+        ]
+    },
+    {
+        "id": 338967,
+        "name": "Zombieland: Double Tap",
+        "runtime": 93,
+        "language": "en",
+        "imageURL": "\/pIcV8XXIIvJCbtPoxF9qHMKdRr2.jpg",
+        "genre": [
+            {
+                "name": "Horror",
+                "id": 27
+            },
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Comedy",
+                "id": 35
+            }
+        ]
+    },
+    {
+        "id": 454640,
+        "name": "The Angry Birds Movie 2",
+        "runtime": 96,
+        "language": "en",
+        "imageURL": "\/ebe8hJRCwdflNQbUjRrfmqtUiNi.jpg",
+        "genre": [
+            {
+                "name": "Animation",
+                "id": 16
+            },
+            {
+                "name": "Comedy",
+                "id": 35
+            },
+            {
+                "name": "Action",
+                "id": 28
+            },
+            {
+                "name": "Adventure",
+                "id": 12
+            },
+            {
+                "name": "Family",
+                "id": 10751
+            }
+        ]
+    },
+    {
+        "id": 417384,
+        "name": "Scary Stories to Tell in the Dark",
+        "runtime": 103,
+        "language": "en",
+        "imageURL": "\/d0FWbzrmm99BTfUqf1Lbjl2zu3S.jpg",
+        "genre": [
+            {
+                "name": "Horror",
+                "id": 27
+            },
+            {
+                "name": "Thriller",
+                "id": 53
+            }
+        ]
+    },
+    {
+        "id": 623393,
+        "name": "Sanggano, Sanggago't Sanggwapo",
+        "runtime": null,
+        "language": "tl",
+        "imageURL": "\/ygvNtnAYFly9aGZgW0B492gfuke.jpg",
+        "genre": [
+            {
+                "name": "Comedy",
+                "id": 35
+            },
+            {
+                "name": "Family",
+                "id": 10751
+            }
+        ]
+    }
+]
