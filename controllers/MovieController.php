@@ -19,34 +19,38 @@
             
             $movieList = $this->daoMovie->getAll();
             
-            echo '<pre>';
-            foreach($movieList as $movie){
-               
-                print_r($movie);
-                
-            }
-            echo '</pre>';  
+            include VIEWS.'showMovies.php';
             
-            include VIEWS.'footer.php';
+            
         }
 
         public function chooseGenreForFilter()
         {
-            include VIEWS.'cuerpoBasico.html';
+           
             $genreList = $this->daoGenre->getAll();
             include VIEWS.'chooseGenre.php';
-            include VIEWS.'footer.php';
         }
 
+        private function movieContainsGenre(Movie $movie,$searchedGenre){
+            foreach ($movie->getGenre() as $genre) {
+                if($genre->getName() == $searchedGenre){
+                    return true;
+                }
+            }
+        } 
+
         public function filterMovies(){
-            echo 'aca esta lo filtrado';
+            
             $filter = $_POST['filteredGenre'];
-
-            /*
-            buscar en las pelis lsa que tengan ese genero meterlos en una lista
-             con el mismo nombre que use la vista showMovie
-
-            */
+            $movieListToBeFiltered = $this->daoMovie->getAll();
+            
+            $movieList = array();
+            foreach ($movieListToBeFiltered as $movie) {
+                if($this->movieContainsGenre($movie,$filter)){
+                    array_push($movieList,$movie);
+                }
+            }
+            include VIEWS.'showMovies.php';
         }
     }
 ?>

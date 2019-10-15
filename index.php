@@ -26,11 +26,5 @@
 
     session_start();
 
-    //sacarlos y dejar que cada controladora incluya las vistas que sean necesarias
-    //require_once(VIEWS.'header.php');
-    
-    Router::route(new Request());
-
-    //require_once(VIEWS.'footer.php');
-    
+    Router::route(new Request());    
 ?>

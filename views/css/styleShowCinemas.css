@@ -1,0 +1,40 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body {
+    background-image: url('../img/fondo1.jpg');
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
+table {
+    text-align: center;
+    float: center;
+    width:650px;
+	height: 200px;
+	margin: auto auto 60px auto;
+	padding: 30px;
+    background-color: rgba(192, 170, 170, 0.767);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: 10px double rgba(0, 0, 0, 0.2);
+}
+
+th {
+    font-size: 25px !important; 
+    font-weight: bold;
+}
+
+td {
+    font-size: 20px !important; 
+    font-weight: bold;
+}
+
+p{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+	font-size: 60px;
+	margin: 50px auto 50px auto;
+}

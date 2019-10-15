@@ -1,0 +1,45 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body {
+    background-image: url('../img/fondo2.jpg');
+    background-size: 100%;
+}
+
+.form {
+    text-align: center;
+    float: center;
+    width:500px;
+	height: 400px;
+	margin: 200px 500px 200px 400px;
+	padding: 30px;
+    background-color: rgba(255,255,255,0.2);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: 10px double rgba(0, 0, 0, 0.2);
+}
+
+label {
+    font-size: 30px !important; 
+    font-weight: bold;
+}
+
+input {
+    margin: 10px;
+    width:400px;
+    font-size: 150%;
+}
+
+button {
+	padding: 2%;
+    background-color: rgba(255, 255, 255, 0.048);
+    border: 5px solid rgba(0, 0, 0, 0.5);
+    font-size: 30px !important; 
+    font-weight: bold;
+}
+
+button:hover{
+    background: #3b32325b;
+}
+

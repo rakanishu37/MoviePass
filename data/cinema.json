@@ -17,10 +17,18 @@
     },
     {
         "id": "c81e728d9d4c2f636f067f89cc14862c",
-        "name": "Diagonal",
+        "name": "pepe",
         "address": "en los gallegos",
         "capacity": "399",
         "ticketPrice": "500",
         "status": "1"
+    },
+    {
+        "id": "eccbc87e4b5ce2fe28308fd9f2a7baf3",
+        "name": "UTN",
+        "address": "zona puerto",
+        "capacity": "50",
+        "ticketPrice": "50",
+        "status": 0
     }
 ]
