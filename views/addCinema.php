@@ -36,10 +36,10 @@
     <input type="text" name="address" placeholder="Ingresar direccion" required>
     <br>
     <label>Capacidad del cine</label>
-    <input type="text" name="capacity" placeholder="Ingresar capacidad" required>
+    <input type="number" name="capacity" min="1" placeholder="Ingresar capacidad" required>
     <br>
     <label>Precio de la entrada</label>
-    <input type="text" name="ticketPrice" placeholder="Ingresar precio de entrada" required>
+    <input type="number" name="ticketPrice" min="1" placeholder="Ingresar precio de entrada" required>
     <br><br>
     <button type="submit">Crear cine</button>
     <br><br>

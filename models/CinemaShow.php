@@ -11,7 +11,7 @@ use models\Cinema as Cinema;
 /**
  * La funcion en la cual se proyecta una Movie
  */
-class Showing
+class CinemaShow
 
 {
         private $day;
