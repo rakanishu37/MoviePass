@@ -49,10 +49,11 @@ class DAOMovie implements IDAOMovie
                 array_push($genreList,$genre);
             }
             
-            $urlFixed = trim($valueArray['imageURL'],"\\");
+            //php interpreta la barra
+            //$urlFixed = trim($valueArray['imageURL'],"\\");
 
             $movie = new Movie($valueArray['id'],$valueArray['name'],$valueArray['runtime'],
-                        $valueArray['language'],$genreList,$urlFixed );
+                        $valueArray['language'],$genreList,$valueArray['imageURL'] );
 
             array_push($this->movieList, $movie);
         }
