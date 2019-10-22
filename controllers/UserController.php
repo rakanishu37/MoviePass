@@ -15,7 +15,7 @@
                     $DAOUser = new DAOUser();
                     $user = $DAOUser->getEmail(email);
 
-                    if($user != null $$ ($pass == $user->getPassword())){
+                    if($user != null && ($pass == $user->getPassword())){
                         session_start();
                         $logUser = $user;
                         $_SESSION["loggedUser"] = $logUser;

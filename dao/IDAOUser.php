@@ -6,7 +6,6 @@
 
         function add(User $value);
         function getAll();
-        //function delete(User $value);
-
+    
     }
 ?>

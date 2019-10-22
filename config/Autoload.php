@@ -6,7 +6,7 @@ class Autoload {
           {
                // Armo la url de la clase a partir del namespace y la instancia.
                $url = ROOT.str_replace("\\", "/", $classNotFound)  . ".php";
-
+               
                // Incluyo la url que, si todo esta bien, debería contener la clase que intento instanciar.
                include_once($url);
           });

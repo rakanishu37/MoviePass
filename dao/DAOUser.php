@@ -21,7 +21,7 @@ class DAOUser implements IDAOUser
         return $this->userList;
     }
 
-    public function getByEmail($email)
+    public function getByEmail($email):User
     {
         $this->retrieveData();
         foreach ($this->userList as $User) {
@@ -39,7 +39,6 @@ class DAOUser implements IDAOUser
             $valueArray['email'] = $User->getEmail();
             $valueArray['password'] = $User->getPassword();
             $valueArray['role'] = $User->getRole();
-            $valueArray['ticketPrice'] = $User->getTicketPrice();
 
             array_push($arrayToEncode, $valueArray);
         }
