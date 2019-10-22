@@ -5,7 +5,10 @@
     define('FRONT_ROOT',$a[1]);
 
     define('DATA',ROOT.'data/');
-    define('VIEWS', ROOT . 'views/');
+    
+	define('VIEWS', ROOT . 'views/');
+	
+	
     //define('ADMIN_VIEWS', ROOT . '/views/admin/');
     //define('IMG_UPLOADS', ROOT . '/asset/uploads/img/');
     
@@ -20,9 +23,8 @@
     define('POSTER_WIDTH_780', "w780/");
     define('POSTER_WIDTH_ORIGINAL', "original/");
     
-    define('IMG_PATH', ROOT . 'img/');
+    define('CSS_PATH', FRONT_ROOT . 'views/css/');
     
-      
      
       
      
@@ -30,7 +32,7 @@
     //capas nos sirve en algun momento
     /* FRONT 
     define('ADMIN_FRONT_ROOT', FRONT_ROOT . '/admin');
-    define('CSS_PATH', FRONT_ROOT . '/asset/css');
+    
     // define('IMG_UPLOADS_PATH', FRONT_ROOT . '/asset/uploads/img');
     define('MOV_UPLOADS_PATH', FRONT_ROOT . '/asset/uploads/movies');
     */

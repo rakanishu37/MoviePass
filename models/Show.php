@@ -11,14 +11,14 @@ use models\Cinema as Cinema;
 /**
  * La funcion en la cual se proyecta una Movie
  */
-class Showing
+class Show
 
 {
         private $day;
         private $time;
         private $movie;
         private $cinema;
-        
+
         /**
          * Get the value of day
          */
