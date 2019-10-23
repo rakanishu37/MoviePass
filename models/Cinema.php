@@ -11,12 +11,13 @@ class Cinema
 	private $ticketPrice;
 	private $active;
 
-	public function __construct($name = '', $address = '', $capacity = '', $ticketPrice = '',$active = 1) {
+	public function __construct($id ='', $name = '', $address = '', $capacity = '', $ticketPrice = '',$active = 1) {
+		$this->setId($id);
 		$this->setName($name);
 		$this->setAddress($address);
 		$this->setCapacity($capacity);
 		$this->setTicketPrice($ticketPrice);
-		$this->active = $active;
+		$this->setStatus($active);
 	}
 	public function getId()
 	{
