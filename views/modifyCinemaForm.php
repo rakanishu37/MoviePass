@@ -14,6 +14,7 @@
 
     Edite los campos deseados
     <form class="form" action="<?php echo FRONT_ROOT ?>cinema/update" method="post">
+        <input type="hidden" name="id" value="<?php echo $cinemaID; ?>">
 
         <label>Nombre del cine</label>
         <input type="text" name="name" placeholder="<?php echo $cinema->getName(); ?>">
@@ -29,13 +30,12 @@
         <br>
         <input type="hidden" name="name_unmodified" value="<?php echo $cinema->getName(); ?>">
 
-        <input type="hidden" name="id" value="<?php echo $cinemaID; ?>">
+        
         <input type="hidden" name="address_unmodified" value="<?php echo $cinema->getAddress(); ?>">
 
         <input type="hidden" name="capacity_unmodified" min="1" value="<?php echo $cinema->getCapacity(); ?>">
 
         <input type="hidden" name="ticketPrice_unmodified" min="1" value="<?php echo $cinema->getTicketPrice(); ?>">
-
         <label>Estado</label>
         <br>
         <select name="status" id="">

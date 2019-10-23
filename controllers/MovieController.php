@@ -39,9 +39,9 @@
             }
         } 
 
-        public function filterMovies(){
+        public function filterMovies($filteredGenre){
             
-            $filter = $_POST['filteredGenre'];
+            $filter = $filteredGenre;
             $movieListToBeFiltered = $this->daoMovie->getAll();
             
             $movieList = array();
