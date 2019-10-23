@@ -6,16 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="<?php echo FRONT_ROOT?>views/css/menu.css">
-    
-    <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-    <script src="<?php echo FRONT_ROOT?>/views/js/sweetalert.min.js"></script>
     <title>Menu de testeo</title>
 </head>
 
 <body>
-<script>
-         swal("Good job!", "You clicked the button!", "success");
-</script>
+
     <ul>
         <li>
             <a role="button" href='<?php echo FRONT_ROOT ?>cinema/create'>Dar alta un cine</a>

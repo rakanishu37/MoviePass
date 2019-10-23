@@ -3,7 +3,6 @@ namespace dao;
 use dao\IDAOMovie as IDAOMovie;
 use models\Movie as Movie;
 use models\Genre as Genre;
-use controllers\ApiController as ApiController;
 
 class DAOMovie implements IDAOMovie
 {
@@ -50,7 +49,7 @@ class DAOMovie implements IDAOMovie
                 array_push($genreList,$genre);
             }
             
-            //php usa la barra \ para escapar el caracter /
+            //php interpreta la barra
             //$urlFixed = trim($valueArray['imageURL'],"\\");
 
             $movie = new Movie($valueArray['id'],$valueArray['name'],$valueArray['runtime'],
@@ -111,9 +110,7 @@ class DAOMovie implements IDAOMovie
     private function getLatestMoviesID()
     {
         $idMoviesList = array();
-        // $this->getLatestMoviesJSON();
-        $jsonContent = ApiController::getLatestMoviesJSON(); 
-        
+        $jsonContent = $this->getLatestMoviesJSON();
 
         $arrayToDecode = array();     
         $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
@@ -127,8 +124,7 @@ class DAOMovie implements IDAOMovie
     }
 
     private function createMovieFromJSON($movieID){
-        //$this->getMovieDataJSON($movieID)
-        $movieJSON = ApiController::getMovieDataJSON($movieID);
+        $movieJSON = $this->getMovieDataJSON($movieID);
             
         $arrayToDecode = array();     
         $arrayToDecode = ($movieJSON) ? json_decode($movieJSON, true) : array();
@@ -152,6 +148,58 @@ class DAOMovie implements IDAOMovie
         return $movie;
     }
     
+  
+    public function getLatestMoviesJSON(){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.themoviedb.org/3/movie/now_playing?page=1&language=en-US&api_key=".API_KEY,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 200,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS => "{}",
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        } else {
+        return $response;
+        }
+    }
+
+    private function getMovieDataJSON($id){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.themoviedb.org/3/movie/".$id."?language=en-US&api_key=".API_KEY,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 200,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS => "{}",
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        echo "cURL Error #:" . $err;
+        } else {
+        return $response;
+        }
+    }
 
     private function getJsonFilePath()
     {
