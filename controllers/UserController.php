@@ -5,35 +5,29 @@
     use dao\DAOUser as DAOUser;
 
     class UserController{
+        private $DAOUser;
 
-        public function login(){
-            if($_POST){
-                if(isset($_POST["email"]) && isset($_POST["password"])){
-                    $email = $_POST["email"];
-                    $pass = $_POST["password"];
+        public function __construct()
+        {
+            $this->DAOUser = new DAOUser(); 
+        }
 
-                    $DAOUser = new DAOUser();
-                    $user = $DAOUser->getEmail(email);
+        public function login($userEmail, $userPassword){
+            
 
-                    if($user != null && ($pass == $user->getPassword())){
-                        session_start();
-                        $logUser = $user;
-                        $_SESSION["loggedUser"] = $logUser;
+            $user = $this->DAOUser->getEmail($userEmail);
 
-                        include VIEWS."menuTempral.php";
-                    }else{
-                        echo "<script> if(confirm('Datos incorrectos'))</script>";
-                        include VIEWS."loginForm.php";
-                    }
-                }else{
-                    echo "<script> if(confirm('ubo un problema al procesar los datos'))</script>";
-                    include VIEWS."loginForm.php";
-                }
+            if($user != null && ($pass == $user->getPassword())){
+                session_start();
+                $logUser = $user;
+                $_SESSION["loggedUser"] = $logUser;
+
+                include VIEWS."menuTempral.php";
             }else{
-                echo "<script> if(confirm('Error en el Method'))</script>";
+                echo "<script> if(confirm('Datos incorrectos'))</script>";
                 include VIEWS."loginForm.php";
             }
-        }        
+                
 
     }
 ?>

@@ -13,13 +13,18 @@ class CinemaController
     {
         $this->daoCinema = new DAOCinema();
     }
-    public function create()
+    /*
+    public function showCreateCinema($cinema = null, $mensaje= '')
     {
+        if !empty($mensaje)
+        echo <script>
         include VIEWS . "addCinema.php";
-    }
+    }*/
 
     public function add($name, $address, $capacity, $ticketPrice)
     {
+        var_dump($_POST);
+
         $newCinema = new Cinema($name, $address, $capacity, $ticketPrice);
 
         $this->daoCinema->add($newCinema);

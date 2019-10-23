@@ -30,7 +30,7 @@
   <form class="form" action="<?php echo FRONT_ROOT ?>cinema/add" method="post">
 
     <label>Nombre del cine</label>
-    <input type="text" name="name" placeholder="Ingresar nombre" required>
+    <input type="text" name="name" placeholder="<?php echo $placeholderName ?>" required>
     <br>
     <label>Direccion del cine</label>
     <input type="text" name="address" placeholder="Ingresar direccion" required>

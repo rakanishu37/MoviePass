@@ -7,7 +7,8 @@ class User
     private $email;
     private $password;
     private $role;//admin or client
-
+    //un id o un objeto que sea datos del cliente
+    
     public function getEmail(){
         return $this->email;
     }
