@@ -24,6 +24,8 @@
     define('POSTER_WIDTH_ORIGINAL', "original/");
     
     define('CSS_PATH', FRONT_ROOT . 'views/css/');
+    define('JS_PATH', FRONT_ROOT . 'views/js/');
+    
     
      
       
