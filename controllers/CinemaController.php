@@ -23,7 +23,6 @@ class CinemaController
 
     public function add($name, $address, $capacity, $ticketPrice)
     {
-        var_dump($_POST);
 
         $newCinema = new Cinema($name, $address, $capacity, $ticketPrice);
 

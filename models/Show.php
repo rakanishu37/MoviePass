@@ -13,74 +13,43 @@ use models\Cinema as Cinema;
  */
 class Show
 
-{
+{       /*
         private $day;
-        private $time;
+        private $time;*/
+        private $projectionTime;
         private $movie;
         private $cinema;
 
-        /**
-         * Get the value of day
-         */
-        public function getDay()
+        public function __construct($projectionTime=NULL,Movie $movie, Cinema $cinema)
         {
-                return $this->day;
+                $this->setProjectionTime($projectionTime);
+                $this->setMovie($movie);
+                $this->setCinema($cinema);
+        }
+        public function getProjectionTime()
+        {
+                return $this->projectionTime;
+        }
+        
+        private function setProjectionTime($projectionTime){
+                $this->projectionTime= new DateTime($projectionTime);
         }
 
-        /**
-         * Set the value of day
-
-         */
-        public function setDay($day)
-        {
-                $this->day = $day;
-        }
-
-        /**
-         * Get the value of time
-         */
-        public function getTime()
-        {
-                return $this->time;
-        }
-
-        /**
-         * Set the value of time
-
-         */
-        public function setTime($time)
-        {
-                $this->time = $time;
-        }
-
-        /**
-         * Get the value of Movie
-         */
         public function getMovie()
         {
                 return $this->movie;
         }
 
-        /**
-         * Set the value of Movie
-
-         */
         public function setMovie(Movie $movie)
         {
                 $this->movie = $movie;
         }
 
-        /**
-         * Get the value of Cinema
-         */ 
         public function getCinema()
         {
                 return $this->cinema;
         }
 
-        /**
-         * Set the value of Cinema
-         */ 
         public function setCinema(Cinema $cinema)
         {
                 $this->cinema = $cinema;
