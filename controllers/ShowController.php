@@ -32,8 +32,9 @@
 
 
         vistaDeSelects ($date,$time){
-            $showList = getShowsBydate($date,$time)
-            include sig formulario
+            $showList = getShowsBydate($date);
+
+            
         }
 
         /*Funcion de control*/
@@ -46,6 +47,11 @@
                 }    
             }
             return $showListToReturn;
+        }
+
+        private function getMoviesNotShowed($showList){
+            $moviesNotProjected = array();
+            array_push
         }
     }
 ?>
