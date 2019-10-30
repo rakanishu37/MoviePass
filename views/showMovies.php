@@ -17,33 +17,30 @@
 
     <p>Peliculas</p>
 
-    <table border="1">
-        <thead class="thead">
+    <table>
+       
+       
+        <div class="conteiner">
             <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Duración</th>
-                <th>Idioma</th>
-                <th>Genero</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($movieList as $movie) { ?>
-                <tr>
-                    <td><img src="<?php echo API_IMAGE_URL.POSTER_WIDTH_185.$movie->getImageURL(); ?>"></td>
-                    <td><?php echo $movie->getName(); ?> </td>
-                    <td><?php echo $movie->getRuntime(); ?></td>
-                    <td><?php echo $movie->getLanguage(); ?></td->
-                    <td>
-                        <?php foreach ($movie->getGenre() as $genre) {
-                                echo $genre->getName() . '<br>';
-                            } ?>
-                    </td>
-                </tr>
+                <?php foreach ($movieList as $movie) { ?>
+
+                        <td><img src="<?php echo API_IMAGE_URL.POSTER_WIDTH_342.$movie->getImageURL(); ?>"></td>
+                        <!-- <td><?php echo $movie->getName(); ?> </td>
+                        <td><?php echo $movie->getRuntime(); ?></td>
+                        <td><?php echo $movie->getLanguage(); ?></td->
+                        <td>
+                            <?php foreach ($movie->getGenre() as $genre) {
+                                    echo $genre->getName() . '<br>';
+                                } ?> -->
+                        </td>
+             
+                   
             <?php } ?>
-        </tbody>
+             </tr>
+        </div>
+       
     </table>
-    <br><br>
+ 
 
 
 </body>

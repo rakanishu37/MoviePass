@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>SelectCinema.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>SelectCinemaToClose.css">
     <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>buttomStyle.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>buttomStyleSelectClose.css">
     
     <title>MoviePass</title>
 </head>

@@ -4,7 +4,7 @@
 }
 
 body {
-    background: #ffffff;
+    background: #010127fd;
     background-size: 100%;
     background-attachment: fixed;
 }
@@ -22,12 +22,13 @@ body {
     color: #255784;
     background: #2195f32a;
     transition-delay: 1s;
-    box-shadow: 0 0 10px #2195f32a, 0 0 40px #2195f32a, 0 0 80px #2195f32a, 0 0 120px #2195f32a;
+    box-shadow: 0 0 10px #2195f38f, 0 0 40px #2195f38f, 0 0 80px #2195f38f, 0 0 120px #2195f38f;
 }
 
 label {
     font-size: 30px !important; 
     font-weight: bold;
+    color: aliceblue;
 }
 
 input {
