@@ -7,10 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Movie Pass</title>
     <link rel="stylesheet" type="text/css" href="<?php echo FRONT_ROOT ?>views/css/styleShowMovies.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
 
 </head>
 
 <body>
+
+    <?php require 'headerAdmi.php'; ?>
 
     <p>Peliculas</p>
 
@@ -41,8 +44,7 @@
         </tbody>
     </table>
     <br><br>
-    <a href="<?php echo FRONT_ROOT ?>">
-        <button>Volver al menu princial</button> </a>
+
 
 </body>
 

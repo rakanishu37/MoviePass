@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
     <title>Document</title>
 </head>
 
@@ -27,7 +28,7 @@
 
 <body>
 
-
+    <?php require 'headerAdmi.php'; ?>
 
     <form action="<?php echo FRONT_ROOT ?>movie/filterMovies" method="post">
         <h2>Elija el genero que quiera filtrar</h2>

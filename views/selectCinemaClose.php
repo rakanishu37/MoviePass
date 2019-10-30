@@ -5,47 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>SelectCinema.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>buttomStyle.css">
     
-    <title>Document</title>
+    <title>MoviePass</title>
 </head>
 
+
 <body>
-<style>
-@import url('https://fonts.googleapis.com/css?family=Lato');
 
-body, html{
-  height: 100%;
-  background: #222222;
-  font-family: 'Lato', sans-serif;
-}
+  <?php require 'headerAdmi.php'; ?>
 
-.container{
-  display: block;
-  position: relative;
-  margin: 40px auto;
-  height: auto;
-  width: 500px;
-  padding: 20px;
-}
-
-h2 {
-  color: #AAAAAA;
-}
-label {
-    color: #AAAAAA;
-  display: inline;
-}
-
-</style>
-    <form action="<?php echo FRONT_ROOT ?>cinema/closeCinema" method="post">
-        <div class="container">
-
-            <h2> Elija cine a cerrar:</h2>
-
+    <form class="form" action="<?php echo FRONT_ROOT ?>cinema/closeCinema" method="post">
+        
+      <h2> Elija cine a cerrar:</h2>
+      <div class="container">
+            
             <ul>
                 <?php foreach ($cinemaList as $cinema) { ?>
                     <?php if ($cinema->getStatus() == true)  ?>
-                    <li>
+                    <li class="radio-button">
                         <input type="radio" id="f-option" name="idCinema" value="<?php echo $cinema->getId(); ?>">
                         <label for="f-option"><?php echo $cinema->getName(); ?></label>
 
@@ -55,11 +35,14 @@ label {
         </div>
 
 
-        <button type="submit">Cerrar Cine</button>
+        <button type="submit" class="boton">  
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Cerrar cine</button>
     </form>
-    <br><br>
-    <a href="<?php echo FRONT_ROOT ?>">
-        <button>Volver al menu princial</button> </a>
+  
 </body>
 
 </html>

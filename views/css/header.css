@@ -1,54 +1,60 @@
 * {
-    padding: 0;
     margin:0;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-.contenedor {
-    /*width: 95%;
-    max-width: 1000px;*/
-    margin: auto;
-    /*margin-bottom: 40px;*/
+
+
+li a {
+    padding: 5px;
+    color: #eceaf3cb;
+    text-decoration: none;
 }
 
-header nav {
-    background: #000000;
-    margin-bottom: 10px;
+li a:hover {
+    background: #3b3232;
 }
 
-    header nav ul{
-        list-style: none;
-        overflow: hidden;
-        padding-top: 10px;
-	    
-    }
+.nav{
+    float: right;
+}
 
-        header nav ul p {
-            float: left;
-            display: block;
-            display: inline;
-            font-family: Arial, Helvetica, sans-serif;
-            color: aliceblue;
-	        font-size: 30px;
-	        padding: 0px 40px;
-        }
+.nav > li {
+    float: left;
+    padding-right: 25px;
+}
 
-            header nav ul li a {
-                float: right;
-                padding: 5px;
-                color: #eceaf3cb;
-                text-decoration: none;
-            }
+.nav li ul {
+    display: none;
+    position: absolute;
+    min-width: 100px;
+    overflow: hidden;
+    padding-top: 10px; 
+}
 
-            header nav ul li a:hover {
-                background: #3b3232;
-            }
+.nav li:hover > ul {
+    display: block;
+}
 
-            a:hover{
-                font-size: 120%;
-            }
-            
+.nav li ul li {
+    position: relative;
+    background:#000;
+    padding: 10px;
+    list-style:none;
+}
+
+.nav li ul li ul {
+    right: -140px;
+    top: 0px;
+}
+
+.logo {
+    float: left;
+}
+
+img {
+    display: inline;
+    margin: 100%;
+}
 
 .menu-fixed{
     position: fixed;
@@ -58,4 +64,6 @@ header nav {
     width: 100%;
     /*max-width: 1000px;*/
     box-shadow: 0px 4px 3px rgba(0, 0, 0, .5); /*sombra*/
+    background:#000;
+    padding: 10px;
 }
