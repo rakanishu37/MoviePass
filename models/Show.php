@@ -34,7 +34,9 @@ class Show
         private function setProjectionTime($projectionTime){
                 $this->projectionTime= new DateTime($projectionTime);
         }
-
+        public function getDate(){
+                return date($this->projectionTime, "Y-m-d");
+        }
         public function getMovie()
         {
                 return $this->movie;

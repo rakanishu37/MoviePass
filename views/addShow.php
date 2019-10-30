@@ -10,12 +10,14 @@
        <?php $date=date("Y-m-d"); ?>
         <form action="<?php echo FRONT_ROOT?>Show/add" method="post" > 
                 <label>Fecha</label>
-                <!-- Asegurar que no cree una funcion el dia de hoy o antes -->
+
+                <!-- Tengo que sacar esto de aca-->
                 <input type="date" name="date" min=<?php date("Y-m-d", strtotime($date. " + 1 days"))?>>
                 <br>
                 <label>Hora</label>
                 <input type="time" name="time">
                 <br>
+                <!-- Tengo que sacar esto hasta aca-->
                 <label>Pelicula</label>
                 <select name="movieId" id="">
                 <?php foreach($movieList as $movie){?>
@@ -30,7 +32,7 @@
                 <?php }?>
                 </select>
                 <br>
-                <button type="submit">Iniciar Sesión</button>
+                <button type="submit">añadir funcion</button>
         </form> 
 </body>
 </html>

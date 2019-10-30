@@ -13,22 +13,39 @@
         private $daoCinema;
         
 
-        public function showAddView(Type $var = null)
+        public function showAddView()
         {
             $daoShow = new DAOShow();
             $daoMovie = new DAOMovie();
-            $daoCinema = new DAOCinema();   
+            $daoCinema = new DAOCinema();
         }
 
         public function add($date,$time,$movieId,$cinemaId){
-            $projectionTime=$date." ".$time;
+            //$projectionTime=$date." ".$time;
             $movie = //no hay getbyID de movie $daoMovie->getById($movieId);
             $cinema = $this->daoCinema->getById($cinemaId);
-
+            
             $newShow = new Show($projectionTime,$movie,$cinema);
             $this->daoShow->add($newShow);
 
-            $this->showShows();
+        }
+
+
+        vistaDeSelects ($date,$time){
+            $showList = getShowsBydate($date,$time)
+            include sig formulario
+        }
+
+        /*Funcion de control*/
+        private function getShowsByDate($dateToFilter){
+            $showListToReturn = array();
+            $showList = $this->daoShow->getAll();
+            foreach ($showList as $show) {
+                if($dateToFilter == $show->getDate()){
+                    array_push($showListToReturn, $show);
+                }    
+            }
+            return $showListToReturn;
         }
     }
 ?>
