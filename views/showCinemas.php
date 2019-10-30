@@ -7,8 +7,11 @@
     <title>Document</title>
     
     <link rel="stylesheet" type="text/css" href="<?php echo FRONT_ROOT?>views/css/styleShowCinemas.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
 </head>
 <body>
+
+    <?php require 'headerAdmi.php'; ?>
     <p>Cines disponibles</p>   
 
     <table border="1">
@@ -34,9 +37,6 @@
         </tbody>
     
     </table>
-
-    <a href="<?php echo FRONT_ROOT ?>">
-    <button>Volver al menu princial</button>  </a>
 
 </body>
 </html>
