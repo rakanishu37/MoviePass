@@ -29,7 +29,6 @@ class DAOCinema implements IDAOCinema
     public function getByID($id){
         $this->retrieveData();
         $index = $this->findIndex($id);
-        //var_dump($this->cinemaList[$index]);
         return $this->cinemaList[$index];
     }
 
