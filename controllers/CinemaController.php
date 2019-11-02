@@ -3,7 +3,7 @@
 namespace controllers;
 
 use models\Cinema as Cinema;
-use dao\DAOCinema as DAOCinema;
+use dao\json\DAOCinema as DAOCinema;
 
 class CinemaController
 {
@@ -14,7 +14,7 @@ class CinemaController
         $this->daoCinema = new DAOCinema();
     }
     
-    public function showCreateCinema($cinema = null, $mensaje= '')
+    public function createCinema($cinema = null, $mensaje= '')
     {/*
         if !empty($mensaje)
         

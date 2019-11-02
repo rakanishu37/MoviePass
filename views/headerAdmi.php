@@ -15,7 +15,7 @@
                 <li><a href="">| Cines |</a>
                     <ul>
                         <li>
-                             <a  href='<?php echo FRONT_ROOT ?>cinema/create'>Dar de alta</a>
+                             <a  href='<?php echo FRONT_ROOT ?>cinema/createCinema'>Dar de alta</a>
                         </li>
                         <li>
                             <a  href='<?php echo FRONT_ROOT ?>cinema/selectCinemaToClose'>Cerrar</a>

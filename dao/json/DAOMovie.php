@@ -1,5 +1,5 @@
 <?php
-namespace dao;
+namespace dao\json;
 use dao\IDAOMovie as IDAOMovie;
 use models\Movie as Movie;
 use models\Genre as Genre;

@@ -1,5 +1,5 @@
 <?php
-namespace dao;
+namespace dao\json;
 
 use dao\IDAOCinema as IDAOCinema;
 use models\Cinema as Cinema;

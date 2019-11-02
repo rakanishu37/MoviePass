@@ -1,5 +1,5 @@
 <?php
-namespace dao;
+namespace dao\json;
 use dao\IDAOGenre as IDAOGenre;
 use models\Genre as Genre;
 use controllers\ApiController as ApiController;
