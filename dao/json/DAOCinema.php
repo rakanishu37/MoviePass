@@ -82,8 +82,8 @@ class DAOCinema implements IDAOCinema
 
         foreach ($arrayToDecode as $valueArray) {
             $cinema = new Cinema($valueArray['name'],$valueArray['address'],
-                                    $valueArray['capacity'],$valueArray['ticketPrice'],$valueArray['status']);
-            $cinema->setId($valueArray['id']);
+                                    $valueArray['capacity'],$valueArray['ticketPrice'],$valueArray['status'],$valueArray['id']);
+            
             
             array_push($this->cinemaList, $cinema);
         }

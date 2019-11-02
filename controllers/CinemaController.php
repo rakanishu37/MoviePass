@@ -13,13 +13,16 @@ class CinemaController
     {
         $this->daoCinema = new DAOCinema();
     }
-    /*
+    
     public function showCreateCinema($cinema = null, $mensaje= '')
-    {
+    {/*
         if !empty($mensaje)
-        echo <script>
-        include VIEWS . "addCinema.php";
-    }*/
+        
+        echo '<script>
+            swa
+        </script>'*/
+        include VIEWS . "cinemaAddForm.php";
+    }
 
     public function add($name, $address, $capacity, $ticketPrice)
     {
@@ -35,7 +38,7 @@ class CinemaController
     public function selectCinemaToModify()
     {
         $cinemaList = $this->daoCinema->getAll();
-        include VIEWS . 'selectCinemaModify.php';
+        include VIEWS . 'cinemaModify.php';
     }
 
     public function selectCinemaToClose()
@@ -48,7 +51,7 @@ class CinemaController
             }
         }
 
-        include VIEWS . 'selectCinemaClose.php';
+        include VIEWS . 'cinemaToCloseForm.php';
     }
 
 
@@ -56,7 +59,7 @@ class CinemaController
     {
         $cinema = $this->daoCinema->getByID($idCinema);
 
-        include VIEWS . 'modifyCinemaForm.php';
+        include VIEWS . 'cinemaModifyChooseForm.php';
     }
 
     public function update($id,$name, $address, $capacity, $ticketPrice, $name_unmodified, $address_unmodified, $capacity_unmodified, $ticketPrice_unmodified,$status)
@@ -107,13 +110,13 @@ class CinemaController
                 array_push($cinemaList, $cinema);
             }
         }
-        include VIEWS . 'showCinemas.php';
+        include VIEWS . 'cinemasList.php';
     }
 
     public function showCinemasTest()
     {
         $cinemaList = $this->daoCinema->getAll();
-        include VIEWS . 'showCinemas.php';
+        include VIEWS . 'cinemasList.php';
     }
 }
 ?>

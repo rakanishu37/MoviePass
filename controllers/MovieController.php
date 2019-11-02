@@ -19,7 +19,7 @@
             
             $movieList = $this->daoMovie->getAll();
             
-            include VIEWS.'showMovies.php';
+            include VIEWS.'moviesList.php';
             
             
         }
@@ -28,7 +28,7 @@
         {
            
             $genreList = $this->daoGenre->getAll();
-            include VIEWS.'chooseGenre.php';
+            include VIEWS.'movieChooseGenreToFilterForm.php';
         }
 
         private function movieContainsGenre(Movie $movie,$searchedGenre){
@@ -50,7 +50,7 @@
                     array_push($movieList,$movie);
                 }
             }
-            include VIEWS.'showMovies.php';
+            include VIEWS.'moviesList.php';
         }
     }
 ?>

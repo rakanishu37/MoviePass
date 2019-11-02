@@ -25,13 +25,6 @@
     Autoload::start();
 
     session_start();
-//programacion defensiva (validaciones en todos lados practicamente)
-//validaciones en capa de negocio controller y model para el tp
-    //modulariza los llamados a la api
-//exceptions con try catch
-//controlar que no se repitan los nombres
-//variab de mensaje de error elevarlo a la lvista
-    //hacer dao con pdo
-//funciones fecha movie
+
     Router::route(new Request());    
 ?>
