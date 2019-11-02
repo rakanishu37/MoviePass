@@ -1,7 +1,7 @@
 <?php
     namespace controllers;
 
-    use dao\DAOGenre as DAOGenre;
+    use dao\json\DAOGenre as DAOGenre;
 
     class GenreController
     {   

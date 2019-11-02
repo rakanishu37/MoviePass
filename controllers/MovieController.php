@@ -2,8 +2,8 @@
     namespace controllers;
 
     use models\Movie as Movie;
-    use dao\DAOMovie as DAOMovie;
-    use dao\DAOGenre as DAOGenre;
+    use dao\json\DAOMovie as DAOMovie;
+    use dao\json\DAOGenre as DAOGenre;
     class MovieController
     {
         private $daoMovie;
