@@ -38,7 +38,7 @@ class CinemaController
     public function selectCinemaToModify()
     {
         $cinemaList = $this->daoCinema->getAll();
-        include VIEWS . 'cinemaModify.php';
+        include VIEWS . 'cinemaModifyChooseForm.php';
     }
 
     public function selectCinemaToClose()
@@ -59,7 +59,7 @@ class CinemaController
     {
         $cinema = $this->daoCinema->getByID($idCinema);
 
-        include VIEWS . 'cinemaModifyChooseForm.php';
+        include VIEWS . 'cinemaModifyForm.php';
     }
 
     public function update($id,$name, $address, $capacity, $ticketPrice, $name_unmodified, $address_unmodified, $capacity_unmodified, $ticketPrice_unmodified,$status)
