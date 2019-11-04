@@ -6,7 +6,7 @@ namespace models;
 
 use models\CreditCardPayment as CreditCardPayment;
 */
-class Compra
+class Purchase
 {
         private $date;
         private $ticketQuantity;

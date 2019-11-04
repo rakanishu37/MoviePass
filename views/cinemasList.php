@@ -30,8 +30,8 @@
                 <tr>
                     <td><?php echo $cinema->getName(); ?> </td>
                     <td><?php echo $cinema->getAddress();?></td>
-                    <td><?php echo $cinema->getCapacity();?></td->
-                    <td>$<?php echo $cinema->getTicketPrice();?></td>
+                    <td><?php echo $cinema->getCapacity();?></td>
+                    <td><?php echo $cinema->getTicketPrice();?></td>
                 </tr>
             <?php } ?> 
         </tbody>

@@ -37,7 +37,7 @@
             <select name='filteredGenre'>
                 <?php
                 foreach ($genreList as $genre) {  ?>
-                    <option value="<?php echo $genre->getName() ?>"> <?php echo $genre->getName() ?></option>
+                    <option value="<?php echo $genre->getApiKey() ?>"> <?php echo $genre->getName() ?></option>
                 <?php } ?>
             </select>
 

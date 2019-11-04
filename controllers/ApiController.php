@@ -1,6 +1,7 @@
 <?php
-namespace controllers;
-
+    namespace controllers;
+    use models\Movie as Movie;
+    use models\Genre as Genre;
     class ApiController
     {
         public static function getGenreJSON()
@@ -88,5 +89,50 @@ namespace controllers;
             return $response;
             }
         }
+
+
+        public static function getLatestMoviesID()
+        {
+            $idMoviesList = array();
+            // $this->getLatestMoviesJSON();
+            $jsonContent = self::getLatestMoviesJSON(); 
+            
+
+            $arrayToDecode = array();     
+            $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
+
+            //puedo acceder directamente a ese conjunto
+            foreach($arrayToDecode['results'] as $valueArray){
+                array_push($idMoviesList,$valueArray['id']);
+            }
+
+            return $idMoviesList;
+        }
+
+        public static function createMovieFromJSON($movieID){
+            //$this->getMovieDataJSON($movieID)
+            $movieJSON = self::getMovieDataJSON($movieID);
+                
+            $arrayToDecode = array();     
+            $arrayToDecode = ($movieJSON) ? json_decode($movieJSON, true) : array();
+            
+            $movieGenreList = array();
+            
+            foreach($arrayToDecode['genres'] as $genre){
+                $genre= new Genre($genre['name'],$genre['id']);
+
+                array_push($movieGenreList,$genre);   
+            }
+            
+            $id = $arrayToDecode['id'];
+            $name = $arrayToDecode['title'];
+            $runtime = $arrayToDecode['runtime'];
+            $language = $arrayToDecode['original_language'];
+            $imageURL = $arrayToDecode['poster_path'];
+
+            $movie = new Movie($id,$name,$runtime,$language,$movieGenreList,$imageURL);
+        
+            return $movie;
+        } 
     }
 ?>

@@ -19,10 +19,10 @@
 </style>
 
 <body>
-    <script>
+    <!-- <script>
             swal("Good job!", "You clicked the button!", "success");
     </script>
-    
+     -->
     <?php require 'headerAdmi.php'; ?>
 
 

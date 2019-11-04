@@ -3,7 +3,9 @@
 namespace controllers;
 
 use models\Cinema as Cinema;
-use dao\json\DAOCinema as DAOCinema;
+//use dao\json\DAOCinema as DAOCinema;
+use dao\pdo\PDOCinema as DAOCinema;
+use \Exception as Exception;
 
 class CinemaController
 {
@@ -11,7 +13,7 @@ class CinemaController
 
     public function __construct()
     {
-        $this->daoCinema = new DAOCinema();
+        $this->daoCinema = new DAOCinema;
     }
     
     public function createCinema($cinema = null, $mensaje= '')
@@ -26,40 +28,52 @@ class CinemaController
 
     public function add($name, $address, $capacity, $ticketPrice)
     {
-
         $newCinema = new Cinema($name, $address, $capacity, $ticketPrice);
-
-        $this->daoCinema->add($newCinema);
-
-        $this->showCinemas();
+        try {
+            $this->daoCinema->add($newCinema);
+            $this->showCinemas();
+        } catch (Exception $ex) {
+            echo $ex;
+        }        
     }
 
 
     public function selectCinemaToModify()
     {
-        $cinemaList = $this->daoCinema->getAll();
-        include VIEWS . 'cinemaModifyChooseForm.php';
+        try {
+            $cinemaList = $this->convertToArray($this->daoCinema->getAll());
+            include VIEWS . 'cinemaModifyChooseForm.php';
+        } catch (Exception $e) {
+            echo $e;
+        }
     }
 
     public function selectCinemaToClose()
     {
-        $activeCinemaList = $this->daoCinema->getAll();
+        /*$activeCinemaList = $this->daoCinema->getAll();
         $cinemaList = array();
         foreach ($activeCinemaList as $cinema) {
             if ($cinema->getStatus() == 1) {
                 array_push($cinemaList, $cinema);
             }
-        }
-
-        include VIEWS . 'cinemaToCloseForm.php';
+        }*/
+        try {
+            $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
+            include VIEWS . 'cinemaToCloseForm.php';
+        } catch (Exception $th) {
+            echo $th;
+        }      
     }
 
 
     public function modify($idCinema)
     {
-        $cinema = $this->daoCinema->getByID($idCinema);
-
-        include VIEWS . 'cinemaModifyForm.php';
+        try {
+            $cinema = $this->daoCinema->getByID($idCinema);
+            include VIEWS . 'cinemaModifyForm.php';
+        } catch (Exception $th) {
+            echo $th;
+        }
     }
 
     public function update($id,$name, $address, $capacity, $ticketPrice, $name_unmodified, $address_unmodified, $capacity_unmodified, $ticketPrice_unmodified,$status)
@@ -79,12 +93,15 @@ class CinemaController
             $ticketPrice = $ticketPrice_unmodified;    
         }
         
-        $cinemaModified = new Cinema($name, $address, $capacity, $ticketPrice, $status);
-        $cinemaModified->setId($id);
-
-        $this->daoCinema->update($cinemaModified);
-
-        $this->showCinemas();
+        $cinemaModified = new Cinema($name, $address, $capacity, $ticketPrice, $status, $id);
+        try{
+            $this->daoCinema->update($cinemaModified);
+            
+            $this->showCinemas();
+        }
+        catch(Exception $ex){
+            echo $ex;
+        }
     }
     /**
      * Da de baja logica un cine
@@ -94,29 +111,63 @@ class CinemaController
     {
         $closedCinema = $this->daoCinema->getByID($idCinema);
 
-        echo $closedCinema->setStatus(0);
-        $this->daoCinema->update($closedCinema);
+        $closedCinema->setStatus(0);
+        try{
+            $this->daoCinema->update($closedCinema);
 
-        $this->showCinemas();
+            $this->showCinemas();
+        }
+        catch(Exception $ex){
+            echo $ex;
+        }
     }
 
 
     public function showCinemas()
     {
-        $activeCinemaList = $this->daoCinema->getAll();
+        /*$activeCinemaList = $this->daoCinema->getAll();
         $cinemaList = array();
         foreach ($activeCinemaList as $cinema) {
             if ($cinema->getStatus() == 1) {
                 array_push($cinemaList, $cinema);
             }
+        }*/
+        try {
+            $activeCinemas = $this->daoCinema->getAllActiveCinemas();
+            
+            $cinemaList = is_null($activeCinemas) ? [] : $this->convertToArray($activeCinemas);
+            
+            include VIEWS . 'cinemasList.php';  
+        } catch (Exception $th) {
+            echo $th;
         }
-        include VIEWS . 'cinemasList.php';
     }
 
+    
+/*
     public function showCinemasTest()
     {
-        $cinemaList = $this->daoCinema->getAll();
-        include VIEWS . 'cinemasList.php';
+        try{
+            $cinemas = $this->daoCinema->getAll();
+            
+            $cinemaList = is_null($cinemas) ? [] : $this->convertToArray($cinemas);
+            
+            include VIEWS . 'cinemasList.php';    
+        }
+        catch (Exception $th) {
+            echo $th;
+        }
+    }*/
+
+    private function convertToArray($value){
+        $arrayToReturn = array();
+        if(is_array($value)){
+            $arrayToReturn = $value;    
+        }
+        else {
+            $arrayToReturn [] = $value;
+        }
+        return $arrayToReturn;
     }
 }
 ?>

@@ -74,8 +74,6 @@ class Movie
 
         /**
          * Set the value of runtime
-         *
-      
          */
         public function setRuntime($runtime)
         {
@@ -84,8 +82,6 @@ class Movie
 
         /**
          * Set the value of language
-         *
-      
          */
         public function setLanguage($language)
         {
@@ -94,8 +90,6 @@ class Movie
 
         /**
          * Set the value of genre
-         *
-      
          */
         public function setGenre($genre)
         {

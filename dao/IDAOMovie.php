@@ -7,7 +7,7 @@
 
         function add(Movie $value);
         function getAll();
-        
+        //function getLatestMovies();
 
     }
     

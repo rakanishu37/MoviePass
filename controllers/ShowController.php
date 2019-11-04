@@ -4,8 +4,8 @@
     use models\Cinema as Cinema;
     use models\Show as Show;
     use dao\DAOShow as DAOShow;
-    use dao\DAOMovie as DAOMovie;
-    use dao\DAOCinema as DAOCinema;
+    use dao\json\DAOMovie as DAOMovie;
+    use dao\json\DAOCinema as DAOCinema;
     
     class ShowContreller
     {

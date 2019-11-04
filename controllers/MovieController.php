@@ -2,8 +2,11 @@
     namespace controllers;
 
     use models\Movie as Movie;
-    use dao\json\DAOMovie as DAOMovie;
-    use dao\json\DAOGenre as DAOGenre;
+    // use dao\json\DAOMovie as DAOMovie;
+    use dao\pdo\PDOMovie as DAOMovie;
+    // use dao\json\DAOGenre as DAOGenre;
+    use dao\pdo\PDOGenre  as DAOGenre;
+    use \Exception as Exception;
     class MovieController
     {
         private $daoMovie;
@@ -16,12 +19,15 @@
         }
 
         public function showMovies(){
-            
-            $movieList = $this->daoMovie->getAll();
-            
-            include VIEWS.'moviesList.php';
-            
-            
+            $this->daoMovie->updateLatestMovies();
+            try{
+                $movieList = $this->daoMovie->getAll();
+
+                include VIEWS.'verticalMovies.php';
+            }
+            catch(Exception $e){
+                echo $e;
+            }
         }
 
         public function chooseGenreForFilter()
@@ -40,16 +46,17 @@
         } 
 
         public function filterMovies($filteredGenre){
-            
             $filter = $filteredGenre;
             $movieListToBeFiltered = $this->daoMovie->getAll();
-            
+
             $movieList = array();
             foreach ($movieListToBeFiltered as $movie) {
                 if($this->movieContainsGenre($movie,$filter)){
+                            
                     array_push($movieList,$movie);
                 }
             }
+            
             include VIEWS.'moviesList.php';
         }
     }

@@ -2,8 +2,6 @@
 
 namespace models;
 
-require "models/Movie.php";
-require "models/Cinema.php";
 
 use models\Movie as Movie;
 use models\Cinema as Cinema;

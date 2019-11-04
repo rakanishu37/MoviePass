@@ -12,8 +12,7 @@ class DAOMovie implements IDAOMovie
     
     public function __construct(){
         if (empty ( file_get_contents($this->getJsonFilePath() ) ) ){
-            $latestMovieList = $this-> getLatestMovies();
-            
+            $latestMovieList = $this->createLatestMovies();
             foreach($latestMovieList as $movie){
                 $this->add($movie);
             }
@@ -32,6 +31,22 @@ class DAOMovie implements IDAOMovie
         $this->retrieveData();
         return $this->movieList;   
     } 
+
+    /*prototipo de conseguir solo las recientes
+    public function getlatestMoviesList(){
+        $latestMoviesId = ApiController::getLatestMoviesID();
+        $latestMoviesList = array();
+        $this->retrieveData();
+        
+        foreach ($latestMoviesId as $movieId) {
+            if 
+        }
+        foreach ($this->cinemaList as $index=>$cinema) {
+            if($cinema->getId() == $id){
+                $foundIndex = $index;
+            }
+        }
+    }*/
 
     private function retrieveData()
     {
@@ -91,67 +106,21 @@ class DAOMovie implements IDAOMovie
         file_put_contents($jsonPath , $jsonContent);
     }
 
-    /**
-     * Retorna un array con las 20 peliculas mas recientes, sus elementos son de tipo Movie 
+        /**
+     * Returns an array of objects Movie  
      */
-    public function getLatestMovies(){
-        $latestMoviesIDList = $this->getLatestMoviesID();
+    private function createLatestMovies(){
+        $latestMoviesIDList = ApiController::getLatestMoviesID();
 
         $moviesList = array();
 
         foreach($latestMoviesIDList as $id){
-            $movie = $this->createMovieFromJSON($id);
+            $movie = ApiController::createMovieFromJSON($id);
             
             array_push($moviesList,$movie);
         }
-        
         return $moviesList;
     }
-
-    private function getLatestMoviesID()
-    {
-        $idMoviesList = array();
-        // $this->getLatestMoviesJSON();
-        $jsonContent = ApiController::getLatestMoviesJSON(); 
-        
-
-        $arrayToDecode = array();     
-        $arrayToDecode = ($jsonContent) ? json_decode($jsonContent, true) : array();
-
-        //puedo acceder directamente a ese conjunto
-        foreach($arrayToDecode['results'] as $valueArray){
-            array_push($idMoviesList,$valueArray['id']);
-        }
-
-        return $idMoviesList;
-    }
-
-    private function createMovieFromJSON($movieID){
-        //$this->getMovieDataJSON($movieID)
-        $movieJSON = ApiController::getMovieDataJSON($movieID);
-            
-        $arrayToDecode = array();     
-        $arrayToDecode = ($movieJSON) ? json_decode($movieJSON, true) : array();
-        
-        $movieGenreList = array();
-        
-        foreach($arrayToDecode['genres'] as $genre){
-            $genre= new Genre($genre['name'],$genre['id']);
-
-            array_push($movieGenreList,$genre);   
-        }
-        
-        $id = $arrayToDecode['id'];
-        $name = $arrayToDecode['title'];
-        $runtime = $arrayToDecode['runtime'];
-        $language = $arrayToDecode['original_language'];
-        $imageURL = $arrayToDecode['poster_path'];
-
-        $movie = new Movie($id,$name,$runtime,$language,$movieGenreList,$imageURL);
-    
-        return $movie;
-    }
-    
 
     private function getJsonFilePath()
     {

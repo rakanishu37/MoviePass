@@ -25,7 +25,7 @@
             <ul>
                 <?php foreach ($cinemaList as $cinema) { ?>
                     <li>
-                        <input type="radio" id="idCinema" name="idCinema" value="<?php echo $cinema->getId(); ?>">
+                        <input type="radio" id="idCinema" name="idCinema" required value="<?php echo $cinema->getId(); ?>">
                         <label for="idCinema"><?php echo $cinema->getName(); ?></label>
 
                     </li>
