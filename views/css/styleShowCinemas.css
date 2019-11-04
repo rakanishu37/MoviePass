@@ -4,37 +4,43 @@
 }
 
 body {
-    background-image: url('../img/fondo1.jpg');
-    background-attachment: fixed;
-    background-size: 100%;
+    background: #878a03;
 }
 
 table {
     text-align: center;
     float: center;
-    width:650px;
+    width:750px;
 	height: 200px;
 	margin: auto auto 60px auto;
 	padding: 30px;
-    background-color: rgba(192, 170, 170, 0.767);
+    background-color: #d0d30e;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     border: 10px double rgba(0, 0, 0, 0.2);
+    color: #000000;
+    transition-delay: 1s;
+    box-shadow: 0 0 10px #e5ff00, 0 0 40px #e5ff00, 0 0 80px #e5ff00, 0 0 120px #e5ff00;
 }
 
-th {
+table th {
     font-size: 25px !important; 
     font-weight: bold;
+    padding: 10px;
 }
 
-td {
-    font-size: 20px !important; 
+table td {
+    font-size: 23px !important; 
     font-weight: bold;
+    padding: 6px;
+    margin-top: 50px;
 }
 
 p{
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    color: #ffffff;
+    color: #000000;
 	font-size: 60px;
-	margin: 50px auto 50px auto;
+    margin: 70px auto 50px auto;
+    transition-delay: 1s;
+    box-shadow: 0 0 10px #e5ff00a4, 0 0 40px #e5ff00a4, 0 0 80px #e5ff00a4, 0 0 120px #e5ff00a4;
 }
