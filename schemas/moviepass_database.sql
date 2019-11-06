@@ -46,6 +46,7 @@ CREATE TABLE shows(
     projection_time datetime,
     id_movie int,
     id_cinema int,
+    active boolean,
     constraint pk_id_show primary key (id_show),
     constraint fk_id_cinema_cinemas foreign key (id_cinema) references cinemas (id_cinema),
     constraint fk_id_movie_shows_movies foreign key (id_movie) references movies (id_movie)

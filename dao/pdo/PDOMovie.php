@@ -7,16 +7,18 @@
     use models\Movie as Movie;
     use models\Genre as Genre;
     use controllers\ApiController as ApiController;
+    use dao\pdo\PDOGenre as PDOGenre;
 
     class PDOMovie implements IDAOMovie
     {
         private $movieList;
         private $connection;
-        private $tableNameGenres;
+        private $tableNameMoviesGenres;
         private $tableNameMovies;
 
         public function __construct() {
-            $this->tableNameGenres = 'movies_by_genres';
+            $this->tableNameMoviesGenres = 'movies_by_genres';
+            $this->tableNameGenres = 'genres';
             $this->tableNameMovies = 'movies';
         }
 /*
@@ -69,7 +71,7 @@
                  * @var Genre $genre
                  */
                 foreach ($genreList as $genre) {
-                    $query =  "INSERT INTO " . $this->tableNameGenres . " (id_movie, id_genre) VALUES (:id_movie, :id_genre);";
+                    $query =  "INSERT INTO " . $this->tableNameMoviesGenres . " (id_movie, id_genre) VALUES (:id_movie, :id_genre);";
                     $parameters['id_movie'] = $newMovie->getId();
                     $parameters['id_genre'] = $genre->getApiKey();
 
@@ -121,24 +123,20 @@
 			$resp = array_map(function($p){
                 $genres = array();
                 
-                $query = "SELECT * FROM ".$this->tableNameGenres." where id_movie = :id_movie;";
+                $query = "SELECT * FROM ".$this->tableNameMoviesGenres." where id_movie = :id_movie;";
                 $parameters['id_movie'] = $p['id_movie'];
 
                 $this->connection = Connection::GetInstance();
 
                 $genresIdList = $this->connection->Execute($query,$parameters);
-
-                echo '<pre>';
-                echo $p['id_movie'].'<br>';
-                var_dump($genresIdList);
-                echo '</pre>';
+         
+                $pdoGenre = new PDOGenre();
                 
                 foreach ($genresIdList as $genreId) {
-                    $query = "SELECT * FROM genres where id_genre = :id_genre;";
-                    $parameters2['id_genre'] = $genreId;
-                    $genreData = $this->connection->Execute($query,$parameters2);
-  
-                    array_push($genres, new Genre($genreData['name_genre'],$genreData['id_genre']));
+
+                    $genre = $pdoGenre->getById($genreId['id_genre']);
+                    
+                    array_push($genres, $genre);
                 }
                 
                 return new Movie($p['id_movie'],$p['name_movie'],$p['runtime'],$p['language_movie'],$genres, $p['image_url']);

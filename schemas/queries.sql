@@ -28,3 +28,16 @@ from
     inner join genres on genres.id_genre = movies_by_genres.id_genre
 where
 	genres.name_genre = "Fantasia" and shows.projection_time like "%12:45:00%";
+
+
+
+select
+	shows.id_show,
+	shows.projection_time,
+	shows.id_movie,
+	shows.id_cinema
+from
+	shows inner join movies_by_genres on shows.id_movie = movies_by_genres.id_movie
+    inner join genres on genres.id_genre = movies_by_genres.id_genre
+where
+	genres.id_genre = "numero";

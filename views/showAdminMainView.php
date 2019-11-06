@@ -1,77 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" media="screen" href="css/showAdminMainStyle.css">
-    <link rel="stylesheet" media="screen" href="css/buttonShowAdminMainStyle.css">
-    <!--<link rel="stylesheet" media="screen" href="<?php/* echo CSS_PATH */?>/header.css"> -->
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>showAdminMainStyle.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>buttonShowAdminMainStyle.css">
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
 
-    <title>Movie Pass</title> 
+    <title>Movie Pass</title>
 
 </head>
+
 <body>
-    
-    <!-- <?php/* require 'headerAdmi.php'; */?> -->
-        <table border="1">
-       
-                <tr>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Lugar</th>
-                    <th>Pelicula</th>
-                    <th></th>
-                
-                </tr>
-        
 
-            
-                <tr>
-                    <td>11-11-19</td>
-                    <td>15:30</td>
-                    <td>Aldrey</td>
-                    <td>Shrek</td>
-                    <td><a class="image" href=""><img src="img/tachoDeBasura"></a></td>
+    <?php require 'headerAdmi.php'; ?>
+    <table border="1">
+        <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Lugar</th>
+            <th>Pelicula</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
 
-            
-                </tr>
 
-                <tr>
-                    <td>25-11-19</td>
-                    <td>10:00</td>
-                    <td>Ambassador</td>
-                    <td>Madagascar</td>
-
-                    <td><a class="image" href=""><img src="img/tachoDeBasura"></a></td>
-
-                
-                </tr>
-
-                <tr>
-                    <td>06-12-19</td>
-                    <td>23:00</td>
-                    <td>sfgasf</td>
-                    <td>afsdd</td>
-
-                    <td><a class="image" href=""><img src="img/tachoDeBasura"></a></td>
-
-                    
-                </tr>
-     
-        </table>
+        <?php foreach ($showList as $show) { ?>
+            <tr>
+                <td><?php echo $show->getDate(); ?></td>
+                <td><?php echo $show->getTime(); ?></td>
+                <td><?php echo $show->getCinema()->getName(); ?></td>
+                <td><?php echo $show->getMovie()->getName(); ?></td>
+                <td><?php echo ($show->getStatus() == 1)? 'Activa' : 'Cerrada'; ?></td>
+                <?php if($show->getStatus() == 1){?>
+                    <td><a class="image" href="<?php echo FRONT_ROOT;?>show/deleteById/<?php echo $show->getId(); ?>"> <img src="/Trabajo-Final-Tesis/views/img/tachoDeBasura.jpg"></a></td>
+                <?php } ?>
+            </tr>
+        <?php } ?>
+    </table>
 
 
 
-    <a href="" class="add">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    Agregar Funcion</a>
+    <a href="<?php echo FRONT_ROOT?>show/startForm" class="add">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Agregar Funcion</a>
 
-    
 
-    
+
+
 </body>
+
 </html>

@@ -11,14 +11,10 @@
 </head>
 
 <body>
-        <?php $date = date("Y-m-d"); ?>
-        <form action="<?php echo FRONT_ROOT ?>show/continueForm" method="post" class="form">
+        <form action="<?php echo FRONT_ROOT ?>show/getFilteredShowsByDate" method="post" class="form">
                 <label>Fecha</label>
                 <!-- Asegurar que no cree una funcion el dia de hoy o antes -->
-                <input type="date" name="date" required min=<?php echo date("Y-m-d", strtotime($date . " + 1 days")) ?>>
-                <br>
-                <label>Hora</label>
-                <input type="time" required name="time">
+                <input type="date" name="filteredDate" required min=<?php date("Y-m-d") ?>>
                 <br>
 
                 <button type="submit" class="boton">

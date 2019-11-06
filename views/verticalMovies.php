@@ -19,20 +19,20 @@
 
     <table border="1">
         <thead class="thead">
-       
-        <div class="conteiner">
- <tr>
-                <th>Imagen</th>
-                <th>Nombre</th>
-                <th>Duración</th>
-                <th>Idioma</th>
-                <th>Genero</th>
-            </tr>
+
+            <div class="conteiner">
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Duración</th>
+                    <th>Idioma</th>
+                    <th>Genero</th>
+                </tr>
         </thead>
         <tbody>
             <?php foreach ($movieList as $movie) { ?>
                 <tr>
-                    <td><img src="<?php echo API_IMAGE_URL.POSTER_WIDTH_185.$movie->getImageURL(); ?>"></td>
+                    <td><img src="<?php echo API_IMAGE_URL . POSTER_WIDTH_185 . $movie->getImageURL(); ?>"></td>
                     <td><?php echo $movie->getName(); ?> </td>
                     <td><?php echo $movie->getRuntime(); ?></td>
                     <td><?php echo $movie->getLanguage(); ?></td->
@@ -42,12 +42,12 @@
                             } ?>
                     </td>
                 </tr>
-       <?php } ?>
+            <?php } ?>
         </tbody>
-       
+
     </table>
- 
- <br><br>
+
+    <br><br>
 
 </body>
 

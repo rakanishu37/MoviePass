@@ -31,9 +31,9 @@
 
                 <li><a href="">| Funciones |</a>
                     <ul>
-                        <li><a href="">Alta</a></li>
-                        <li><a href="">Baja</a></li>
-                        <li><a href="">Modificar</a></li>
+                        <li><a href="<?php echo FRONT_ROOT."show/"?>">Vista Principal</a></li>
+                        <li><a href="<?php echo FRONT_ROOT."show/filterByDate"?>">Filtrar por fecha</a></li>
+                        <li><a href="<?php echo FRONT_ROOT."show/filterByGenre"?>">Filtrar por genero</a></li>
                     </ul>
                 </li>
 

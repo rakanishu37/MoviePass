@@ -32,9 +32,9 @@
         {
             try
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE id_genre = :id_genre";
+                $query = 'SELECT * FROM '.$this->tableName.' WHERE id_genre = :id_genre';
                 $parameters['id_genre'] = $genreId;
-
+                
                 $this->connection = Connection::GetInstance();
 
                 $resultSet = $this->connection->Execute($query,$parameters);

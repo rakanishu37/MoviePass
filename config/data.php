@@ -7,7 +7,7 @@
     define('VIEWS', ROOT . 'views/');
     define('CSS_PATH', FRONT_ROOT . 'views/css/');
     define('JS_PATH', FRONT_ROOT . 'views/js/');
-    
+    define('IMG_PATH', FRONT_ROOT . "views/img/");
     //define('ADMIN_VIEWS', ROOT . '/views/admin/');
     //define('IMG_UPLOADS', ROOT . '/asset/uploads/img/');
     

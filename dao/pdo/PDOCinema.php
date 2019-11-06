@@ -7,7 +7,8 @@
     use dao\pdo\Connection as Connection;
     
     class PDOCinema implements IDAOCinema
-    {   private $connection;
+    {   
+        private $connection;
         private $tableName;
         private $cinemaList;
 
@@ -65,7 +66,7 @@
                 $query = "Update ".$this->tableName. " SET active = :active WHERE id_cinema = :id_cinema;";
             
                 $parameters['id_cinema'] = $cinemaId;
-                $parameters['active'] = 1;
+                $parameters['active'] = 0;
 
                 $this->connection = Connection::GetInstance();
                 return $this->connection ->ExecuteNonQuery($query,$parameters);
@@ -120,7 +121,6 @@
             $resultSet = $this->connection->Execute($query, $parameters);
 
             $cinema = $this->parseToObject($resultSet);
-            $cinema->setId($cinemaId);
 
             return $cinema;
         }
@@ -129,8 +129,14 @@
 			$value = is_array($value) ? $value : [];
 			$resp = array_map(function($p){
 				return new Cinema($p['name_cinema'],$p['address_cinema'],$p['capacity'],$p['ticket_price'],$p['active'],$p['id_cinema']);
-			}, $value);
-               return count($resp) > 1 ? $resp : $resp['0'];
+            }, $value);
+            
+            if(empty($resp)){
+                return $resp;
+            }
+            else {
+                return count($resp) > 1 ? $resp : $resp['0'];
+            }
 		}
     }
     
