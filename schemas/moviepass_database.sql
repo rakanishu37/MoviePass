@@ -52,6 +52,17 @@ CREATE TABLE shows(
     constraint fk_id_movie_shows_movies foreign key (id_movie) references movies (id_movie)
 );
 
+-- Lauty's doing
+CREATE TABLE theatres(
+    id_theater int auto_increment,
+    capacity int,
+    theater_name varchar(20),
+    id_cinema int,
+    seat_price float(2),
+    constraint pk_id_theater primary key (id_theater),
+    constraint fk_id_cinema_cinemas foreign key (id_cinema) references cinemas (id_cinema)
+);
+-- END
 -- 3era entrega
 /*
 CREATE TABLE roles(
