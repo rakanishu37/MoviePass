@@ -10,7 +10,6 @@
     {   
         private $connection;
         private $tableName;
-        private $cinemaList;
 
         public function __construct() {
             $this->tableName = 'cinemas';
@@ -19,12 +18,10 @@
         public function add(Cinema $newCinema){
             try
             {
-                $query = "INSERT INTO ".$this->tableName." (name_cinema, address_cinema, capacity, ticket_price, active) 
-                VALUES (:name_cinema, :address_cinema, :capacity, :ticket_price, :active);";
+                $query = "INSERT INTO ".$this->tableName." (name_cinema, address_cinema, active) 
+                VALUES (:name_cinema, :address_cinema, :active);";
                 $parameters['name_cinema'] = $newCinema->getName();
                 $parameters['address_cinema'] = $newCinema->getAddress();
-                $parameters['capacity'] = $newCinema->getCapacity();
-                $parameters['ticket_price'] = $newCinema->getTicketPrice();
                 $parameters['active'] = $newCinema->getStatus();
 
                 $this->connection = Connection::GetInstance();
@@ -39,15 +36,13 @@
 
         public function update(Cinema $modifiedCinema){
             try{
-                $query = "UPDATE ".$this->tableName. " SET name_cinema = :name_cinema, address_cinema = :address_cinema, capacity = :capacity,
-                ticket_price = :ticket_price, active = :active WHERE id_cinema = :id_cinema;";
+                $query = "UPDATE ".$this->tableName. " SET name_cinema = :name_cinema, address_cinema = :address_cinema, active = :active 
+                WHERE id_cinema = :id_cinema;";
                 
                 $parameters['id_cinema'] = $modifiedCinema->getId();
 
                 $parameters['name_cinema'] = $modifiedCinema->getName();
                 $parameters['address_cinema'] = $modifiedCinema->getAddress();
-                $parameters['capacity'] = $modifiedCinema->getCapacity();
-                $parameters['ticket_price'] = $modifiedCinema->getTicketPrice();
                 $parameters['active'] = $modifiedCinema->getStatus();
 
                 $this->connection = Connection::GetInstance(); 
@@ -75,6 +70,7 @@
                 throw $ex;
             }
         }
+
         public function getAll(){
             try
             {
@@ -116,19 +112,31 @@
             
             $parameters['id_cinema'] = $cinemaId;
 
-            $this->connection = Connection::GetInstance();
+            try{
+                $this->connection = Connection::GetInstance();
 
-            $resultSet = $this->connection->Execute($query, $parameters);
-
+                $resultSet = $this->connection->Execute($query, $parameters);
+            }
+            catch(Exception $ex){
+                throw $ex;
+            }
             $cinema = $this->parseToObject($resultSet);
 
             return $cinema;
         }
 
+        public function searchForDuplicate($name,$address){
+            try {
+                $query = 'Select Exist( )'
+            } catch (Exception $th) {
+                throw $th;
+            }
+        }
+
 		protected function parseToObject($value) {
 			$value = is_array($value) ? $value : [];
 			$resp = array_map(function($p){
-				return new Cinema($p['name_cinema'],$p['address_cinema'],$p['capacity'],$p['ticket_price'],$p['active'],$p['id_cinema']);
+				return new Cinema($p['name_cinema'],$p['address_cinema'],$p['active'],$p['id_cinema']);
             }, $value);
             
             if(empty($resp)){

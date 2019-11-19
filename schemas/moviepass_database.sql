@@ -5,15 +5,11 @@ CREATE TABLE cinemas(
     id_cinema int auto_increment,
     name_cinema varchar(50),
 	address_cinema varchar(50),
-	capacity int,
-	ticket_price int,
 	active boolean,
     constraint pk_id_cinema primary key (id_cinema),
     constraint unq_name_cinema unique (name_cinema),
-    constraint unq_address_cinema unique (address_cinema),
-    constraint chk_capacity check (capacity>0),
-    constraint chk_ticket_price check (ticket_price>0)
-);
+    constraint unq_address_cinema unique (address_cinema)
+    );
 
 CREATE TABLE genres(
     id_genre int,

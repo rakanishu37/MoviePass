@@ -17,8 +17,10 @@ class CinemaController
     }
     
     public function createCinema($cinema = null, $mensaje= '')
-    {/*
-        if !empty($mensaje)
+    {
+        /* meter de alguna forma el source para que funcione
+        entra aca cuando llega con un mensaje cargado y el objeto distinto de nulo
+        if(!empty($mensaje))
         
         echo '<script>
             swa
@@ -26,9 +28,18 @@ class CinemaController
         include VIEWS . "cinemaAddForm.php";
     }
 
-    public function add($name, $address, $capacity, $ticketPrice)
+    public function validateData($name,$address)
     {
-        $newCinema = new Cinema($name, $address, $capacity, $ticketPrice);
+        $this->daoCinema->
+        /*
+        en caso bueno va al add
+        en caso malo vuelve para atras creando un objeto cine con los datos erroneos
+        */
+    }
+
+    public function add($name, $address)
+    {
+        $newCinema = new Cinema($name, $address);
         try {
             $this->daoCinema->add($newCinema);
             $this->showCinemas();
@@ -76,7 +87,7 @@ class CinemaController
         }
     }
 
-    public function update($id,$name, $address, $capacity, $ticketPrice, $name_unmodified, $address_unmodified, $capacity_unmodified, $ticketPrice_unmodified,$status)
+    public function update($id,$name, $address, $name_unmodified, $address_unmodified,$status)
     {
         if(empty($name)){
             $name = $name_unmodified;    
@@ -84,16 +95,8 @@ class CinemaController
         if(empty($address)){
             $address = $address_unmodified;    
         }
-        
-        if(empty($capacity)){
-            $capacity = $capacity_unmodified;    
-        }
-        
-        if(empty($ticketPrice)){
-            $ticketPrice = $ticketPrice_unmodified;    
-        }
-        
-        $cinemaModified = new Cinema($name, $address, $capacity, $ticketPrice, $status, $id);
+       
+        $cinemaModified = new Cinema($name, $address, $status, $id);
         try{
             $this->daoCinema->update($cinemaModified);
             
@@ -109,10 +112,11 @@ class CinemaController
 
     public function closeCinema($idCinema)
     {
-        $closedCinema = $this->daoCinema->getByID($idCinema);
-
-        $closedCinema->setStatus(0);
         try{
+            $closedCinema = $this->daoCinema->getByID($idCinema);
+
+            $closedCinema->setStatus(0);
+      
             $this->daoCinema->update($closedCinema);
 
             $this->showCinemas();

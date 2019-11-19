@@ -22,12 +22,7 @@
     <br>
     <label>Direccion del cine</label>
     <input type="text" name="address" placeholder="Ingresar direccion" required>
-    <br>
-    <label>Capacidad del cine</label>
-    <input type="number" name="capacity" min="1" placeholder="Ingresar capacidad" required>
-    <br>
-    <label>Precio de la entrada</label>
-    <input type="number" name="ticketPrice" min="1" placeholder="Ingresar precio de entrada" required>
+    
     <br><br>
     <button type="submit" class="boton">  
       <span></span>
