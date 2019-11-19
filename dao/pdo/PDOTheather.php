@@ -3,6 +3,7 @@
 
     use \Exception as Exception;
     use dao\IDAOTheater as IDAOTheater;
+    use dao\pdo\PDOCinema as PDOCinema;
     use models\Theater as Theater;
     use models\Cinema as Cinema;
     use dao\pdo\Connection as Connection;
@@ -15,21 +16,17 @@
         public function __construct() {
             $this->tableName = 'theatres';
         }
-        id_theater int auto_increment,
-        capacity int,
-        theater_name varchar(20),
-        id_theater int,
-        seat_price float(2),
+
         public function add(Theater $newTheater){
             try
             {
                 $query = "INSERT INTO ".$this->tableName."
-                (capacity, theater_name, id_theater, seat_price) 
+                (capacity, theater_name, id_cinema, seat_price) 
                 VALUES 
                 (:capacity, :theater_name, :id_theater, :seat_price);";
                 $parameters['capacity'] = $newTheater->getCapacity();
                 $parameters['theater_name'] = $newTheater->getName();
-                $parameters['id_theater'] = $newTheater->getCinema();//ESTA MAL PLATEAR LUEGO
+                $parameters['id_cinema'] = $newTheater->getCinema()->getId();
                 $parameters['seat_price'] = $newTheater->getSeatPrice();
 
                 $this->connection = Connection::GetInstance();
@@ -59,7 +56,9 @@
             }
         }
 
-        
+        #getbyidcinema
+
+
         public function getByID($theaterId){
             $query = 'Select * from '. $this->tableName. ' WHERE id_theater = :id_theater;';
             
@@ -77,7 +76,9 @@
 		protected function parseToObject($value) {
 			$value = is_array($value) ? $value : [];
 			$resp = array_map(function($p){
-				return new Cinema($p['name_cinema'],$p['address_cinema'],$p['capacity'],$p['ticket_price'],$p['active'],$p['id_theater']);
+                $daoCinema = new PDOCinema();
+                $cinema = $daoCinema->getByID($p['id_cinema']);
+                return new Theater($p['id_theater'],$p['capacity'],$p['theater_name'],$cinema,$p['seat_price']);
             }, $value);
             
             if(empty($resp)){

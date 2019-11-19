@@ -41,10 +41,10 @@ CREATE TABLE shows(
     id_show int auto_increment,
     projection_time datetime,
     id_movie int,
-    id_cinema int,
+    id_theater int,
     active boolean,
     constraint pk_id_show primary key (id_show),
-    constraint fk_id_cinema_cinemas foreign key (id_cinema) references cinemas (id_cinema),
+    constraint fk_id_theater_theatres foreign key (id_theater) references theatres (id_theater),
     constraint fk_id_movie_shows_movies foreign key (id_movie) references movies (id_movie)
 );
 
@@ -56,8 +56,32 @@ CREATE TABLE theatres(
     id_cinema int,
     seat_price float(2),
     constraint pk_id_theater primary key (id_theater),
-    constraint fk_id_cinema_cinemas foreign key (id_cinema) references cinemas (id_cinema)
+    constraint fk_id_cinema_cinemas foreign key (id_cinema) references cinemas (id_cinema),
+    constraint chk_capacity check (capacity>0),
+    constraint chk_seat_price check (seat_price>0)
 );
+
+CREATE TABLE purchases(
+    id_purchase int auto_increment,
+    -- id_user int, --
+    quantity_of_tickets int not null,
+    total_amount int,
+    date_purchase datetime,
+    discount int,
+    constraint pk_id_purchase primary key (id_purchase)--,
+    --constraint fk_id_user_users foreign key (id_user) references users (id_user) --
+);
+
+CREATE TABLE tickets(
+    id_ticket int auto_increment,
+    ticket_number int, 
+    id_purchase int,
+    id_show int,
+    constraint pk_id_ticket primary key (id_ticket),
+    constraint fk_id_purchase_purchases foreign key (id_purchase) references purchases (id_purchase),
+    constraint fk_id_show_shows foreign key (id_show) references shows (id_show)
+);
+-- hacer procedure para agregar tickets --
 -- END
 -- 3era entrega
 /*
@@ -80,35 +104,19 @@ CREATE TABLE users(
 */
 
 /* falta pensarlo mas y cambiarle el nombre estos serian los  tipos de pago
-CREATE TABLE payments(
-    id_payment int auto_increment,
-    id_payment_type int,
-    date_payment datetime,
+CREATE TABLE purchases(
+    id_purchase int auto_increment,
+    id_purchase_type int,
+    date_purchase datetime,
     authenticationCode varchar(50),
     total float(2),
-    constraint pk_id_payment
+    constraint pk_id_purchase
 );
 */
 /*
-CREATE TABLE payments(
-    id_payment int auto_increment,
-    id_user int,
-    quantity_of_tickets int not null,
-    total_amount int,
-    date_payment datetime,
-    discount int,
-    constraint pk_id_payment primary key (id_payment),
-    constraint fk_id_user_users foreign key (id_user) references users (id_user)
-);
+
 */
 /*
-CREATE TABLE tickets(
-    id_ticket int auto_increment,
-    id_payment int,
-    id_show int,
-    constraint pk_id_ticket primary key (id_ticket),
-    constraint fk_id_payment_payments foreign key (id_payment) references payments (id_payment),
-    constraint fk_id_show_shows foreign key (id_show) references shows (id_show)
-);
+
 */
 /*Practicar las /probar las comprobaciones del datetime */
