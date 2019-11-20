@@ -2,16 +2,14 @@
 
 namespace models;
 
-require "models/Show.php";
-
 use models\Show as Show;
 
 
 class Ticket
 {
-        private $idPurchase; //Para saber de que compra surgio esta entrada
-        private $showing;
         private $numberTicket; //Lo usamos para saber la capacidad del cine si la supera o no
+        private $idPurchase; //Para saber de que compra surgio esta entrada¿
+        private $show;
         private $qr;
 
 
@@ -45,12 +43,12 @@ class Ticket
                 $this->numberTicket = $numberTicket;
         }
 
-        public function getShowing()
+        public function getShow()
         {
                 return $this->showing;
         }
 
-        public function setShowing(Showing $showing)
+        public function setShow(Showing $showing)
         {
                 $this->showing = $showing;
         }

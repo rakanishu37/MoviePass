@@ -2,11 +2,11 @@
     namespace dao\pdo;
     use \Exception as Exception;
     use models\Genre as Genre;
-    use interfaces\CRUD as CRUD;   
+    use interfaces\CRUD as CRUD;  
     use dao\pdo\Connection as Connection;
     use controllers\ApiController as ApiController;
-
-    class PDOGenre extends CRUD
+    
+    class PDOGenre implements CRUD
     {
         private $connection;
         private $tableName;
@@ -66,8 +66,8 @@
         }
 
         private function getGenresFromApi(){
+            try {
                 $genres = $this->getGenreListFromAPI();
-                try {
                     foreach ($genres as $genre) {
                         $this->add($genre);
                     }

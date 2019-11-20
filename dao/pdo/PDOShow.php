@@ -10,7 +10,7 @@
     use dao\pdo\PDOCinema as PDOCinema;
     use interfaces\CRUD as CRUD;
 
-    class PDOShow extends CRUD
+    class PDOShow implements CRUD
     {
         private $connection;
         private $tableName;
