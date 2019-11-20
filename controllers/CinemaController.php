@@ -27,15 +27,15 @@ class CinemaController
         </script>'*/
         include VIEWS . "cinemaAddForm.php";
     }
-
+/*
     public function validateData($name,$address)
     {
         $this->daoCinema->
         /*
         en caso bueno va al add
         en caso malo vuelve para atras creando un objeto cine con los datos erroneos
-        */
-    }
+        
+    }*/
 
     public function add($name, $address)
     {

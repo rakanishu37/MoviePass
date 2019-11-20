@@ -127,7 +127,7 @@
 
         public function searchForDuplicate($name,$address){
             try {
-                $query = 'Select Exist( )'
+                $query = 'Select Exist( )';
             } catch (Exception $th) {
                 throw $th;
             }
