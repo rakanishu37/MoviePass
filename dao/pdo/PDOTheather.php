@@ -2,13 +2,13 @@
     namespace dao\pdo;
 
     use \Exception as Exception;
-    use dao\IDAOTheater as IDAOTheater;
+    use interfaces\CRUD as CRUD;
     use dao\pdo\PDOCinema as PDOCinema;
     use models\Theater as Theater;
     use models\Cinema as Cinema;
     use dao\pdo\Connection as Connection;
     
-    class PDOTheater implements IDAOTheater
+    class PDOTheater implements CRUD
     {   
         private $connection;
         private $tableName;
@@ -17,7 +17,7 @@
             $this->tableName = 'theatres';
         }
 
-        public function add(Theater $newTheater){
+        public function add($newTheater){
             try
             {
                 $query = "INSERT INTO ".$this->tableName."
