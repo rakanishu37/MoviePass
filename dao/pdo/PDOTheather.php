@@ -87,7 +87,43 @@
             else {
                 return count($resp) > 1 ? $resp : $resp['0'];
             }
-		}
+        }
+
+        public function delete($id)
+        {            
+            try {
+                $query = "DELETE FROM ".$this->tableName." WHERE (id = :id)";
+                $parameters["id"] =  $id;
+                $this->connection = Connection::GetInstance();
+                $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }     
+        
+        public function update(Theater $theater){
+            try{
+                $query = "UPDATE ".$this->tableName. " SET id = :id, capacity = :capacity, name = :name, cinema = :cinema, seatPrice = :seatPrice;";
+                
+                $parameters['id'] = $theater->getId();
+                $parameters['capacity'] = $theater->getCapacity();
+                $parameters['name'] = $theater->getName();
+                $parameters['cinema'] = $theater->getCinema()->getName();
+                $parameters['seatPrice'] = $theater->getSeatPrice();
+             
+               
+               
+                $this->connection = Connection::GetInstance(); 
+                return $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+        
     }
     
 ?>
