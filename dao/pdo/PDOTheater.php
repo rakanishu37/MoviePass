@@ -63,30 +63,39 @@
             $query = 'Select * from '. $this->tableName. ' WHERE id_theater = :id_theater;';
             
             $parameters['id_theater'] = $theaterId;
+            try {
+                $this->connection = Connection::GetInstance();
 
-            $this->connection = Connection::GetInstance();
-
-            $resultSet = $this->connection->Execute($query, $parameters);
-
-            $theater = $this->parseToObject($resultSet);
-
-            return $theater;
+                $resultSet = $this->connection->Execute($query, $parameters);
+    
+                $theater = $this->parseToObject($resultSet);
+    
+                return $theater;
+            } catch (Exception $e) {
+                throw $e;
+            }
+           
         }
 
 		protected function parseToObject($value) {
-			$value = is_array($value) ? $value : [];
-			$resp = array_map(function($p){
-                $daoCinema = new PDOCinema();
-                $cinema = $daoCinema->getByID($p['id_cinema']);
-                return new Theater($p['id_theater'],$p['capacity'],$p['theater_name'],$cinema,$p['seat_price']);
-            }, $value);
-            
-            if(empty($resp)){
-                return $resp;
+            $value = is_array($value) ? $value : [];
+            try {
+                $resp = array_map(function($p){
+                    $daoCinema = new PDOCinema();
+                    $cinema = $daoCinema->getByID($p['id_cinema']);
+                    return new Theater($p['id_theater'],$p['capacity'],$p['theater_name'],$cinema,$p['seat_price']);
+                }, $value);
+                
+                if(empty($resp)){
+                    return $resp;
+                }
+                else {
+                    return count($resp) > 1 ? $resp : $resp['0'];
+                }
+            } catch (Exception $e) {
+                throw $e;
             }
-            else {
-                return count($resp) > 1 ? $resp : $resp['0'];
-            }
+
         }
 
         public function delete($id)
