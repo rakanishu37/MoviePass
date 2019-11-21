@@ -15,13 +15,13 @@
 
   <?php require 'headerAdmi.php'; ?>
 
-  <form class="form" action="<?php echo FRONT_ROOT ?>cinema/add" method="post">
+  <form class="form" action="<?php echo FRONT_ROOT ?>cinema/validateDataAdd" method="post">
 
     <label>Nombre del cine</label>
-    <input type="text" name="name" placeholder="Ingresar nombre" required>
+    <input type="text" name="name" placeholder="<?php echo $placeholderName?>" required>
     <br>
     <label>Direccion del cine</label>
-    <input type="text" name="address" placeholder="Ingresar direccion" required>
+    <input type="text" name="address" placeholder="<?php echo $placeholderAddress?>" required>
     
     <br><br>
     <button type="submit" class="boton">  

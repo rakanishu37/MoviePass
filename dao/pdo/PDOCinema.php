@@ -124,14 +124,20 @@
 
             return $cinema;
         }
-
+/*
         public function searchForDuplicate($name,$address){
             try {
-                $query = 'Select Exist( )';
+                $query = 'Select exists(Select * from cinemas where name_cinema = :nombre  and address_cinema = :dir );';
+                $parameters['nombre'] = $name;
+                $parameters['dir'] = $address;
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+                return $resultSet;
             } catch (Exception $th) {
                 throw $th;
             }
-        }
+        }*/
 
 		protected function parseToObject($value) {
 			$value = is_array($value) ? $value : [];

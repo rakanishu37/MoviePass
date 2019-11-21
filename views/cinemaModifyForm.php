@@ -12,18 +12,18 @@
 
 <body>
     Edite los campos deseados
-    <form class="form" action="<?php echo FRONT_ROOT ?>cinema/update" method="post">
-        <input type="hidden" name="id" value="<?php echo $cinema->getId(); ?>">
+    <form class="form" action="<?php echo FRONT_ROOT ?>cinema/validateDataModify" method="post">
+        <input type="hidden" name="id" value="<?php echo $cinemaToModify->getId(); ?>">
 
         <label>Nombre del cine</label>
-        <input type="text" name="name" placeholder="<?php echo $cinema->getName(); ?>">
+        <input type="text" name="name" placeholder="<?php echo $cinemaToModify->getName(); ?>">
         <br>
         <label>Direccion del cine</label>
-        <input type="text" name="address" placeholder="<?php echo $cinema->getAddress(); ?>">
+        <input type="text" name="address" placeholder="<?php echo $cinemaToModify->getAddress(); ?>">
         <br>
-        <input type="hidden" name="name_unmodified" value="<?php echo $cinema->getName(); ?>">
+        <input type="hidden" name="name_unmodified" value="<?php echo $cinemaToModify->getName(); ?>">
 
-        <input type="hidden" name="address_unmodified" value="<?php echo $cinema->getAddress(); ?>">
+        <input type="hidden" name="address_unmodified" value="<?php echo $cinemaToModify->getAddress(); ?>">
 
         <label>Estado</label>
         <br>

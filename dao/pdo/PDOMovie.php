@@ -21,13 +21,7 @@
             $this->tableNameGenres = 'genres';
             $this->tableNameMovies = 'movies';
         }
-/*
-        public function getLatestMovies()
-        {
-            foreach($latestMoviesIDList as $id){
-                $movie = ApiController::createMovieFromJSON($id);
-            }
-        }*/
+
         public function updateLatestMovies()
         {
             $counter = 0;

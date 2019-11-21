@@ -68,17 +68,13 @@
         public function getAllByDate($date){
             try
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like '%$date%';";
-                //"SELECT * FROM ".$this->tableName." WHERE projection_time like '% 2019-11-08 %';";
-               // $a =":projection_time";
-                //$query = 'select * from '.$this->tableName.' where projection_time like '.'%'.':projection_time'.'%';
-                //$parameters['projection_time'] = $date;
-
+                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like :projectionTime;";
+                $parameters['projectionTime'] = '%'.$date.'%';
 
                 $this->connection = Connection::GetInstance();
 
-                $resultSet = $this->connection->Execute($query);
-              //  $resultSet = $this->connection->Execute($query,$parameters);
+                // $resultSet = $this->connection->Execute($query);
+                 $resultSet = $this->connection->Execute($query,$parameters);
                 
                 return $this->parseToObject($resultSet);
             }
@@ -92,7 +88,7 @@
             try
             {
                 
-                $query = "SELECT shows.id_show as id_show , shows.projection_time as projection_time, shows.id_movie as id_movie, shows.id_cinema as id_cinema
+                $query = "SELECT shows.id_show as id_show , shows.projection_time as projection_time, shows.id_movie as id_movie, shows.id_cinema as id_cinema, shows.active as active
                 from shows inner join movies_by_genres on shows.id_movie = movies_by_genres.id_movie
                 inner join genres on genres.id_genre = movies_by_genres.id_genre
                 where genres.id_genre = :id_genre;";
