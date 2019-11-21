@@ -1,7 +1,7 @@
 <?php
     namespace dao\pdo;
 
-    use dao\IDAOMovie;
+    use interfaces\CRUD as CRUD;
     use \Exception as Exception;
     use dao\pdo\Connection as Connection;
     use models\Movie as Movie;
@@ -9,7 +9,7 @@
     use controllers\ApiController as ApiController;
     use dao\pdo\PDOGenre as PDOGenre;
 
-    class PDOMovie implements IDAOMovie
+    class PDOMovie implements CRUD
     {
         private $movieList;
         private $connection;
@@ -44,7 +44,7 @@
             Comentario: originalmente la bdd va a estar vacia asi que puedo rellenar con esto    
         */
 
-        public function add(Movie $newMovie)
+        public function add($newMovie)
         {
             try {
                 $query = "INSERT INTO " . $this->tableNameMovies .

@@ -119,4 +119,3 @@ CREATE TABLE purchases(
 /*
 
 */
-/*Practicar las /probar las comprobaciones del datetime */

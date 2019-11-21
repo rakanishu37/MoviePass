@@ -1,4 +1,5 @@
 <?php
+
     namespace dao\pdo;
     use models\Show as Show;
     use models\Genre as Genre;
@@ -7,8 +8,9 @@
     use dao\pdo\Connection as Connection;
     use dao\pdo\PDOMovie as PDOMovie;
     use dao\pdo\PDOCinema as PDOCinema;
+    use interfaces\CRUD as CRUD;
 
-    class PDOShow
+    class PDOShow implements CRUD
     {
         private $connection;
         private $tableName;
@@ -17,7 +19,7 @@
         public function __construct() {
             $this->tableName = 'shows';
         }
-        public function add(Show $newShow){
+        public function add($newShow){
             $query = "INSERT INTO ".$this->tableName." (projection_time, id_movie, id_cinema,active) VALUES(:projection_time, :id_movie, :id_cinema,:active);";
             $parameters['projection_time'] = $newShow->getProjectionTime();
             $parameters['id_movie'] = $newShow->getMovie()->getId();

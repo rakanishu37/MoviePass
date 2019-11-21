@@ -41,3 +41,23 @@ from
     inner join genres on genres.id_genre = movies_by_genres.id_genre
 where
 	genres.id_genre = "numero";
+
+
+--
+/*ticketero */
+DELIMITER //
+create procedure countingSeats (in idshow int, out ticket int)
+begin
+
+	set ticket= (select 
+                    case
+						when tickets.ticket_number is null then 1
+						when tickets.ticket_number>=theatres.capacity then -1
+						else tickets.ticket_number+1
+                    end as resultado
+                from
+					theatres inner join shows on theatres.id_theatres = shows.id_theatres
+                    inner join tickets on tickets.id_show = shows.id_id_show
+				where
+                    shows.id_show = idshow);
+END //

@@ -2,11 +2,11 @@
     namespace dao\pdo;
 
     use \Exception as Exception;
-    use dao\IDAOCinema as IDAOCinema;
+    use interfaces\CRUD as CRUD;
     use models\Cinema as Cinema;    
     use dao\pdo\Connection as Connection;
     
-    class PDOCinema implements IDAOCinema
+    class PDOCinema implements CRUD
     {   
         private $connection;
         private $tableName;
@@ -15,7 +15,7 @@
             $this->tableName = 'cinemas';
         }
 
-        public function add(Cinema $newCinema){
+        public function add($newCinema){
             try
             {
                 $query = "INSERT INTO ".$this->tableName." (name_cinema, address_cinema, active) 
@@ -34,7 +34,7 @@
             }
         }
 
-        public function update(Cinema $modifiedCinema){
+        public function update($modifiedCinema){
             try{
                 $query = "UPDATE ".$this->tableName. " SET name_cinema = :name_cinema, address_cinema = :address_cinema, active = :active 
                 WHERE id_cinema = :id_cinema;";

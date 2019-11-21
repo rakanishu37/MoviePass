@@ -2,13 +2,13 @@
     namespace dao\pdo;
 
     use \Exception as Exception;
-    use dao\IDAOTheater as IDAOTheater;
+    use interfaces\CRUD as CRUD;
     use dao\pdo\PDOCinema as PDOCinema;
     use models\Theater as Theater;
     use models\Cinema as Cinema;
     use dao\pdo\Connection as Connection;
     
-    class PDOTheater implements IDAOTheater
+    class PDOTheater implements CRUD
     {   
         private $connection;
         private $tableName;
@@ -17,7 +17,7 @@
             $this->tableName = 'theatres';
         }
 
-        public function add(Theater $newTheater){
+        public function add($newTheater){
             try
             {
                 $query = "INSERT INTO ".$this->tableName."
@@ -87,7 +87,43 @@
             else {
                 return count($resp) > 1 ? $resp : $resp['0'];
             }
-		}
+        }
+
+        public function delete($id)
+        {            
+            try {
+                $query = "DELETE FROM ".$this->tableName." WHERE (id = :id)";
+                $parameters["id"] =  $id;
+                $this->connection = Connection::GetInstance();
+                $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }     
+        
+        public function update(Theater $theater){
+            try{
+                $query = "UPDATE ".$this->tableName. " SET id = :id, capacity = :capacity, name = :name, cinema = :cinema, seatPrice = :seatPrice;";
+                
+                $parameters['id'] = $theater->getId();
+                $parameters['capacity'] = $theater->getCapacity();
+                $parameters['name'] = $theater->getName();
+                $parameters['cinema'] = $theater->getCinema()->getName();
+                $parameters['seatPrice'] = $theater->getSeatPrice();
+             
+               
+               
+                $this->connection = Connection::GetInstance(); 
+                return $this->connection->ExecuteNonQuery($query, $parameters);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+        
     }
     
 ?>

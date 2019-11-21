@@ -1,11 +1,12 @@
 <?php
     namespace dao\pdo;
     use \Exception as Exception;
-    use models\Genre as Genre;    
+    use models\Genre as Genre;
+    use interfaces\CRUD as CRUD;  
     use dao\pdo\Connection as Connection;
     use controllers\ApiController as ApiController;
-
-    class PDOGenre
+    
+    class PDOGenre implements CRUD
     {
         private $connection;
         private $tableName;
@@ -18,7 +19,7 @@
             }
         }
 
-        public function add(Genre $genre){
+        public function add($genre){
             $query = "INSERT INTO ".$this->tableName." (id_genre,name_genre) VALUES (:id_genre,:name_genre);";
             $parameters['name_genre'] = $genre->getName();
             $parameters['id_genre'] = $genre->getApiKey();
@@ -65,8 +66,8 @@
         }
 
         private function getGenresFromApi(){
+            try {
                 $genres = $this->getGenreListFromAPI();
-                try {
                     foreach ($genres as $genre) {
                         $this->add($genre);
                     }
