@@ -12,6 +12,7 @@ body {
 table {
     text-align: center;
     width:650px;
+	display: table-layout;
 	margin: auto auto 60px auto;
 	padding: 20px;
     background-color: rgba(228, 226, 236, 0.61);
@@ -19,7 +20,6 @@ table {
     border: 10px double rgba(0, 0, 0, 0.2);
     
 }
-
 
 
 th {
@@ -45,7 +45,7 @@ p{
 }
 
 
-
 tr img{
    float: left;
+   margin: 0 !important; 
 }

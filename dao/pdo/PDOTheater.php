@@ -20,10 +20,7 @@
         public function add($newTheater){
             try
             {
-                $query = "INSERT INTO ".$this->tableName."
-                (capacity, theater_name, id_cinema, seat_price) 
-                VALUES 
-                (:capacity, :theater_name, :id_theater, :seat_price);";
+                $query = "INSERT INTO ".$this->tableName." (capacity,theater_name,id_cinema,seat_price) VALUES (:capacity, :theater_name, :id_cinema, :seat_price);";
                 $parameters['capacity'] = $newTheater->getCapacity();
                 $parameters['theater_name'] = $newTheater->getName();
                 $parameters['id_cinema'] = $newTheater->getCinema()->getId();
@@ -77,19 +74,37 @@
            
         }
 
+		public function getByIdCinema($cinemaId){
+			$query = 'Select * from '. $this->tableName. ' WHERE id_cinema = :id_cinema;';
+            
+            $parameters['id_cinema'] = $cinemaId;
+            try {
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+    
+                $theater = $this->parseToObject($resultSet);
+    
+                return $theater;
+            } catch (Exception $e) {
+                throw $e;
+            }
+		
+		}
 		protected function parseToObject($value) {
             $value = is_array($value) ? $value : [];
             try {
                 $resp = array_map(function($p){
                     $daoCinema = new PDOCinema();
-                    $cinema = $daoCinema->getByID($p['id_cinema']);
-                    return new Theater($p['id_theater'],$p['capacity'],$p['theater_name'],$cinema,$p['seat_price']);
+                    $c = $daoCinema->getByID($p['id_cinema']);
+                    return new Theater($p['theater_name'],$p['capacity'],$p['seat_price'],$c,$p['id_theater']);
                 }, $value);
                 
                 if(empty($resp)){
                     return $resp;
                 }
                 else {
+					
                     return count($resp) > 1 ? $resp : $resp['0'];
                 }
             } catch (Exception $e) {
