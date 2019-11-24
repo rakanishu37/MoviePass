@@ -30,7 +30,7 @@
                
                     <label for="userName">Usuario</label>
                     <br>
-                    <input type="text" name="userName"  placeholder="Ingresar usuario" required>
+                    <input type="email" name="userName"  placeholder="Ingresar usuario" required>
                     <br><br><br>
                     <label for="userPassword">Contraseña</label>
                     <br>

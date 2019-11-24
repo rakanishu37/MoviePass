@@ -57,30 +57,30 @@
             $query = 'Select * from '. $this->tableName. ' WHERE id_show = :id_show;';
             
             $parameters['id_show'] = $showId;
+            try{
+                $this->connection = Connection::GetInstance();
 
-            $this->connection = Connection::GetInstance();
-
-            $resultSet = $this->connection->Execute($query, $parameters);
-
-            $show = $this->parseToObject($resultSet);
-
-            return $show;
+                $resultSet = $this->connection->Execute($query, $parameters);
+    
+                $show = $this->parseToObject($resultSet);
+    
+                return $show;
+            }
+            catch(Exception $e){
+                throw $e;
+            }
         }
 
         public function getAllByDate($date){
             try
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like '%$date%';";
-                //"SELECT * FROM ".$this->tableName." WHERE projection_time like '% 2019-11-08 %';";
-               // $a =":projection_time";
-                //$query = 'select * from '.$this->tableName.' where projection_time like '.'%'.':projection_time'.'%';
-                //$parameters['projection_time'] = $date;
-
+                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like :projectionTime;";
+                $parameters['projectionTime'] = '%'.$date.'%';
 
                 $this->connection = Connection::GetInstance();
 
-                $resultSet = $this->connection->Execute($query);
-              //  $resultSet = $this->connection->Execute($query,$parameters);
+                // $resultSet = $this->connection->Execute($query);
+                 $resultSet = $this->connection->Execute($query,$parameters);
                 
                 return $this->parseToObject($resultSet);
             }
@@ -94,7 +94,7 @@
             try
             {
                 
-                $query = "SELECT shows.id_show as id_show , shows.projection_time as projection_time, shows.id_movie as id_movie, shows.id_cinema as id_cinema
+                $query = "SELECT shows.id_show as id_show , shows.projection_time as projection_time, shows.id_movie as id_movie, shows.id_cinema as id_cinema, shows.active as active
                 from shows inner join movies_by_genres on shows.id_movie = movies_by_genres.id_movie
                 inner join genres on genres.id_genre = movies_by_genres.id_genre
                 where genres.id_genre = :id_genre;";
@@ -132,20 +132,25 @@
 
         protected function parseToObject($value) {
 			$value = is_array($value) ? $value : [];
-			$resp = array_map(function($p){
-                $daoMovie = new PDOMovie();
-                $daoCinema = new PDOCinema();
+            try{
+                $resp = array_map(function($p){
+                    $daoMovie = new PDOMovie();
+                    $daoCinema = new PDOCinema();
+                    
+                    $movie = $daoMovie->getById($p['id_movie']);
+                    $cinema = $daoCinema->getByID($p['id_cinema']);
+                    return new Show($p['projection_time'],$movie,$cinema,$p['active'],$p['id_show']);
+                }, $value);
                 
-                $movie = $daoMovie->getById($p['id_movie']);
-                $cinema = $daoCinema->getByID($p['id_cinema']);
-				return new Show($p['projection_time'],$movie,$cinema,$p['active'],$p['id_show']);
-            }, $value);
-            
-            if(empty($resp)){
-                return $resp;
+                if(empty($resp)){
+                    return $resp;
+                }
+                else {
+                    return count($resp) > 1 ? $resp : $resp['0'];
+                }
             }
-            else {
-                return count($resp) > 1 ? $resp : $resp['0'];
+            catch(Exception $e){
+                throw $e;
             }
         }
     }

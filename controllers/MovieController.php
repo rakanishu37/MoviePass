@@ -19,8 +19,9 @@
         }
 
         public function showMovies(){
-            $this->daoMovie->updateLatestMovies();
+            
             try{
+                $this->daoMovie->updateLatestMovies();
                 $movieList = $this->daoMovie->getAll();
 
                 //include VIEWS.'verticalMovies.php';
@@ -33,8 +34,13 @@
 
         public function chooseGenreForFilter()
         {
-            $genreList = $this->daoGenre->getAll();
-            include VIEWS.'movieChooseGenreToFilterForm.php';
+            try {
+                $genreList = $this->daoGenre->getAll();
+                include VIEWS.'movieChooseGenreToFilterForm.php';
+            } catch (Exception $e) {
+                echo $e;
+            }
+            
         }
 
         private function movieContainsGenre(Movie $movie,$searchedGenre){
@@ -47,16 +53,21 @@
 
         public function filterMovies($filteredGenre){
             $filter = $filteredGenre;
-            $movieListToBeFiltered = $this->daoMovie->getAll();
+            try {
+                $movieListToBeFiltered = $this->daoMovie->getAll();
 
-            $movieList = array();
-            foreach ($movieListToBeFiltered as $movie) {
-                if($this->movieContainsGenre($movie,$filter)){
-                            
-                    array_push($movieList,$movie);
+                $movieList = array();
+                foreach ($movieListToBeFiltered as $movie) {
+                    if($this->movieContainsGenre($movie,$filter)){
+                                
+                        array_push($movieList,$movie);
+                    }
                 }
+                include VIEWS.'moviesList.php';
+            } catch (Exception $e) {
+                echo $e;
             }
-            include VIEWS.'moviesList.php';
+
         }
     }
 ?>

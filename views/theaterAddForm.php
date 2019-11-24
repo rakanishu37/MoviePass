@@ -14,22 +14,30 @@
 <body>
 
   <?php require 'headerAdmi.php'; ?>
-
-  <form class="form" action="<?php echo FRONT_ROOT ?>cinema/validateDataAdd" method="post">
-
-    <label>Nombre del cine</label>
-    <input type="text" name="name" placeholder="<?php echo $placeholderName?>" required>
+	    
+  <form class="form" action="<?php echo FRONT_ROOT ?>theater/add" method="post">
+  
+	<input type="hidden" name="idCinema" value="<?php echo $idCinema; ?>">
+	
+    <label>Nombre de la sala</label>
+    <input type="text" name="name" placeholder="Ingrese el nombre de la sala" required>
+	
     <br>
-    <label>Direccion del cine</label>
-    <input type="text" name="address" placeholder="<?php echo $placeholderAddress?>" required>
-    
+	<label>Precio de la butaca</label>
+    <input type="number" min="1" name="seatPrice" required>
+	<br>
+	
+    <label>Capacidad</label>
+    <input type="number" min="1" name="capacity" required>
+    <br>
+	
     <br><br>
     <button type="submit" class="boton">  
       <span></span>
       <span></span>
       <span></span>
       <span></span>
-      Crear cine</button>
+      Agregar Sala</button>
       
     </form>
 

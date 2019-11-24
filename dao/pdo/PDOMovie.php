@@ -21,28 +21,27 @@
             $this->tableNameGenres = 'genres';
             $this->tableNameMovies = 'movies';
         }
-/*
-        public function getLatestMovies()
-        {
-            foreach($latestMoviesIDList as $id){
-                $movie = ApiController::createMovieFromJSON($id);
-            }
-        }*/
+
         public function updateLatestMovies()
         {
             $counter = 0;
             $latestMoviesIDList = ApiController::getLatestMoviesID();
 
             $movieToBeAdded= array();
-            
-            foreach($latestMoviesIDList as $movieId){
-                if(empty($this->getById($movieId))){
-                    $this->add(ApiController::createMovieFromJSON($movieId));
-                    $counter++;
+            try {
+                foreach($latestMoviesIDList as $movieId){
+                    if(empty($this->getById($movieId))){
+                        $this->add(ApiController::createMovieFromJSON($movieId));
+                        $counter++;
+                    }
                 }
+                return $counter;
+            } catch (Exception $e) {
+                throw $e;
             }
+            
 
-            return $counter;
+            
         }
           /*  pregunto por cada id de las ultias peliculas
                 sino la tiene la agrega
@@ -120,34 +119,38 @@
    
         private function parseToObject($value){
 			$value = is_array($value) ? $value : [];
-			$resp = array_map(function($p){
-                $genres = array();
-                
-                $query = "SELECT * FROM ".$this->tableNameMoviesGenres." where id_movie = :id_movie;";
-                $parameters['id_movie'] = $p['id_movie'];
-
-                $this->connection = Connection::GetInstance();
-
-                $genresIdList = $this->connection->Execute($query,$parameters);
-         
-                $pdoGenre = new PDOGenre();
-                
-                foreach ($genresIdList as $genreId) {
-
-                    $genre = $pdoGenre->getById($genreId['id_genre']);
+            try {
+                $resp = array_map(function($p){
+                    $genres = array();
                     
-                    array_push($genres, $genre);
+                    $query = "SELECT * FROM ".$this->tableNameMoviesGenres." where id_movie = :id_movie;";
+                    $parameters['id_movie'] = $p['id_movie'];
+    
+                    $this->connection = Connection::GetInstance();
+    
+                    $genresIdList = $this->connection->Execute($query,$parameters);
+             
+                    $pdoGenre = new PDOGenre();
+                    
+                    foreach ($genresIdList as $genreId) {
+    
+                        $genre = $pdoGenre->getById($genreId['id_genre']);
+                        
+                        array_push($genres, $genre);
+                    }
+                    
+                    return new Movie($p['id_movie'],$p['name_movie'],$p['runtime'],$p['language_movie'],$genres, $p['image_url']);
+                }, $value);
+    
+                if(empty($resp)){
+                    return $resp;
                 }
-                
-                return new Movie($p['id_movie'],$p['name_movie'],$p['runtime'],$p['language_movie'],$genres, $p['image_url']);
-			}, $value);
-
-            if(empty($resp)){
-                return $resp;
-            }
-            else {
-                return count($resp) > 1 ? $resp : $resp['0'];
-            }
+                else {
+                    return count($resp) > 1 ? $resp : $resp['0'];
+                }
+            } catch (Exception $e) {
+                throw $e;
+            }  
 		}            
     }
     

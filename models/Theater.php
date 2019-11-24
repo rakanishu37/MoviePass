@@ -1,7 +1,6 @@
 <?php
     namespace models;
 
-    require "models/Cinema.php";
 
     use models\Cinema as Cinema;
 
@@ -13,7 +12,7 @@
 	    private $cinema;
 	    private $seatPrice;
 
-        public function __construct($id='',$capacity='',$name='',$cinema='',$seatPrice='') {
+        public function __construct($name='',$capacity='',$seatPrice='',$cinema='',$id='') {
             $this->setId($id);
             $this->setCapacity($capacity);
             $this->setName($name);

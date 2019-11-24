@@ -16,25 +16,37 @@
     <?php require 'headerAdmi.php'; ?>
     <p>Cines disponibles</p>
 
-    <table border="1">
+    <form action="<?php echo FRONT_ROOT."theater/ShowListView" ?>" method="post">
+        <table border="1">
 
-        <thead class="thead">
-            <tr>
-                <th>Nombre</th>
-                <th>Dirección</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php foreach ($cinemaList as $cinema) { ?>
+            <thead class="thead">
                 <tr>
-                    <td><?php echo $cinema->getName(); ?> </td>
-                    <td><?php echo $cinema->getAddress(); ?></td>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Salas</th>
                 </tr>
-            <?php } ?>
-        </tbody>
+            </thead>
 
-    </table>
+            <tbody>
+                <?php foreach ($cinemaList as $cinema) { ?>
+                    <tr>
+                        <td><?php echo $cinema->getName(); ?> </td>
+                        <td><?php echo $cinema->getAddress(); ?></td>
+                        <td>
+                            <button name="idCinema" type="submit" value="<?php echo $cinema->getId() ?>" class="boton"> 
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Ver</a>
+                            </button>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+
+        </table>
+    </form> 
 
 </body>
 

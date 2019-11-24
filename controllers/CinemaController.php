@@ -18,24 +18,61 @@ class CinemaController
     
     public function createCinema($cinema = null, $mensaje= '')
     {
-        /* meter de alguna forma el source para que funcione
-        entra aca cuando llega con un mensaje cargado y el objeto distinto de nulo
-        if(!empty($mensaje))
-        
-        echo '<script>
-            swa
-        </script>'*/
+        $placeholderName = 'Ingrese el nombre del cine';
+        $placeholderAddress = 'Ingresar la direccion del cine';
+        if(!is_null($cinema)){
+            /**
+             * @var Cinema $cinema
+             */
+            if(!empty($cinema->getName())){
+                $placeholderName = $cinema->getName();
+            }
+            if(!empty($cinema->getAddress())){
+                $placeholderAddress = $cinema->getAddress();
+            }
+        }
         include VIEWS . "cinemaAddForm.php";
+
+        /* meter de alguna forma el source para que funcione
+        entra aca cuando llega con un mensaje cargado y el objeto distinto de nulo*/
+        if(!empty($mensaje)){
+            echo '<script>
+            swal({
+                title: "Cuidado",
+                text: "El nombre o direccion contiene caracteres no validos",
+                icon: "warning"
+            });
+            </script>';
+        }
     }
-/*
-    public function validateData($name,$address)
+
+    public function validateDataAdd($name,$address)
     {
-        $this->daoCinema->
-        /*
-        en caso bueno va al add
-        en caso malo vuelve para atras creando un objeto cine con los datos erroneos
         
-    }*/
+        $tempName = '';
+        $tempAddress = '';
+        $flag = 0;
+        $message = 0;
+        if(!preg_match('/^[a-z0-9A-Z ]/', $name)){
+            $flag = 1;
+            $message = 1;
+            $tempName = $name;
+        }
+
+        if(!preg_match('/^[a-z0-9A-Z ]/', $address)){
+            $flag = 1;
+            $message= 1;
+            $tempAddress = $address;
+        }
+        $tempCinema = new Cinema($tempName,$tempAddress); 
+
+        if($flag == 1){
+            $this->createCinema($tempCinema,$message);
+        }
+        else{
+            $this->add($name,$address);
+        }
+    }
 
     public function add($name, $address)
     {
@@ -77,13 +114,43 @@ class CinemaController
     }
 
 
-    public function modify($idCinema)
+    public function modify($idCinema, $mensaje= '')
     {
         try {
-            $cinema = $this->daoCinema->getByID($idCinema);
+
+            $cinemaToModify = $this->daoCinema->getByID($idCinema);
             include VIEWS . 'cinemaModifyForm.php';
-        } catch (Exception $th) {
+
+
+            if(!empty($mensaje)){
+                echo '<script>
+                swal({
+                    title: "Cuidado",
+                    text: "El nombre o direccion contiene caracteres no validos",
+                    icon: "warning"
+                });
+                </script>';
+            }
+        }    
+        catch (Exception $th) {
             echo $th;
+        }
+    }
+
+    public function validateDataModify($id,$name,$address,$name_unmodified, $address_unmodified,$status)
+    {
+        $flag = 0;
+        $message = 0;
+        if(!preg_match('/^[a-z0-9A-Z ]/', $name) or !preg_match('/^[a-z0-9A-Z ]/', $address)){
+            $flag = 1;
+            $message = 1;     
+        }
+        
+        if($flag == 1){
+            $this->modify($id,$message);
+        }
+        else{
+            $this->update($id,$name,$address,$name_unmodified, $address_unmodified,$status);
         }
     }
 
@@ -125,7 +192,6 @@ class CinemaController
             echo $ex;
         }
     }
-
 
     public function showCinemas()
     {

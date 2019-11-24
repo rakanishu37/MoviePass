@@ -20,13 +20,17 @@
         }
 
         public function add($genre){
-            $query = "INSERT INTO ".$this->tableName." (id_genre,name_genre) VALUES (:id_genre,:name_genre);";
-            $parameters['name_genre'] = $genre->getName();
-            $parameters['id_genre'] = $genre->getApiKey();
-            
-            $this->connection = Connection::GetInstance();
-
-            return $this->connection->ExecuteNonQuery($query, $parameters);
+            try {
+                $query = "INSERT INTO ".$this->tableName." (id_genre,name_genre) VALUES (:id_genre,:name_genre);";
+                $parameters['name_genre'] = $genre->getName();
+                $parameters['id_genre'] = $genre->getApiKey();
+                
+                $this->connection = Connection::GetInstance();
+    
+                return $this->connection->ExecuteNonQuery($query, $parameters);
+            } catch (Exception $e) {
+                throw $e;
+            }
         }
 
         public function getById($genreId)

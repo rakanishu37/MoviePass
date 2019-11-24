@@ -25,21 +25,31 @@
         }
 
         public function index(){
-            $showList = $this->daoShow->getAll();
+            try {
+                $showList = $this->daoShow->getAll();
             
-            $this->showMainView($showList);
+                $this->showMainView($showList);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            
         }
         
 
         public function add($date,$time,$movieId,$cinemaId){
             $projectionTime = $date." ".$time;
-            $movie = $this->daoMovie->getById($movieId);
-            $cinema = $this->daoCinema->getById($cinemaId);
-            
-            $newShow = new Show($projectionTime,$movie,$cinema);
-            $this->daoShow->add($newShow);
-
-            $this->showMainView($this->daoShow->getAll());
+            try {
+                $movie = $this->daoMovie->getById($movieId);
+                $cinema = $this->daoCinema->getById($cinemaId);
+                
+                $newShow = new Show($projectionTime,$movie,$cinema);
+                $this->daoShow->add($newShow);
+    
+                $this->showMainView($this->daoShow->getAll());
+            }
+            catch(Exception $e){
+                echo $e;
+            }
         }
 
         public function startForm(){
@@ -47,11 +57,16 @@
         }
 
         public function continueForm($date, $time){
-            $movieList = $this->getMoviesNotScreened($date);
+            try {
+                $movieList = $this->getMoviesNotScreened($date);
             
-            $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
+                $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
+                
+                include VIEWS."showChooseMovieCinemasForm.php";
+            } catch (Exception $e) {
+                echo $e;
+            }
             
-            include VIEWS."showChooseMovieCinemasForm.php";
         }
 
         public function filterByDate(){
@@ -59,20 +74,34 @@
         }
 
         public function filterByGenre(){
-            $genreList = $this->daoGenre->getAll();
-            include VIEWS."showChooseGenreToFilterForm.php";
+            try {
+                $genreList = $this->daoGenre->getAll();
+                include VIEWS."showChooseGenreToFilterForm.php";    
+            } catch (Exception $e) {
+                echo $e;
+            }
+            
         }
 
         public function getFilteredShowsByDate($filter)
         {
-            $showList = $this->convertToArray($this->daoShow->getAllByDate($filter));
-            $this->showMainView($showList);
+            try {
+                $showList = $this->convertToArray($this->daoShow->getAllByDate($filter));
+                $this->showMainView($showList);
+            } catch (Exception $e) {
+                echo $e;
+            }
         }
 
         public function getFilteredShowsByGenre($filter)
         {
-            $showList = $this->daoShow->getAllByGenre($filter);
-            $this->showMainView($showList);
+            try {
+                $showList = $this->daoShow->getAllByGenre($filter);
+                $this->showMainView($showList);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            
         }
 
         public function showMainView($showList = '')
@@ -83,27 +112,31 @@
 
 
         private function getMoviesNotScreened($date){
-
-            $showList = $this->daoShow->getAllByDate($date);
+            try {
+                $showList = $this->daoShow->getAllByDate($date);
             
-            //#TODO cambiar a que sean solo las recientes
-            $movieList = $this->daoMovie->getAll();
-            $moviesScreened = array();
-            $moviesNotScreened = array();
-
-            /**
-             * @var Show $show
-             */
-            foreach($showList as $show){
-                array_push($moviesScreened,$show->getMovie());
-            }
-             foreach($movieList as $movie){
-                if(!$this->movieInArray($movie,$moviesScreened)){
-                    array_push($moviesNotScreened,$movie);
+                //#TODO cambiar a que sean solo las recientes
+                $movieList = $this->daoMovie->getAll();
+                $moviesScreened = array();
+                $moviesNotScreened = array();
+    
+                /**
+                 * @var Show $show
+                 */
+                foreach($showList as $show){
+                    array_push($moviesScreened,$show->getMovie());
                 }
+                 foreach($movieList as $movie){
+                    if(!$this->movieInArray($movie,$moviesScreened)){
+                        array_push($moviesNotScreened,$movie);
+                    }
+                }
+    
+               return $moviesNotScreened; }
+            catch (Exception $e) {
+                echo $e;
             }
-
-           return $moviesNotScreened;
+            
         }
        
         private function movieInArray(Movie $searchedMovie,$movieList){
@@ -118,8 +151,13 @@
         
         public function deleteById($showId)
         {
-            $this->daoShow->deleteById($showId);
-            $this->index();
+            try {
+                $this->daoShow->deleteById($showId);
+                $this->index();
+            } catch (Exception $e) {
+                echo $e;
+            }
+            
         }
 
         private function convertToArray($value){

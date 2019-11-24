@@ -1,12 +1,10 @@
 <?php
-
 namespace controllers;
 
 
 use models\Theater as Theater;
 // use dao\json\DAOTheater as DAOTheater;
 use dao\pdo\PDOTheater as DAOTheater;
-// use dao\json\DAOTheater as DAOTheater;
 use dao\pdo\PDOCinema  as DAOCinema;
 use \Exception as Exception;
 
@@ -21,16 +19,18 @@ use \Exception as Exception;
             $this->daoCinema = new DAOCinema();
         }
 
-        public function ShowAddView()
+        public function ShowAddView($idCinema = '')
         {
-            require_once(VIEWS_PATH."validate-session.php");
-            require_once(VIEWS_PATH."theaterAddForm.php");
+            //require_once(VIEWS."validate-session.php");
+            require_once(VIEWS."theaterAddForm.php");
         }
 
-        public function ShowListView(){
-            require_once(VIEWS_PATH."validate-session.php");
+        public function ShowListView($idCinema){
+            //require_once(VIEWS."validate-session.php");
             try{
-                $cinemaList = $this->daoCinema->getAll();
+				
+                $theaterList = $this->daoTheater->getByIdCinema($idCinema);
+				$theaterList = $this->convertToArray($theaterList);
                 include VIEWS.'theaterList.php';
             }
             catch(Exception $e){
@@ -38,31 +38,33 @@ use \Exception as Exception;
             }
         }
 
-        public function add($id,$capacity,$name, $seatPrice){
-            require_once(VIEWS_PATH."validate-session.php");
-            $cinema = $this->daoCinema->getByID($id);
+        public function add($idCinema,$name,$seatPrice,$capacity){
+            //require_once(VIEWS."validate-session.php");
            
-            $newTheater = new Theater();
-            $newTheater->setId($id);
-            $newTheater->setCapacity($capacity);
-            $newTheater->setName($name);
-            $newTheater->setCinema($cinema);
-            $newTheater->setSeatPrice($seatPrice);
+            try {
+                $cinema = $this->daoCinema->getByID($idCinema);
            
-            $this->daoTheater->add($newTheater);
-            $this->showMainView($this->daoTheater->getAll());
+                $newTheater = new Theater($name,$capacity,$seatPrice,$cinema,$idCinema);
+                $this->daoTheater->add($newTheater);
+            } 
+            catch (Exception $e) {
+                echo $e;
+            }
+           
+            $this->showListView($idCinema);
         }
 
-        public function showMainView($teatherList = '')
+        public function showMainView($theaterList = '')
         {
-            $teatherList = $this->convertToArray($teatherList);
-            $this->ShowListView();
+            $theaterList = $this->convertToArray($theaterList);
+            $idCinema = $theaterList[0]->getId();
+            $this->ShowListView($idCinema);
         }
 
 
         public function removeById($id)
         {
-            require_once(VIEWS_PATH."validate-session.php");
+            //require_once(VIEWS."validate-session.php");
             $this->daoTheater->delete($id);
             $this->ShowListView();
         }
@@ -70,7 +72,7 @@ use \Exception as Exception;
 
         public function modify($id)
         {
-            require_once(VIEWS_PATH."validate-session.php");
+            //require_once(VIEWS."validate-session.php");
             try {
                 $theater = $this->daoTheater->getByID($id);
                 include VIEWS . 'theaterModifyForm.php'; //suponiendo la existencia de este archivo
@@ -83,7 +85,7 @@ use \Exception as Exception;
         public function update($id, $capacity, $name, $cinema, $seatPrice, $id_unmodified, $capacity_unmodified, $name_unmodified, $cinema_unmodified, $seatPrice_unmodified)
         {
         
-            require_once(VIEWS_PATH."validate-session.php");
+            //require_once(VIEWS."validate-session.php");
 
             if(empty($id)){
                 $id = $id_unmodified;    
@@ -102,7 +104,7 @@ use \Exception as Exception;
                 $seatPrice = $seatPrice_unmodified;    
             }
             
-            $theaterModified = new Theater($id, $capacity, $name, $cinema, $seatPrice);
+            $theaterModified = new Theater( $name,$capacity,$seatPrice, $cinema,$id);
             try{
                 $this->daoTheater->update($theaterModified);
                 
@@ -112,6 +114,16 @@ use \Exception as Exception;
                 echo $ex;
             }
         }
-    
+		
+       private function convertToArray($value){
+        $arrayToReturn = array();
+        if(is_array($value)){
+            $arrayToReturn = $value;    
+        }
+        else {
+            $arrayToReturn [] = $value;
+        }
+        return $arrayToReturn;
+    }
  }
 ?>
