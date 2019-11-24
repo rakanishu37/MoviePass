@@ -6,25 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
-    <title>Document</title>
+    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/movieChooseGenreToFilterFormStyle.css">
+    <title>Movie Pass</title>
 </head>
-
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Lato');
-
-    body,
-    html {
-        height: 100%;
-        background: #222222;
-        font-family: 'Lato', sans-serif;
-    }
-
-    
-    h2 {
-        color: #AAAAAA;
-    }
-
-</style>
 
 <body>
 
@@ -34,18 +18,22 @@
         <h2>Elija el genero que quiera filtrar</h2>
         
         
-            <select name='filteredGenre'>
+            <select name='filteredGenre' class="filteredGenre">
                 <?php
                 foreach ($genreList as $genre) {  ?>
                     <option value="<?php echo $genre->getApiKey() ?>"> <?php echo $genre->getName() ?></option>
                 <?php } ?>
             </select>
-
-        <button type="submit">Filtrar</button>
+                <br>
+        <button type="submit" class="boton">
+        <span></span> 
+        <span></span>   
+        <span></span>
+        <span></span>
+        Filtrar</button>
     </form>
-    <br><br>
-    <a href="<?php echo FRONT_ROOT ?>">
-        <button>Volver al menu princial</button> </a>
+ 
+   
 </body>
 
 </html>

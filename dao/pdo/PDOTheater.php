@@ -103,7 +103,7 @@
             }
         }     
         
-        public function update(Theater $theater){
+        public function update($theater){
             try{
                 $query = "UPDATE ".$this->tableName. " SET id = :id, capacity = :capacity, name = :name, cinema = :cinema, seatPrice = :seatPrice;";
                 
@@ -123,7 +123,27 @@
                 throw $ex;
             }
         }
-        
+     
+        public function getByCinemaID($cinemaId){
+            try
+            {
+                $query = 'Select * from '. $this->tableName. ' WHERE id_cinema = :id_cinema;';
+                
+                $parameters['id_cinema'] = $cinemaId;
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+
+                $theaterbycinema = $this->parseToObject($resultSet);
+
+                return $theaterbycinema;
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
     }
     
 ?>
