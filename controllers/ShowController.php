@@ -100,7 +100,7 @@
                 $genreList = $this->daoGenre->getAll();
                 include VIEWS."showChooseGenreToFilterForm.php";    
             } catch (Exception $e) {
-                echo $e
+                echo $e;
             }
             
         }
@@ -111,7 +111,7 @@
                 $showList = $this->convertToArray($this->daoShow->getAllByDate($filter));
                 $this->showMainView($showList);
             } catch (Exception $e) {
-                echo $e
+                echo $e;
             }
         }
 

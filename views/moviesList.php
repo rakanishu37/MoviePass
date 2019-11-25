@@ -17,7 +17,8 @@
 
     <p>Peliculas</p>
 
-     <table border="1">
+    <form action="<?php echo FRONT_ROOT."Movies/función para comprar tickets" ?>" method="post">
+    <table border="1">
         <thead class="thead">
 
         
@@ -27,6 +28,7 @@
                     <th>Duracion</th>
                     <th>Idioma</th>
                     <th>Genero</th>
+                    <th>Entradas</th>
                 </tr>
         </thead>
         <tbody>
@@ -35,20 +37,32 @@
                     <td id="imagen"><img src="<?php echo API_IMAGE_URL . POSTER_WIDTH_185 . $movie->getImageURL(); ?>"></td>
                     <td><?php echo $movie->getName(); ?> </td>
                     <td><?php echo $movie->getRuntime(); ?></td>
-                    <td><?php echo $movie->getLanguage(); ?></td->
+                    <td><?php echo $movie->getLanguage(); ?></td>
                     <td>
                         <?php foreach ($movie->getGenre() as $genre) {
                                 echo $genre->getName() . '<br>';
                             } ?>
                     </td>
+                    <td>
+                         <button name="idMovie" type="submit" value="<?php echo $movie->getId() ?>" class="boton"> 
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Comprar</a>
+                            </button>
+                        </td>
+                  
                 </tr>
             <?php } ?>
         </tbody>
 
     </table>
+
+      </form>
  
 
-
+ 
 </body>
 
 </html>

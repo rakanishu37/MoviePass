@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>showAdminMainStyle.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>buttonShowAdminMainStyle.css">
     <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
 
     <title>Movie Pass</title>
@@ -37,6 +36,8 @@
                 <?php if($show->getStatus() == 1){?>
                     <td><a class="image" href="<?php echo FRONT_ROOT;?>show/deleteById/<?php echo $show->getId(); ?>"> <img src="/Trabajo-Final-Tesis/views/img/tachoDeBasura.jpg"></a></td>
                 <?php } ?>
+                <!-- Alternativa por si la imagen sigue sin funcionar -->
+                <td><a href="<?php echo FRONT_ROOT;?>show/deleteById/<?php echo $show->getId(); ?>">Quitar</a></td>
             </tr>
         <?php } ?>
     </table>
