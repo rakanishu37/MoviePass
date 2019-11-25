@@ -87,9 +87,7 @@
                 throw $e;
             }
         }
-        }
-
-
+        
         public function getAllByDate($date){
             try
             {
