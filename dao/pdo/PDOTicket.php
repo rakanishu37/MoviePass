@@ -4,11 +4,11 @@
     use \Exception as Exception;
     use interfaces\CRUD as CRUD;
     use dao\pdo\PDOShow as PDOShow;
-    use models\Theater as Theater;
+    use models\Ticket as Ticket;
     use models\Show as Show;
     use dao\pdo\Connection as Connection;
     
-    class PDOTheater implements CRUD
+    class PDOTicket implements CRUD
     {   
         private $connection;
         private $tableName;
@@ -17,30 +17,60 @@
             $this->tableName = 'tickets';
         }
 
-
-        /*
-       CREATE TABLE tickets(
-        id_ticket int auto_increment,
-        ticket_number int, 
-        id_purchase int,
-        id_show int,
-        constraint pk_id_ticket primary key (id_ticket),
-        constraint fk_id_purchase_purchases foreign key (id_purchase) references purchases (id_purchase),
-        constraint fk_id_show_shows foreign key (id_show) references shows (id_show)
-    );
-        */
         public function add($newTicket){
-            try
-            {
+            $ticket = countSeats($newTicket->getShow()->getId())
+            if ($ticket != -1){
+                try{
                 $query = "INSERT INTO ".$this->tableName." (ticket_number, id_purchase, id_show) 
                 VALUES (:ticket_number, :id_purchase, :id_show);";
-                $parameters['id_ticket'] = $newCinema->getName();
-                $parameters['id_purchase'] = $newCinema->getAddress();
-                $parameters['id_show'] = $newCinema->getStatus();
+                $parameters['id_ticket'] = $ticket
+                $parameters['id_purchase'] = $newTicket->getPurchase();
+                $parameters['id_show'] = $newTicket->getShow()->getId();
 
                 $this->connection = Connection::GetInstance();
 
                 return $this->connection->ExecuteNonQuery($query, $parameters);
+
+                }catch(Exception $ex){
+                    throw $ex;
+                }
+            }              
+        }
+    
+        //me rendi intentando hacer funcionar el stored procedure, meti el select que se que funciona
+        public function countSeats($id_show){
+            try {
+                $query= "select 
+                            case
+                                when tickets.ticket_number is null then 1
+                                when tickets.ticket_number>=theatres.capacity then -1
+                                else tickets.ticket_number+1
+                            end as resultado
+                        from
+                            theatres left outer join shows on theatres.id_theater = shows.id_theater
+                            left outer join tickets on tickets.id_show = shows.id_show
+                        where
+                            shows.id_show = :id_show";
+                $parameters['id_show'] = $id_show;
+
+                $this->connection = Connection::GetInstance();
+
+                return $this->connection->Execute($query, $parameters);
+            }catch(Exception $ex){
+                throw $ex;
+            }
+        }
+
+        public function getAll(){
+            try
+            {
+                $query = "SELECT * FROM ".$this->tableName;
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query);
+                
+                return $this->parseToObject($resultSet);
             }
             catch(Exception $ex)
             {
@@ -48,9 +78,25 @@
             }
         }
 
-        public function countSeats($){
-
+        protected function parseToObject($value) {
+            $value = is_array($value) ? $value : [];
+            try {
+                $resp = array_map(function($p){
+                    $pdoShow = new PDOShow();
+                    $c = $pdoShow->getByID($p['id_show']);
+                    return new Ticket($p['ticket_number'],$p['id_purchase'],$c,$p['id_ticket']);
+                }, $value);
+                
+                if(empty($resp)){
+                    return $resp;
+                }
+                else {
+					
+                    return count($resp) > 1 ? $resp : $resp['0'];
+                }
+            } catch (Exception $e) {
+                throw $e;
+            }
         }
     }
-    
 ?>

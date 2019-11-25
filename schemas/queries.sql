@@ -48,7 +48,6 @@ where
 DELIMITER //
 create procedure countingSeats (in idshow int, out ticket int)
 begin
-
 	set ticket= (select 
                     case
 						when tickets.ticket_number is null then 1
@@ -56,8 +55,52 @@ begin
 						else tickets.ticket_number+1
                     end as resultado
                 from
-					theatres inner join shows on theatres.id_theatres = shows.id_theatres
-                    inner join tickets on tickets.id_show = shows.id_id_show
+					theatres inner join shows on theatres.id_theater = shows.id_theater
+                    inner join tickets on tickets.id_show = shows.id_show
 				where
                     shows.id_show = idshow);
 END //
+
+drop procedure countingSeats;
+
+select *
+from Cinemas;
+
+insert into cinemas (name_cinema, address_cinema , active) values ("CinemaLauty", "lacasadelauty", true);
+
+select *
+from theatres;
+
+insert into theatres (capacity, theater_name , id_cinema, seat_price) 
+values 
+(100, "LaSalaBonita", 1, 150),
+(125, "LaSalaMeh", 1, 125),
+(150, "LaSalaFea", 1, 100);
+
+select *
+from shows;
+
+insert into shows(projection_time, id_movie, id_theater, active) 
+values
+("2019-11-26 12:30", 290859, 1, true),
+("2019-11-26 12:30", 475557, 2, true),
+("2019-11-26 12:30", 458897, 3, true);
+
+select *
+from movies;
+
+select *
+from tickets;
+
+select *
+from purchases;
+
+insert into shows(quantity_of_tickets , total_amount, date_purchase, discount) 
+values
+(1,200,"2019-11-24", 0);
+
+call countingSeats(1, @ticket)
+select @ticket from countingSeats;
+
+
+insert into tickets(ticket_number, id_purchase, id_show) values (@ticket, 1,1);
