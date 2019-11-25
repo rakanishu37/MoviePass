@@ -1,5 +1,20 @@
+<?php
 
-   <a href="<?php echo FRONT_ROOT?>" >Volver al menu princial</a>
+   if(!empty($arrayOfErrors)){
+      foreach($arrayOfErrors as $message) ?>
+      <div class="message-container" id="message-container">
+         <div class="message-content">
+            <p><?= $message ?></p>
+            <button id="button-close">Close</button>
+         </div>
+      </div>
+      <script src="<? JS_PATH . "/message.js" ?> "></script>
+      <script>
+         openMessage();
+      </script>
+  <?php } ?>
+
+
+
 </body>
 </html>
-<!-- Por ahora solo cierra el cuerpo del html-->
