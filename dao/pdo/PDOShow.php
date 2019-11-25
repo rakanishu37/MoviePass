@@ -70,6 +70,25 @@
                 throw $e;
             }
         }
+        public function getByIdMovie($idMovie){
+            $query = 'Select * from '. $this->tableName. ' WHERE idMovie = :idMovie;';
+            
+            $parameters['id_show'] = $idMovie;
+            try{
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+    
+                $showList = $this->parseToObject($resultSet);
+    
+                return $showList;
+            }
+            catch(Exception $e){
+                throw $e;
+            }
+        }
+        }
+
 
         public function getAllByDate($date){
             try

@@ -162,6 +162,7 @@
                 $theaterbycinema = $this->parseToObject($resultSet);
 
                 return $theaterbycinema;
+            }
             catch(Exception $ex)
             {
                 throw $ex;

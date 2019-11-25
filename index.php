@@ -28,3 +28,18 @@
 
     Router::route(new Request());    
 ?>
+<!-- para preguntar si la session ya esta iniciada
+if(session_status() !== PHP_SESSION_ACTIVE) session_start(); -->
+<!--
+    try{
+        logica
+    }
+    catch{
+        lo agrega a un array
+    }
+    finally{        
+        incluye la vista
+    }
+---
+---
+--- -->
