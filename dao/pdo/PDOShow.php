@@ -7,7 +7,8 @@
     use \Exception as Exception;
     use dao\pdo\Connection as Connection;
     use dao\pdo\PDOMovie as PDOMovie;
-    use dao\pdo\PDOCinema as PDOCinema;
+    use dao\pdo\PDOTheater as PDOTheater;
+	use dao\pdo\PDOCinema as PDOCinema;
     use interfaces\CRUD as CRUD;
 
     class PDOShow implements CRUD
@@ -152,11 +153,12 @@
             try{
                 $resp = array_map(function($p){
                     $daoMovie = new PDOMovie();
-                    $daoCinema = new PDOCinema();
-                    
+                    $daoTheater = new PDOTheater();
+
                     $movie = $daoMovie->getById($p['id_movie']);
-                    $cinema = $daoCinema->getByID($p['id_cinema']);
-                    return new Show($p['projection_time'],$movie,$cinema,$p['active'],$p['id_show']);
+                    $theater = $daoTheater->getByID($p['id_theater']);
+
+                    return new Show($p['projection_time'],$movie,$theater,$p['active'],$p['id_show']);
                 }, $value);
                 
                 if(empty($resp)){

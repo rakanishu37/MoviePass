@@ -20,6 +20,7 @@
             <th>Fecha</th>
             <th>Hora</th>
             <th>Lugar</th>
+            <th>Sala</th>
             <th>Pelicula</th>
             <th>Status</th>
             <th></th>
@@ -30,7 +31,8 @@
             <tr>
                 <td><?php echo $show->getDate(); ?></td>
                 <td><?php echo $show->getTime(); ?></td>
-                <td><?php echo $show->getCinema()->getName(); ?></td>
+                <td><?php echo $show->getTheater()->getCinema()->getName(); ?></td>
+                <td><?php echo $show->getTheater()->getName(); ?></td>
                 <td><?php echo $show->getMovie()->getName(); ?></td>
                 <td><?php echo ($show->getStatus() == 1)? 'Activa' : 'Cerrada'; ?></td>
                 <?php if($show->getStatus() == 1){?>

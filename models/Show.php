@@ -14,14 +14,14 @@ class Show
         private $showId;
         private $projectionTime;
         private $movie;
-        private $cinema;
+        private $theater;
         private $active;
-        public function __construct($projectionTime=NULL,Movie $movie, Cinema $cinema,$active = 1, $showId='')
+        public function __construct($projectionTime=NULL,$movie, $theater,$active = 1, $showId='')
         {
                 $this->setId($showId);
                 $this->setProjectionTime($projectionTime);
                 $this->setMovie($movie);
-                $this->setCinema($cinema);
+                $this->setTheater($theater);
                 $this->setStatus($active);
         }
         public function setStatus($active)
@@ -57,19 +57,19 @@ class Show
                 return $this->movie;
         }
 
-        public function setMovie(Movie $movie)
+        public function setMovie($movie)
         {
                 $this->movie = $movie;
         }
 
-        public function getCinema()
+        public function getTheater()
         {
-                return $this->cinema;
+                return $this->theater;
         }
 
-        public function setCinema(Cinema $cinema)
+        public function setTheater($theater)
         {
-                $this->cinema = $cinema;
+                $this->theater = $theater;
         }
         
         public function getId()

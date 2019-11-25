@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>showChooseDateTimeFormStyle.css">
         <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
-        
+
         <title>Movie Pass</title>
 </head>
 
@@ -24,7 +24,16 @@
                 <label>Hora</label>
                 <input type="time" required name="time">
                 <br>
+				
 
+                <label>Cine</label>
+                <select name="cinemaId" id="" class="cinemasAvailable">
+                <?php foreach ($cinemaList as $cinema) { ?>
+                        <option value="<?php echo $cinema->getId() ?>"><?php echo $cinema->getName() ?></option>
+                <?php } ?>
+                </select>
+                <br>
+				
                 <button type="submit" class="boton">
                         <span></span>
                         <span></span>

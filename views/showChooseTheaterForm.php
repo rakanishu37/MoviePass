@@ -13,14 +13,15 @@
 <body>
 
     <?php include VIEWS.'headerAdmi.php'?>
-    <form action="<?php echo FRONT_ROOT ?>show/add" method="post" class="form">
+    <form action="<?php echo FRONT_ROOT ?>show/finalizeForm" method="post" class="form">
         <input type="hidden" name="date" value="<?php echo $date ?>">
         <input type="hidden" name="time" value="<?php echo $time ?>">
+        <input type="hidden" name="cinemaId" value="<?php echo $cinemaId ?>">
         
-        <label>Pelicula</label>
-        <select name="movieId" id="">
-            <?php foreach ($movieList as $movie) { ?>
-                <option value="<?php echo $movie->getId() ?>"><?php echo $movie->getName() ?></option>
+        <label>Sala</label>
+        <select name="theaterId" id="">
+            <?php foreach ($theaterList as $theater) { ?>
+                <option value="<?php echo $theater->getId() ?>"><?php echo $theater->getName() ?></option>
             <?php } ?>
         </select>
         <br>
