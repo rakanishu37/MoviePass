@@ -191,6 +191,13 @@
             }
             return $arrayToReturn;
         }
+
+        /*este no iria, es solo para probar */
+        public function showClient($showList = '')
+        {
+            $showList = $this->convertToArray($showList);
+            include_once VIEWS."showClient.php";
+        }
     }
 ?>
 

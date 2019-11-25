@@ -1,105 +1,66 @@
 <?php
 
 namespace models;
+use models\User as User;
 
-/*include "models/CreditCardPayment";
-
-use models\CreditCardPayment as CreditCardPayment;
-*/
 class Purchase
 {
-        private $date;
-        private $ticketQuantity;
+        private $user;
+        private $quantityOfTickets;
+        private $totalAmount;
+        private $datePurchase;
         private $discount;
-        private $total;
         private $idPurchase;
-        //private $CreditCardPayment;
+
+        public function __construct(User $user, $quantityOfTickets='', $totalAmount='',$datePurchase='',$discount='',$idPurchase=''){
+                $this->setUser($user);
+                $this->setQuantityOfTickets($quantityOfTickets);
+                $this->setTotalAmount($totalAmount);
+                $this->setDatePurchase($datePurchase);
+                $this->setDiscount($discount);
+                $this->setIdPurchase($idPurchase);
+        }
+
+        public function getUser(){
+                return $this->user;
+        }
+        public function setUser(User $user){
+                $this->user = $user;
+        }
         
-        /**
-         * Getter for IdPurchase
-         */
-        public function getIdPurchase()
-        {
-                return $this->idPurchase;
+        public function getQuantityOfTickets(){
+                return $this->quantityOfTickets;
         }
-
-        /**
-         * Setter for IdPurchase
-         */
-        public function setIdPurchase($idPurchase)
-        {
-                $this->idPurchase = $idPurchase;
+        public function setQuantityOfTickets($quantityOfTickets){
+                $this->quantityOfTickets = $quantityOfTickets;
         }
-
         
-
-        /**
-         * Get the value of date
-         */
-        public function getdate()
-        {
-                return $this->date;
+        public function getTotalAmount(){
+                return $this->totalAmount;
         }
-
-        /**
-         * Set the value of date
-         *
-         */
-        public function setDate($date)
-        {
-                $this->date = $date;
+        public function setTotalAmount($totalAmount){
+                $this->totalAmount = $totalAmount;
         }
-
-        /*
-         Get the value of ticketQuantity
-         */
-        public function getTicketQuantity()
-        {
-                return $this->ticketQuantity;
+        
+        public function getDatePurchase(){
+                return $this->datePurchase;
         }
-
-        /*
-         Set the value of ticketQuantity      
-         */
-        public function setTicketQuantity($ticketQuantity)
-        {
-                $this->ticketQuantity = $ticketQuantity;
+        public function setDatePurchase($datePurchase){
+                $this->datePurchase = $datePurchase;
         }
-
-        /**
-         * Get the value of total
-         */
-        public function getTotal()
-        {
-                return $this->total;
-        }
-
-        /**
-         * Set the value of total
-         *
-      
-         */
-        public function setTotal($total)
-        {
-                $this->total = $total;
-        }
-
-        /**
-         * Get the value of discount
-         */
-        public function getDiscount()
-        {
+        
+        public function getDiscount(){
                 return $this->discount;
         }
-
-        /**
-         * Set the value of discount
-         *
-      
-         */
-        public function setDiscount($discount)
-        {
+        public function setDiscount($discount){
                 $this->discount = $discount;
+        }
+        
+        public function getIdPurchase(){
+                return $this->idPurchase;
+        }
+        public function setIdPurchase($idPurchase){
+                $this->idPurchase = $idPurchase;
         }
 }
 ?>
