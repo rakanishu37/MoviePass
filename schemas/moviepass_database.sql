@@ -63,11 +63,11 @@ CREATE TABLE theatres(
 
 CREATE TABLE users(
     id_user int auto_increment,
-    id_role int,
+    administrador boolean,
     email varchar(50),
     password_user varchar (50),
     constraint pk_id_user primary key (id_user),
-    constraint fk_id_role_roles foreign key (id_role) references roles (id_role),
+    -- constraint fk_id_role_roles foreign key (id_role) references roles (id_role),
     constraint unq_email unique (email)
 );
 
