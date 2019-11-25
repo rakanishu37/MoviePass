@@ -61,15 +61,25 @@ CREATE TABLE theatres(
     constraint chk_seat_price check (seat_price>0)
 );
 
+CREATE TABLE users(
+    id_user int auto_increment,
+    administrador boolean,
+    email varchar(50),
+    password_user varchar (50),
+    constraint pk_id_user primary key (id_user),
+    -- constraint fk_id_role_roles foreign key (id_role) references roles (id_role),
+    constraint unq_email unique (email)
+);
+
 CREATE TABLE purchases(
     id_purchase int auto_increment,
-    -- id_user int, --
+    id_user int,
     quantity_of_tickets int not null,
     total_amount int,
     date_purchase datetime,
     discount int,
-    constraint pk_id_purchase primary key (id_purchase)--,
-    --constraint fk_id_user_users foreign key (id_user) references users (id_user) --
+    constraint pk_id_purchase primary key (id_purchase),
+    constraint fk_id_user_users foreign key (id_user) references users (id_user)
 );
 
 CREATE TABLE tickets(
@@ -92,15 +102,7 @@ CREATE TABLE roles(
     /*constraint unq_name_role un
 );*/
 /*
-CREATE TABLE users(
-    id_user int auto_increment,
-    id_role int,
-    email varchar(50),
-    password_user varchar (50),
-    constraint pk_id_user primary key (id_user),
-    constraint fk_id_role_roles foreign key (id_role) references roles (id_role),
-    constraint unq_email unique (email)
-);
+
 */
 
 /* falta pensarlo mas y cambiarle el nombre estos serian los  tipos de pago

@@ -17,7 +17,7 @@
 
     <p>Peliculas</p>
 
-    <form action="<?php echo FRONT_ROOT."Movies/función para comprar tickets" ?>" method="post">
+    <form action="<?php echo FRONT_ROOT."show/elegirFuncion" ?>" method="post">
     <table border="1">
         <thead class="thead">
 

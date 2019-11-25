@@ -35,6 +35,28 @@
             
         }
         
+        public function validateData($date,$time,$movieId,$cinemaId){
+            $flag = 0;
+            if($date<date("Y-m-d")){
+                //esta ingresando una fecha pasada a la actual y solo admite a partir del mañana
+            }
+            if(is_null($time)){
+                //la fecha vino como nula, es imposible
+            }
+            if(is_null($movieId) || empty($this->daoMovie->getById($movieId))){
+                //valor nulo o valor no existe en la bdd
+            }
+            if(is_null($cinemaId) || empty($this->daoCinema->getById($cinemaId))){
+                //valor nulo o valor no existe en la bdd
+            }
+
+            if($flag){
+                //mandarlo para atras
+            }
+            else{
+                $this->add($date,$time,$movieId,$cinemaId);
+            }
+        }
 
         public function add($date,$time,$movieId,$cinemaId){
             $projectionTime = $date." ".$time;
