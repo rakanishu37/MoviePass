@@ -8,6 +8,7 @@
     use dao\pdo\PDOMovie as DAOMovie;
     use dao\pdo\PDOCinema as DAOCinema;
     use dao\pdo\PDOGenre as DAOGenre;
+    use dao\pdo\PDOTicket as DAOTicket;
     use \Exception as Exception;
 
     class ShowController
@@ -16,12 +17,14 @@
         private $daoMovie;
         private $daoCinema;
         private $daoGenre;
+        private $daoTicket;
 
         public function __construct() {
             $this->daoShow = new DAOShow();
             $this->daoMovie = new DAOMovie();
             $this->daoCinema = new DAOCinema();
             $this->daoGenre = new DAOGenre();
+            $this->daoTicket = new DAOTicket();
         }
 
         public function index(){
@@ -198,6 +201,11 @@
             $showList = $this->convertToArray($showList);
             include_once VIEWS."showClient.php";
         }
+
+        public function funcionParaLucre(){
+            
+        }
+        
     }
 ?>
 
