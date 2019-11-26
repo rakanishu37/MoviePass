@@ -67,7 +67,7 @@
 
                 $resultSet = $this->connection->Execute($query, $parameters);
                 
-                return ($resultSet * $quantityOfTickets);
+                return ($resultSet[0]['capacity'] * $quantityOfTickets);
             }
             catch(Exception $ex)
             {

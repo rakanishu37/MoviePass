@@ -38,27 +38,30 @@
         //me rendi intentando hacer funcionar el stored procedure, meti el select que se que funciona
         public function countSeats($id_show){
             try {
-                $query= "SELECT 
-                            case
-                                when tickets.ticket_number is null then 1
-                                when tickets.ticket_number>=theatres.capacity then -1
-                                else tickets.ticket_number+1
-                            end as resultado
+                $query="SELECT 
+                            shows.id_show, 
+                            ifnull(count(tickets.ticket_number),1)as resultado
                         FROM
-                            theatres left outer join shows on theatres.id_theater = shows.id_theater
-                            left outer join tickets on tickets.id_show = shows.id_show
+                            shows left outer join tickets on tickets.id_show = shows.id_show
                         WHERE
-                            shows.id_show = :id_show";
+                            shows.id_show = :id_show;";
+                            
                 $parameters['id_show'] = $id_show;
 
                 $this->connection = Connection::GetInstance();
-
-                return $this->connection->Execute($query, $parameters);
+                $resultSet=$this->connection->Execute($query, $parameters);
+                
+                return $resultSet[0]['resultado'];
             }catch(Exception $ex){
                 throw $ex;
             }
         }
-
+        /**
+         * C:\wamp\www\Trabajo-Final-Tesis\controllers\PurchaseController.php:47:
+         * array (size=2)
+         * 'resultado' => string '1' (length=1)
+         * 0 => string '1' (length=1)
+         */
         public function getAll(){
             try
             {

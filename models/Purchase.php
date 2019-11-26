@@ -12,7 +12,7 @@ class Purchase
         private $discount;
         private $idPurchase;
 
-        public function __construct(User $user, $quantityOfTickets='', $totalAmount='',$datePurchase='',$discount='',$idPurchase=''){
+        public function __construct($quantityOfTickets='', $totalAmount='',$datePurchase='',$discount='',$user='',$idPurchase=''){
                 $this->setUser($user);
                 $this->setQuantityOfTickets($quantityOfTickets);
                 $this->setTotalAmount($totalAmount);
@@ -24,7 +24,7 @@ class Purchase
         public function getUser(){
                 return $this->user;
         }
-        public function setUser(User $user){
+        public function setUser($user){
                 $this->user = $user;
         }
         

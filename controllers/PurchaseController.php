@@ -26,9 +26,9 @@
             try{
                 $datePurchase = $date." ".$time;
                 $discount = 0;
-                $totalamount = getTotalAmount($quantityOfTickets, $idshow);
+                $totalamount = $this->daoPurchase->getTotalAmount($quantityOfTickets, $idshow);
 
-                $newPurchase = new Purchase(/*$user¨*/"", $quantityOfTickets, $totalamount, $datePurchase, $discount);
+                $newPurchase = new Purchase($quantityOfTickets, $totalamount, $datePurchase, $discount);
                 $idpurchase = $this->daoPurchase->add($newPurchase);
                 $show = $this->daoShow->getByID($idshow);
                 $newTicket = new Ticket("",$idpurchase,$show);
@@ -39,12 +39,15 @@
                 echo $e;
             }
         }
-
+public function getTotalAmount(Type $var = null)
+{
+    # code...
+}
         public function goToTicketQuantitySelection($idShow/*, $user*/){
             $show = $this->daoShow->getByID($idShow);
             try{
-                $seatsleft = $this->daoTicket->countSeats($idShow);
-                var_dump($seatsleft);
+                $seatsOccupied = $this->daoTicket->countSeats($idShow);
+                $seatsLeft= $show->getTheater()->getCapacity();
                 include VIEWS.'purchaseTicket.php';
                 } 
             catch (Exception $e) {

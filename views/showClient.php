@@ -14,7 +14,7 @@
 </head>
 
 <body>
-
+    
     <?php require 'headerAdmi.php'; ?>
 
     <form action="<?php echo FRONT_ROOT."Purchase/goToTicketQuantitySelection" ?>" method="post">
@@ -30,7 +30,7 @@
             <th></th>
         </tr>
 
-
+        
         <?php foreach ($showList as $show) { ?>
             <tr>
                 <td><?php echo $show->getDate(); ?></td>
@@ -40,12 +40,11 @@
                 <td><?php echo $show->getMovie()->getName(); ?></td>
                 <td>
                     <button name="idShow" type="submit" value="<?php echo $show->getId() ?>" class="boton"> 
-                        <a href="">
                         <span></span>
                         <span></span>
                         <span></span>
                         <span></span>
-                        Comprar</a>
+                        Comprar
                     </button>
                 </td>
                

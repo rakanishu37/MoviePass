@@ -208,7 +208,7 @@
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
             
-                return $this->parseToObject($resultSet);
+                return $this->parseToObjectSpecial($resultSet);
             }catch(Exception $ex){
                 throw $ex;
             }
