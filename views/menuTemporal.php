@@ -21,11 +21,11 @@
 <body>
  
     <?php 
-    if($_SESSION['loggedUser']->getStatus){
+    if($_SESSION['loggedUser']->getStatus()){
       require VIEWS.'headerAdmi.php';
     }
     else{
-      require require VIEWS.'headerUser.php'
+      require require VIEWS.'headerUser.php';
     }
      ?>
 
