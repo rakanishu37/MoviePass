@@ -93,7 +93,7 @@
             try
             {
                 $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like :projectionTime;";
-                $parameters['projectionTime'] = '%'.$date.'%';
+                $parameters['projectionTime'] = $date.'%';
 
                 $this->connection = Connection::GetInstance();
 
@@ -112,7 +112,7 @@
             try
             {
                 
-                $query = "SELECT shows.id_show as id_show , shows.projection_time as projection_time, shows.id_movie as id_movie, shows.id_cinema as id_cinema, shows.active as active
+                $query = "SELECT shows.id_show as id_show , shows.projection_time as projection_time, shows.id_movie as id_movie, shows.id_theater as id_theater, shows.active as active
                 from shows inner join movies_by_genres on shows.id_movie = movies_by_genres.id_movie
                 inner join genres on genres.id_genre = movies_by_genres.id_genre
                 where genres.id_genre = :id_genre;";
