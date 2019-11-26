@@ -11,6 +11,7 @@
     use dao\pdo\PDOGenre as DAOGenre;
     use \DateInterval as DateInterval;
     use \DateTime as DateTime;
+    use dao\pdo\PDOTicket as DAOTicket;
     use \Exception as Exception;
 
     class ShowController
@@ -20,6 +21,7 @@
         private $daoCinema;
         private $daoTheater;
         private $daoGenre;
+        private $daoTicket;
 
         public function __construct() {
             $this->daoShow = new DAOShow();
@@ -27,6 +29,7 @@
             $this->daoCinema = new DAOCinema();
             $this->daoTheater = new DAOTheater();
             $this->daoGenre = new DAOGenre();
+            $this->daoTicket = new DAOTicket();
         }
 
         public function index(){
@@ -298,6 +301,50 @@
             }
             return $arrayToReturn;
         }
+
+        /*este no iria, es solo para probar 
+        public function showClient($showList = '')
+        {
+            try {
+                $allShows = $this->daoShow->getAll();
+            
+                $showlist = is_null($allShows) ? [] : $this->convertToArray($allShows);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            include_once VIEWS."showClient.php";
+        }
+
+        public function showClient($showList = '')
+        {
+            try {
+                $showList = $this->daoShow->getAll();
+            
+                $this->convertToArray($showList);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            include_once VIEWS."showClient.php";
+        }
+        */
+
+        public function showClient()
+        {
+            
+            try {
+                $allShows = $this->daoShow->getAll();
+
+                $showList = is_null($allShows) ? [] : $this->convertToArray($allShows);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            include_once VIEWS."showClient.php";
+        }
+
+        public function quantitiesAndRemnants(){
+            $showList = $this->daoShow->getShowsWithTickets();
+        }
+        
     }
 ?>
 

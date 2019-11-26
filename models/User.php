@@ -7,7 +7,7 @@ class User
     private $email;
     private $password;
     private $role;//admin or client
-    //un id o un objeto que sea datos del cliente
+    private $idUser
     
     public function getEmail(){
         return $this->email;
@@ -21,6 +21,10 @@ class User
         return $this->role;
     }
 
+    public function getId(){
+        return $this->role;
+    }
+
     public function setEmail($email){
         $this->email = $email;
     }
@@ -31,5 +35,9 @@ class User
 
     public function setRole($role){
         $this->role = $role;
+    }
+
+    public function setId($idUser){
+        $this->idUser = $idUser;
     }
 }

@@ -191,6 +191,59 @@
                 throw $e;
             }
         }
+
+        public function getShowsWithTickets(){
+            try{
+                $query="SELECT 
+                            shows.id_show as id_show,
+                            shows.projection_time as projection_time,
+                            shows.id_movie as id_movie,
+                            shows.id_cinema as id_cinema,
+                            shows.active as active
+                            ifnull(count(tickets.id_show),0) as bought_tickets
+                        from
+                            shows left outer join tickets on shows.id_show = tickets.id_show
+                        group by
+                            shows.id_show";
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+            
+                return $this->parseToObject($resultSet);
+            }catch(Exception $ex){
+                throw $ex;
+            }
+        }
+
+        protected function parseToObjectSpecial($value) {
+            $array = array();
+            $value = is_array($value) ? $value : [];
+            try{
+                $resp = array_map(function($p){
+                    $daoMovie = new PDOMovie();
+                    $daoTheater = new PDOTheater();
+
+                    $movie = $daoMovie->getById($p['id_movie']);
+                    $theater = $daoTheater->getByID($p['id_theater']);
+                    
+                    new Show($p['projection_time'],$movie,$theater,$p['active'],$p['id_show']);
+                    $boughttickets=($p['bought_tickets']);
+                    
+                    $array['show']= new Show($p['projection_time'],$movie,$theater,$p['active'],$p['id_show']);
+                    $array['boughttickets'] = $boughttickets;
+
+                    return $array;
+                }, $value);
+                
+                if(empty($resp)){
+                    return $resp;
+                }
+                else {
+                    return count($resp) > 1 ? $resp : $resp['0'];
+                }
+            }
+            catch(Exception $e){
+                throw $e;
+            }
+        }
     }
-    
 ?>

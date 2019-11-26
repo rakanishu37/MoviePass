@@ -18,38 +18,36 @@
         }
 
         public function add($newTicket){
-            $ticket = countSeats($newTicket->getShow()->getId())
-            if ($ticket != -1){
-                try{
-                $query = "INSERT INTO ".$this->tableName." (ticket_number, id_purchase, id_show) 
-                VALUES (:ticket_number, :id_purchase, :id_show);";
-                $parameters['id_ticket'] = $ticket
-                $parameters['id_purchase'] = $newTicket->getPurchase();
-                $parameters['id_show'] = $newTicket->getShow()->getId();
-
+            $ticket = countSeats($newTicket->getShow()->getId());
+            $query = "INSERT INTO ".$this->tableName." (ticket_number, id_purchase, id_show) 
+            VALUES (:ticket_number, :id_purchase, :id_show);";
+            $parameters['id_ticket'] = $ticket;
+            $parameters['id_purchase'] = $newTicket->getPurchase();
+            $parameters['id_show'] = $newTicket->getShow()->getId();
+            
+            try{
                 $this->connection = Connection::GetInstance();
 
                 return $this->connection->ExecuteNonQuery($query, $parameters);
 
-                }catch(Exception $ex){
-                    throw $ex;
-                }
-            }              
+            }catch(Exception $ex){
+                throw $ex;
+            }             
         }
     
         //me rendi intentando hacer funcionar el stored procedure, meti el select que se que funciona
         public function countSeats($id_show){
             try {
-                $query= "select 
+                $query= "SELECT 
                             case
                                 when tickets.ticket_number is null then 1
                                 when tickets.ticket_number>=theatres.capacity then -1
                                 else tickets.ticket_number+1
                             end as resultado
-                        from
+                        FROM
                             theatres left outer join shows on theatres.id_theater = shows.id_theater
                             left outer join tickets on tickets.id_show = shows.id_show
-                        where
+                        WHERE
                             shows.id_show = :id_show";
                 $parameters['id_show'] = $id_show;
 

@@ -34,6 +34,7 @@
                         <li><a href="<?php echo FRONT_ROOT."show/"?>">Vista Principal</a></li>
                         <li><a href="<?php echo FRONT_ROOT."show/filterByDate"?>">Filtrar por fecha</a></li>
                         <li><a href="<?php echo FRONT_ROOT."show/filterByGenre"?>">Filtrar por genero</a></li>
+                        <li><a href="<?php echo FRONT_ROOT."show/showClient"?>">Acá Lauti XD</a></li>
                     </ul>
                 </li>
 

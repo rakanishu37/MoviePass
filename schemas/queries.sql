@@ -104,3 +104,16 @@ select @ticket from countingSeats;
 
 
 insert into tickets(ticket_number, id_purchase, id_show) values (@ticket, 1,1);
+
+
+select
+	shows.id_show,
+    shows.projection_time,
+    shows.id_movie,
+    shows.id_theater,
+    shows.active,
+	ifnull(sum(theatres.capacity-count(tickets.ticket_number)),0)
+from 
+	shows inner join 
+
+
