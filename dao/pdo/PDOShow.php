@@ -36,7 +36,7 @@
             }
         }
 
-                /**
+        /**
          * Updates the cinema attribute "active" to 0
          */
         public function deleteById($id_show){
@@ -92,13 +92,12 @@
         public function getAllByDate($date){
             try
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like :projectionTime;";
+                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like :projectionTime order by projection_time asc;";
                 $parameters['projectionTime'] = $date.'%';
 
                 $this->connection = Connection::GetInstance();
 
-                // $resultSet = $this->connection->Execute($query);
-                 $resultSet = $this->connection->Execute($query,$parameters);
+                $resultSet = $this->connection->Execute($query,$parameters);
                 
                 return $this->parseToObject($resultSet);
             }
@@ -107,6 +106,26 @@
                 throw $ex;
             }
         }
+
+        public function getByIdTheaterDate($idTheater,$date){
+            try
+            {
+                $query = "SELECT * FROM ".$this->tableName." WHERE id_theater = :id_theater and projection_time like :projectionTime order by projection_time asc;";
+                $parameters['projectionTime'] = $date.'%';
+                $parameters['id_theater'] = $idTheater;
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+                
+                return $this->parseToObject($resultSet);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+        
 
         public function getAllByGenre($genre){
             try

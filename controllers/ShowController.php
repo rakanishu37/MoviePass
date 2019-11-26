@@ -7,7 +7,10 @@
     use dao\pdo\PDOShow as DAOShow;
     use dao\pdo\PDOMovie as DAOMovie;
     use dao\pdo\PDOCinema as DAOCinema;
+    use dao\pdo\PDOTheater as DAOTheater;
     use dao\pdo\PDOGenre as DAOGenre;
+    use \DateInterval as DateInterval;
+    use \DateTime as DateTime;
     use \Exception as Exception;
 
     class ShowController
@@ -15,12 +18,14 @@
         private $daoShow;
         private $daoMovie;
         private $daoCinema;
+        private $daoTheater;
         private $daoGenre;
 
         public function __construct() {
             $this->daoShow = new DAOShow();
             $this->daoMovie = new DAOMovie();
             $this->daoCinema = new DAOCinema();
+            $this->daoTheater = new DAOTheater();
             $this->daoGenre = new DAOGenre();
         }
 
@@ -35,36 +40,14 @@
             
         }
         
-        public function validateData($date,$time,$movieId,$cinemaId){
-            $flag = 0;
-            if($date<date("Y-m-d")){
-                //esta ingresando una fecha pasada a la actual y solo admite a partir del mañana
-            }
-            if(is_null($time)){
-                //la fecha vino como nula, es imposible
-            }
-            if(is_null($movieId) || empty($this->daoMovie->getById($movieId))){
-                //valor nulo o valor no existe en la bdd
-            }
-            if(is_null($cinemaId) || empty($this->daoCinema->getById($cinemaId))){
-                //valor nulo o valor no existe en la bdd
-            }
 
-            if($flag){
-                //mandarlo para atras
-            }
-            else{
-                $this->add($date,$time,$movieId,$cinemaId);
-            }
-        }
-
-        public function add($date,$time,$movieId,$cinemaId){
+        public function add($date,$time,$movieId,$theaterId){
             $projectionTime = $date." ".$time;
             try {
                 $movie = $this->daoMovie->getById($movieId);
-                $cinema = $this->daoCinema->getById($cinemaId);
+                $theater = $this->daoTheater->getById($theaterId);
                 
-                $newShow = new Show($projectionTime,$movie,$cinema);
+                $newShow = new Show($projectionTime,$movie,$theater);
                 $this->daoShow->add($newShow);
     
                 $this->showMainView($this->daoShow->getAll());
@@ -75,20 +58,139 @@
         }
 
         public function startForm(){
-            include VIEWS."showChooseDateTimeForm.php";
+            try{
+                $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());    
+            }
+            catch(Exception $e){
+                array_push($arrayOfErrors,$e->getMessage());
+            }   
+            finally{
+                include VIEWS."showChooseDateTimeForm.php";
+            } 
         }
 
-        public function continueForm($date, $time){
+        public function continueForm($date, $time, $cinemaId){
             try {
-                $movieList = $this->getMoviesNotScreened($date);
+                $theaterList = $this->daoTheater->getByIdCinema($cinemaId);
+                include VIEWS."showChooseTheaterForm.php";
+            } catch (Exception $e) {
+                echo $e;
+            }
+        }
+
+        
+        public function finalizeForm($date, $time, $cinemaId,$theaterId){
             
-                $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
-                
+            try {
+                $movieList = $this->getMoviesAvailable($date,$theaterId);
+
                 include VIEWS."showChooseMovieCinemasForm.php";
             } catch (Exception $e) {
                 echo $e;
             }
+        }
+        private function validateDate($date, $time, $theaterId,$movie){
+            $auxDate = $date.' '.$time;
+            $dateToInsert = new DateTime($auxDate);
             
+            $runTime = $movie->getRuntime() + 15;
+            
+            $interval = new DateInterval('PT'.$runTime.'M');
+            $dateToInsertEnd = new DateTime($auxDate);
+            $dateToInsertEnd->add($interval);
+            
+            $showList = $this->daoShow->getByIdTheaterDate($theaterId,$date);
+            
+            $flag = 0;
+            /**
+             * @var Show $show
+             */
+            foreach ($showList as $show) {
+                $initialDate = new DateTime($show->getProjectionTime());
+                $endDate = new DateTime($show->getProjectionTime());
+
+                $runTime= $show->getMovie()->getRuntime();
+                $interval = new DateInterval('PT'.$runTime.'M');
+                $endDate->add($interval);
+
+                $interval = new DateInterval('PT15M');
+                //final de la proyeccion
+                $endDate->add($interval);
+                
+                if($dateToInsert>=$initialDate && $dateToInsert<=$endDate){
+                    $flag = 1;
+                }
+                elseif($dateToInsertEnd>=$initialDate && $dateToInsertEnd<=$endDate){
+                        $flag = 1;
+                    }
+                }    
+            return $flag;
+        }
+        
+        public function validateData($date,$time, $theaterId,$movieId){
+            $message = '';
+            $movie = $this->daoMovie->getById($movieId);
+            $flag = 0;
+            if($date<date("Y-m-d")){
+                //esta ingresando una fecha pasada a la actual y solo admite a partir del mañana
+            }
+            if(is_null($time)){
+                //la fecha vino como nula, es imposible
+            }
+            if($this->validateDate($date,$time, $theaterId,$movieId)){
+                $flag = 1;
+                $message .= 'En la fecha y hora elegidas la sala ya emite una pelicula';
+            }
+            if(is_null($movieId) || empty($this->daoMovie->getById($movieId))){
+                //valor nulo o valor no existe en la bdd
+            }
+            if(is_null($theaterId) || empty($this->daoTheater->getById($theaterId))){
+                //valor nulo o valor no existe en la bdd
+            }
+
+            if($flag){
+                //mandarlo para atras
+            }
+            else{
+                $this->add($date,$time,$movieId,$theaterId);
+            }
+        }
+
+
+        private function getMoviesAvailable($date,$theaterId){
+            $movieListFiltered = array();
+            $moviesScreened = array();
+
+            $movieList = $this->daoMovie->getLatestMovies();
+            $showList = $this->daoShow->getAllByDate($date);
+            /**
+             * @var Show $show
+             */
+            foreach ($showList as $show) {
+                if($show->getTheater()->getId() == $theaterId){
+                    array_push($movieListFiltered,$show->getMovie());
+                }
+                else{
+                    array_push($moviesScreened,$show->getMovie());
+                }
+            }
+                
+            /**
+             * @var Movie $movie
+             */
+            foreach ($movieList as $movie) {
+                if($this->movieInArray($movie,$moviesScreened) == false && $this->movieInArray($movie,$movieListFiltered)){
+                    array_push($movieListFiltered,$movie);
+                }
+            }
+
+            
+            /*
+            hay alguna funcion que tenga esa pelicula y coincide la sala que quiere agregar la funcion
+            con la anterior?
+            pero solo las disponibles
+            eso son quitando las peliculas que ya tengan una funcion para ese dia
+            */
         }
 
         public function filterByDate(){
@@ -161,7 +263,7 @@
             
         }
        
-        private function movieInArray(Movie $searchedMovie,$movieList){
+        private function movieInArray($searchedMovie,$movieList){
             foreach ($movieList as $movie) {
                 if($movie->getId() == $searchedMovie->getId()){
                     return true;
@@ -182,6 +284,11 @@
             
         }
 
+        public function elegirFuncion(){
+
+        }
+
+        
         private function convertToArray($value){
             if(is_array($value)){
                 $arrayToReturn = $value;    

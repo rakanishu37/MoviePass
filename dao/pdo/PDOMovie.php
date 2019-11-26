@@ -21,6 +21,11 @@
             $this->tableNameGenres = 'genres';
             $this->tableNameMovies = 'movies';
         }
+        /*  pregunto por cada id de las ultias peliculas
+                sino la tiene la agrega
+            
+            Comentario: originalmente la bdd va a estar vacia asi que puedo rellenar con esto    
+        */
 
         public function updateLatestMovies()
         {
@@ -39,15 +44,46 @@
             } catch (Exception $e) {
                 throw $e;
             }
-            
-
-            
         }
-          /*  pregunto por cada id de las ultias peliculas
-                sino la tiene la agrega
-            
-            Comentario: originalmente la bdd va a estar vacia asi que puedo rellenar con esto    
-        */
+
+        public function getLatestMovies()
+        {
+            try{
+                $latestMoviesIDList = ApiController::getLatestMoviesID();
+                $query= "SELECT * FROM ".$this->tableNameMovies."
+                where id_movie in (:movie1,:movie2,:movie3,:movie4,:movie5,:movie6,:movie7,:movie8,:movie9,:movie10,:movie11,:movie12,:movie13,:movie14,:movie15,:movie16,:movie17,:movie18,:movie19,:movie20);";       
+                $parameters['movie1'] = $latestMoviesIDList[0]; 
+                $parameters['movie2'] = $latestMoviesIDList[1]; 
+                $parameters['movie3'] = $latestMoviesIDList[2]; 
+                $parameters['movie4'] = $latestMoviesIDList[3]; 
+                $parameters['movie5'] = $latestMoviesIDList[4]; 
+                $parameters['movie6'] = $latestMoviesIDList[5]; 
+                $parameters['movie7'] = $latestMoviesIDList[6]; 
+                $parameters['movie8'] = $latestMoviesIDList[7]; 
+                $parameters['movie9'] = $latestMoviesIDList[8]; 
+                $parameters['movie10'] = $latestMoviesIDList[9]; 
+                $parameters['movie11'] = $latestMoviesIDList[10]; 
+                $parameters['movie12'] = $latestMoviesIDList[11]; 
+                $parameters['movie13'] = $latestMoviesIDList[12]; 
+                $parameters['movie14'] = $latestMoviesIDList[13]; 
+                $parameters['movie15'] = $latestMoviesIDList[14]; 
+                $parameters['movie16'] = $latestMoviesIDList[15]; 
+                $parameters['movie17'] = $latestMoviesIDList[16]; 
+                $parameters['movie18'] = $latestMoviesIDList[17]; 
+                $parameters['movie19'] = $latestMoviesIDList[18]; 
+                $parameters['movie20'] = $latestMoviesIDList[19]; 
+                                
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+                
+                return $this->parseToObject($resultSet);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
 
         public function add($newMovie)
         {

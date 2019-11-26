@@ -22,9 +22,8 @@
             
             try{
                 $this->daoMovie->updateLatestMovies();
-                $movieList = $this->daoMovie->getAll();
+                $movieList = $this->daoMovie->getLatestMovies();
 
-                //include VIEWS.'verticalMovies.php';
                 include VIEWS.'moviesList.php';
             }
             catch(Exception $e){
@@ -43,7 +42,7 @@
             
         }
 
-        private function movieContainsGenre(Movie $movie,$searchedGenre){
+        private function movieContainsGenre($movie,$searchedGenre){
             foreach ($movie->getGenre() as $genre) {
                 if($genre->getApiKey() == $searchedGenre){
                     return true;
@@ -54,7 +53,7 @@
         public function filterMovies($filteredGenre){
             $filter = $filteredGenre;
             try {
-                $movieListToBeFiltered = $this->daoMovie->getAll();
+                $movieListToBeFiltered = $this->daoMovie->getLatestMovies();
 
                 $movieList = array();
                 foreach ($movieListToBeFiltered as $movie) {
