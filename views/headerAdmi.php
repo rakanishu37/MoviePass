@@ -12,6 +12,8 @@
 
                 <li><a href="<?php echo FRONT_ROOT ?>">| Inicio |</a></li>
 
+                <li><a href="<?php echo FRONT_ROOT ?>user/logout">| Salir de la sesion |</a></li>
+                
                 <li><a href="">| Cines |</a>
                     <ul>
                         <li>

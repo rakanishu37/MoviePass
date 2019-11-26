@@ -23,12 +23,17 @@
     <?php 
     if($_SESSION['loggedUser']->getStatus()){
       require VIEWS.'headerAdmi.php';
+      echo 'sos admin';
     }
     else{
-      require require VIEWS.'headerUser.php';
+      require VIEWS.'headerUser.php';
+      echo 'sos plebe';
     }
-     ?>
-
+    echo '<pre>';
+    var_dump($_SESSION['loggedUser']);
+    echo '</pre>'; ;
+    ?>
+    
 
 </body>
 

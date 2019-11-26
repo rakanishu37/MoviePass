@@ -1,13 +1,18 @@
 <?php
 namespace controllers;
-use \DateTime as DateTime;
-use \DateInterval as DateInterval;
+// use \DateTime as DateTime;
+// use \DateInterval as DateInterval;
 
     class HomeController
     {
         public function index(){
-            
-            include VIEWS.'menuTemporal.php';
+			if(session_status() !== PHP_SESSION_ACTIVE) session_start();
+			if(isset($_SESSION['loggedUser'])){
+				include_once VIEWS.'menuTemporal.php';
+			}
+			else{
+				include VIEWS.'loginForm.php';
+			}
         }
 
         public function metodo(){

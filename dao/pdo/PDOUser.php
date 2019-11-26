@@ -67,10 +67,11 @@
                 throw $ex;
             }
         }
+
         protected function parseToObject($value) {
 			$value = is_array($value) ? $value : [];
 			$resp = array_map(function($p){
-				return new User($p['email'],$p['password_user'],$p['email'],$p['administrador']);
+				return new User($p['email'],$p['password_user'],$p['administrador'],$p['id_user']);
             }, $value);
             
             if(empty($resp)){
