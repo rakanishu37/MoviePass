@@ -19,11 +19,15 @@
 </style>
 
 <body>
-    <!-- <script>
-            swal("Good job!", "You clicked the button!", "success");
-    </script>
-     -->
-    <?php require 'headerAdmi.php'; ?>
+ 
+    <?php 
+    if($_SESSION['loggedUser']->getStatus){
+      require VIEWS.'headerAdmi.php';
+    }
+    else{
+      require require VIEWS.'headerUser.php'
+    }
+     ?>
 
 
 </body>

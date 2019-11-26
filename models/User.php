@@ -6,9 +6,14 @@ class User
 {
     private $email;
     private $password;
-    private $role;//admin or client
-    private $idUser
-    
+    private $admin;//admin or client
+    private $idUser;
+    public function __construct($email,$password,$admin = false,$idUser='') {
+        $this->setEmail($email);
+        $this->setPassword($password);
+        $this->setStatus($admin);
+        $this->setId($idUser);
+    }
     public function getEmail(){
         return $this->email;
     }
@@ -17,12 +22,12 @@ class User
         return $this->password;
     }
 
-    public function getRole(){
-        return $this->role;
+    public function getStatus(){
+        return $this->admin;
     }
 
     public function getId(){
-        return $this->role;
+        return $this->idUser;
     }
 
     public function setEmail($email){
@@ -33,8 +38,8 @@ class User
         $this->password = $password;
     }
 
-    public function setRole($role){
-        $this->role = $role;
+    public function setStatus($admin){
+        $this->admin = $admin;
     }
 
     public function setId($idUser){

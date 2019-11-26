@@ -26,7 +26,7 @@
   </header>
   
      <div class="form">
-          <form action="Process/singInController.php" method="post" >
+          <form action="<?php echo FRONT_ROOT?>user/validateUser" method="post" >
                
                     <label for="userName">Email</label>
                     <br>

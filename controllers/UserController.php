@@ -2,32 +2,53 @@
     namespace controllers;
 
     use models\User as User;
-    use dao\DAOUser as DAOUser;
-
+    use dao\pdo\PDOUser as DAOUser;
+    use \Exception as Exception;
     class UserController{
-        private $DAOUser;
+        private $daoUser;
 
         public function __construct()
         {
-            $this->DAOUser = new DAOUser(); 
+            $this->daoUser = new DAOUser(); 
+        }
+        public function signin($arrayOfErrors = array())
+        {
+            include VIEWS.'signIn.php';
+            include_once VIEWS.'footer.php';
         }
 
-        public function login($userEmail, $userPassword){
+        public function validateUser($email,$password){
+             try {
+                if(!empty($this->daoUser->getByEmail($email)){
+                    throw new Exception("Ese email ya esta siendo usado, ingrese otro");    
+                }
+                $this->tryLogin($email,$password);
+
+             } catch (Exception $e) {
+                array_push($arrayOfErrors,$e->getMessage());
+                $this->signin($arrayOfErrors);
+             }
+             
+        }
+        public function login($arrayOfErrors = array()){
+            include VIEWS. '.php'
+        }
+
+        public function tryLogin($userEmail, $userPassword){
+            if(session_status() !== PHP_SESSION_ACTIVE) session_start();
             
+            try{
+                $user = $this->DAOUser->getEmail($userEmail);
 
-            $user = $this->DAOUser->getEmail($userEmail);
+                if($user != null && ($userPassword == $user->getPassword())){
 
-            if($user != null && ($pass == $user->getPassword())){
-                session_start();
-                $logUser = $user;
-                $_SESSION["loggedUser"] = $logUser;
+                $_SESSION["loggedUser"] = $user;
 
-                include VIEWS."menuTempral.php";
-            }else{
-                echo "<script> if(confirm('Datos incorrectos'))</script>";
-                include VIEWS."loginForm.php";
+                include VIEWS."menuTemporal.php";
+                }
             }
-                
-
+            catch(Exception $e){
+                array_push($arrayOfErrors)
+            }
     }
 ?>

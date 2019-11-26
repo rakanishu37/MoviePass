@@ -21,10 +21,10 @@
             $this->tableName = 'shows';
         }
         public function add($newShow){
-            $query = "INSERT INTO ".$this->tableName." (projection_time, id_movie, id_cinema,active) VALUES(:projection_time, :id_movie, :id_cinema,:active);";
+            $query = "INSERT INTO ".$this->tableName." (projection_time, id_movie, id_theater,active) VALUES(:projection_time, :id_movie, :id_theater,:active);";
             $parameters['projection_time'] = $newShow->getProjectionTime();
             $parameters['id_movie'] = $newShow->getMovie()->getId();
-            $parameters['id_cinema'] = $newShow->getCinema()->getId();
+            $parameters['id_theater'] = $newShow->getTheater()->getId();
             $parameters['active'] = 1;
             try{
                 $this->connection = Connection::GetInstance();

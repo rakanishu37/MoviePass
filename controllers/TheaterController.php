@@ -66,7 +66,7 @@ use \Exception as Exception;
         {
             //require_once(VIEWS."validate-session.php");
             $this->daoTheater->delete($id);
-            $this->ShowListView();
+            $this->ShowListView($id);
         }
 
 
@@ -108,7 +108,7 @@ use \Exception as Exception;
             try{
                 $this->daoTheater->update($theaterModified);
                 
-                $this->ShowListView();
+                $this->ShowListView($cinema->getId());
             }
             catch(Exception $ex){
                 echo $ex;

@@ -26,7 +26,7 @@
   </header>
   
      <div class="form">
-          <form action="Process/loguinController.php" method="post" >
+          <form action="<?php echo FRONT_ROOT?>user/tryLogin" method="post" >
                
                     <label for="userName">Usuario</label>
                     <br>

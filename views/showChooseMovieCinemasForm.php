@@ -13,9 +13,10 @@
 <body>
 
     <?php include VIEWS.'headerAdmi.php'?>
-    <form action="<?php echo FRONT_ROOT ?>show/add" method="post" class="form">
+    <form action="<?php echo FRONT_ROOT ?>show/validateData" method="post" class="form">
         <input type="hidden" name="date" value="<?php echo $date ?>">
         <input type="hidden" name="time" value="<?php echo $time ?>">
+        <input type="hidden" name="theaterId" value="<?php echo $theaterId ?>">
         
         <label>Pelicula</label>
         <select name="movieId" id="">

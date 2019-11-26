@@ -44,7 +44,7 @@
         }
         
 
-        public function add($date,$time,$movieId,$theaterId){
+        public function add($date,$time,$theaterId,$movieId){
             $projectionTime = $date." ".$time;
             try {
                 $movie = $this->daoMovie->getById($movieId);
@@ -60,33 +60,42 @@
             }
         }
 
-        public function startForm(){
+        public function startForm($arrayOfErrors = array()){
             try{
-                $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());    
+                $cinemaList = array();
+                $cinemas = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
+                foreach ($cinemas as $cinema) {
+                    if(!empty($this->daoTheater->getByCinemaID($cinema->getId()))){
+                        array_push($cinemaList,$cinema);
+                    }
+                }    
             }
             catch(Exception $e){
                 array_push($arrayOfErrors,$e->getMessage());
             }   
             finally{
                 include VIEWS."showChooseDateTimeForm.php";
+                include VIEWS.'footer.php';    
             } 
         }
 
-        public function continueForm($date, $time, $cinemaId){
+        public function continueForm($date, $time, $cinemaId,$arrayOfErrors = array()){
             try {
                 $theaterList = $this->daoTheater->getByIdCinema($cinemaId);
+                $theaterList = $this->convertToArray($theaterList);
                 include VIEWS."showChooseTheaterForm.php";
             } catch (Exception $e) {
                 echo $e;
             }
+            include VIEWS.'footer.php';
         }
 
         
-        public function finalizeForm($date, $time, $cinemaId,$theaterId){
+        public function finalizeForm($date, $time, $cinemaId,$theaterId,$arrayOfErrors=array()){
             
             try {
                 $movieList = $this->getMoviesAvailable($date,$theaterId);
-
+               
                 include VIEWS."showChooseMovieCinemasForm.php";
             } catch (Exception $e) {
                 echo $e;
@@ -131,32 +140,24 @@
         }
         
         public function validateData($date,$time, $theaterId,$movieId){
-            $message = '';
-            $movie = $this->daoMovie->getById($movieId);
-            $flag = 0;
+            $arrayOfErrors = array();
             if($date<date("Y-m-d")){
-                //esta ingresando una fecha pasada a la actual y solo admite a partir del mañana
+                array_push($arrayOfErrors,'La fecha tiene que ser una futura') ;
+                $this->startForm($arrayOfErrors);
             }
             if(is_null($time)){
-                //la fecha vino como nula, es imposible
+                array_push($arrayOfErrors,'La hora no puede ser nula');
+                $this->startForm($arrayOfErrors);
             }
             if($this->validateDate($date,$time, $theaterId,$movieId)){
-                $flag = 1;
-                $message .= 'En la fecha y hora elegidas la sala ya emite una pelicula';
-            }
-            if(is_null($movieId) || empty($this->daoMovie->getById($movieId))){
-                //valor nulo o valor no existe en la bdd
-            }
-            if(is_null($theaterId) || empty($this->daoTheater->getById($theaterId))){
-                //valor nulo o valor no existe en la bdd
+                $cinemaId = $this->daoTheater->getByID($theaterId)->getId();
+                array_push($arrayOfErrors,'En la fecha y hora elegidas la sala ya emite una pelicula');
+                $this->continueForm($date, $time, $cinemaId,$arrayOfErrors);
             }
 
-            if($flag){
-                //mandarlo para atras
-            }
-            else{
-                $this->add($date,$time,$movieId,$theaterId);
-            }
+            
+           $this->add($date,$time,$movieId,$theaterId);
+            
         }
 
 
@@ -165,7 +166,10 @@
             $moviesScreened = array();
 
             $movieList = $this->daoMovie->getLatestMovies();
+
             $showList = $this->daoShow->getAllByDate($date);
+
+            $showList = $this->convertToArray($showList);
             /**
              * @var Show $show
              */
@@ -177,23 +181,19 @@
                     array_push($moviesScreened,$show->getMovie());
                 }
             }
-                
+
+
             /**
              * @var Movie $movie
              */
             foreach ($movieList as $movie) {
-                if($this->movieInArray($movie,$moviesScreened) == false && $this->movieInArray($movie,$movieListFiltered)){
-                    array_push($movieListFiltered,$movie);
+                if($this->movieInArray($movie,$moviesScreened) == false){
+                    if($this->movieInArray($movie,$movieListFiltered) == false){
+                        array_push($movieListFiltered,$movie);
+                    }    
                 }
             }
-
-            
-            /*
-            hay alguna funcion que tenga esa pelicula y coincide la sala que quiere agregar la funcion
-            con la anterior?
-            pero solo las disponibles
-            eso son quitando las peliculas que ya tengan una funcion para ese dia
-            */
+            return $movieListFiltered;
         }
 
         public function filterByDate(){
@@ -238,7 +238,7 @@
         }
 
 
-        private function getMoviesNotScreened($date){
+        /*        private function getMoviesNotScreened($date){
             try {
                 $showList = $this->daoShow->getAllByDate($date);
             
@@ -247,9 +247,6 @@
                 $moviesScreened = array();
                 $moviesNotScreened = array();
     
-                /**
-                 * @var Show $show
-                 */
                 foreach($showList as $show){
                     array_push($moviesScreened,$show->getMovie());
                 }
@@ -262,17 +259,22 @@
                return $moviesNotScreened; }
             catch (Exception $e) {
                 echo $e;
-            }
-            
-        }
+            }   
+        }*/
        
-        private function movieInArray($searchedMovie,$movieList){
-            foreach ($movieList as $movie) {
-                if($movie->getId() == $searchedMovie->getId()){
-                    return true;
+        private function movieInArray($searchedMovie,$movieList= ''){
+            if(empty($movieList)== false){
+                foreach ($movieList as $movie) {
+                    if($movie->getId() == $searchedMovie->getId()){
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            else{
+                return false;
+            }    
+            
         } 
 
         
