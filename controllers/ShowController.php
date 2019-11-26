@@ -195,15 +195,47 @@
             return $arrayToReturn;
         }
 
-        /*este no iria, es solo para probar */
+        /*este no iria, es solo para probar 
         public function showClient($showList = '')
         {
-            $showList = $this->convertToArray($showList);
+            try {
+                $allShows = $this->daoShow->getAll();
+            
+                $showlist = is_null($allShows) ? [] : $this->convertToArray($allShows);
+            } catch (Exception $e) {
+                echo $e;
+            }
             include_once VIEWS."showClient.php";
         }
 
-        public function funcionParaLucre(){
+        public function showClient($showList = '')
+        {
+            try {
+                $showList = $this->daoShow->getAll();
             
+                $this->convertToArray($showList);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            include_once VIEWS."showClient.php";
+        }
+        */
+
+        public function showClient()
+        {
+            
+            try {
+                $allShows = $this->daoShow->getAll();
+
+                $showList = is_null($allShows) ? [] : $this->convertToArray($allShows);
+            } catch (Exception $e) {
+                echo $e;
+            }
+            include_once VIEWS."showClient.php";
+        }
+
+        public function quantitiesAndRemnants(){
+            $showList = $this->daoShow->getShowsWithTickets();
         }
         
     }

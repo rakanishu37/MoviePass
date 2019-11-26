@@ -33,17 +33,17 @@
 
         <?php foreach ($showList as $show) { ?>
             <tr>
-                <td><?php echo $show->getDate(); ?></td>
-                <td><?php echo $show->getTime(); ?></td>
-                <td><?php echo $show->getTheater()->getCinema()->getName(); ?></td>
-                <td><?php echo $show->getTheater()->getName(); ?></td>
-                <td><?php echo  $show->getTheater()->getCapacity(); ?></td>
-                <td><?php echo $show->getMovie()->getName(); ?></td>
-                <td></td>
-                <td></td>
+                <td><?php echo $show['show']->getDate(); ?></td>
+                <td><?php echo $show['show']->getTime(); ?></td>
+                <td><?php echo $show['show']->getTheater()->getCinema()->getName(); ?></td>
+                <td><?php echo $show['show']->getTheater()->getName(); ?></td>
+                <td><?php echo $show['show']->getTheater()->getCapacity(); ?></td>
+                <td><?php echo $show['show']->getMovie()->getName(); ?></td>
+                <td><?php echo $show['boughttickets']->getMovie()->getName(); ?></td>
+                <td><?php echo ($show['show']->getMovie()->getName()-$show['boughttickets']->getMovie()->getName()); ?></td>
             </tr>
         <?php } ?>
-       
+    
     </table>
 
   

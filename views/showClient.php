@@ -17,7 +17,7 @@
 
     <?php require 'headerAdmi.php'; ?>
 
-    <form action="<?php echo FRONT_ROOT."Puraches/goToTicketQuantitySelection" ?>" method="post">
+    <form action="<?php echo FRONT_ROOT."Purchase/goToTicketQuantitySelection" ?>" method="post">
     <table border="1">
         <tr>
             <th>Fecha</th>

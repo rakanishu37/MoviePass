@@ -40,14 +40,26 @@
             }
         }
 
-        public function goToTicketQuantitySelection($idShow, $user){
+        public function goToTicketQuantitySelection($show, $user){
+            $idshow = $this->daoShow()->getByID();
             try{
                 $seatsleft = $this->daoTicket->countSeats($idShow)
-                include VIEWS.'purchaseForm.php'
+                include VIEWS.'purchaseTicket.php'
                 } 
             catch (Exception $e) {
                     echo $e;
             }
+        }
+
+        private function convertToArray($value){
+            $arrayToReturn = array();
+            if(is_array($value)){
+                $arrayToReturn = $value;    
+            }
+            else {
+                $arrayToReturn [] = $value;
+            }
+            return $arrayToReturn;
         }
     }
 

@@ -1,3 +1,5 @@
+<!-- Desactualizado referice a purchaseTicket (siendo este la version final)-->
+
 <!DOCTYPE html>
 <html lang="en">
 
