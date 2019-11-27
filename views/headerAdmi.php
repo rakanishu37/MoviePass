@@ -20,7 +20,10 @@
                             <a href='<?php echo FRONT_ROOT ?>show/quantitiesAndRemnants'>Cantidades y Remanentes</a>
                         </li>
                         <li>
-                            <a href='<?php echo FRONT_ROOT ?>show/'>Total en pesos</a>
+                            <a href='<?php echo FRONT_ROOT ?>show/moneyCollectionCinema'>Ventas segun Cine</a>
+                        </li>
+                        <li>
+                            <a href='<?php echo FRONT_ROOT ?>show/moneyCollectionMovie'>Ventas segun Pelicula</a>
                         </li>
                     </ul>
                 </li>

@@ -16,8 +16,7 @@
         <?php require 'headerAdmi.php'; ?>
 
       
-        <form action="<?php echo FRONT_ROOT ?>show/metodo" method="post" class="form">
-               
+        <form action="<?php echo FRONT_ROOT ?>show/totalAmountByCinema" method="post" class="form">
                 <label>Cine</label>
                 <select name="cinemaId" id="" class="cinemasAvailable">
                 <?php foreach ($cinemaList as $cinema) { ?>
@@ -25,6 +24,15 @@
                 <?php } ?>
                 </select>
                 <br>
+        
+                <label>Total vendido entre fechas</label>
+                
+                <p>Entre la fecha:</p>
+                <input type="date" name="firstDate" class="date" required>
+
+                <p>Y la fecha:</p>
+                <input type="date" name="lastDate" class="date" required>
+                <br>       
 				
                 <button type="submit" class="boton">
                         <span></span>

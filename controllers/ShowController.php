@@ -108,10 +108,10 @@
 			include VIEWS.'footer.php';
             }
         }
-        private function validateDate($date, $time, $theaterId,$movie){
+        private function validateDate($date, $time, $theaterId,$movieId){
             $auxDate = $date.' '.$time;
             $dateToInsert = new DateTime($auxDate);
-            
+            $movie = $this->daoMovie->getById($movieId);
             $runTime = $movie->getRuntime() + 15;
             
             $interval = new DateInterval('PT'.$runTime.'M');
@@ -163,7 +163,7 @@
             }
 
             
-           $this->add($date,$time,$movieId,$theaterId);
+           $this->add($date,$time,$theaterId,$movieId);
             
         }
 
@@ -304,8 +304,24 @@
             
         }
 
-        public function chooseShow(){
-
+        public function chooseShow($movieId){
+            try {
+                $showList = $this->convertToArray($this->daoShow->getAvailableShowsByMovieId($movieId));
+                
+                if(empty($showList)){
+                    $arrayOfErrors [] = "No hay funciones disponibles";
+                    include VIEWS.'menuTemporal.php';
+                    include VIEWS.'footer.php';
+                }
+                else{
+                    include_once VIEWS."showClient.php";
+                }
+            } catch (Exception $e) {
+                $arrayOfErrors [] = $e->getMessage;
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
+            }
+            
         }
 
         
@@ -369,6 +385,50 @@
             }
             include VIEWS.'quantitiesAndRemnants.php';
         } 
+
+        public function moneyCollectionCinema(){
+            try{
+                $cinemaList= $this->convertToArray($this->daoCinema->getAll());
+            }
+            catch(Exception $ex){
+                echo '<pre>';
+                echo $ex;
+                echo '</pre>';
+            }
+            include VIEWS.'selectCinemaForTotal.php';
+        }
+
+        public function totalAmountByCinema($cinemaId,$firstDate,$lastDate){
+            try{
+                $revenue = $this->daoShow->totalAmountByCinema($cinemaId,$firstDate,$lastDate);
+            }
+            catch(Exception $e){
+                echo $e;
+            }
+            include VIEWS.'showTotalMoney.php';
+        }
+
+        public function moneyCollectionMovie(){
+            try{
+                $movieList= $this->convertToArray($this->daoMovie->getAll());
+            }
+            catch(Exception $ex){
+                echo '<pre>';
+                echo $ex;
+                echo '</pre>';
+            }
+            include VIEWS.'selectMoviesForTotal.php';
+        }      
+        public function totalAmountByMovie($movieId,$firstDate,$lastDate){
+            try{
+                $revenue = $this->daoShow->totalAmountByMovie($movieId,$firstDate,$lastDate);
+            }
+            catch(Exception $e){
+                echo $e;
+            }
+            include VIEWS.'showTotalMoney.php';
+        }
+        
     }
 ?>
 

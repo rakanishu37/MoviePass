@@ -12,11 +12,11 @@
 
 <body>
 
-    <?php include VIEWS.'headerAdmi.php'?>
+    <?php include VIEWS . 'headerAdmi.php' ?>
 
-    <form action="<?php echo FRONT_ROOT ?>show/metodo" method="post" class="form">
-        
-        
+    <form action="<?php echo FRONT_ROOT ?>show/totalAmountByMovie" method="post" class="form">
+
+
         <label>Pelicula</label>
         <select name="movieId" id="">
             <?php foreach ($movieList as $movie) { ?>
@@ -24,7 +24,16 @@
             <?php } ?>
         </select>
         <br>
-        
+
+        <label>Total vendido entre fechas</label>
+
+        <p>Entre la fecha:</p>
+        <input type="date" name="firstDate" class="date" required>
+
+        <p>Y la fecha:</p>
+        <input type="date" name="lastDate" class="date" required>
+        <br>
+
         <button type="submit" class="boton">
             <span></span>
             <span></span>

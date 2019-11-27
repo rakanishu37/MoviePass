@@ -8,7 +8,7 @@
     <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
     
     <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
-    <script src="<?php echo FRONT_ROOT?>/views/js/sweetalert.min.js"></script>
+    
     <title>MoviePass</title>
 </head>
 

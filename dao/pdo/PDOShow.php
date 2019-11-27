@@ -89,7 +89,41 @@
                 throw $e;
             }
         }
-        
+        public function getAvailableShowsByMovieId($movieId){
+            try{
+                $query="SELECT
+                            shows.id_show as id_show,
+                            shows.projection_time as projection_time,
+                            shows.id_movie as id_movie,
+                            shows.id_theater as id_theater,
+                            shows.active as active,
+                            sum(theatres.capacity - ticketsdados.bought_tickets) as remanente
+                        from
+                            shows inner join theatres on shows.id_theater = theatres.id_theater left outer join
+                            (SELECT 
+                                shows.id_show as id_show,
+                                ifnull(count(tickets.id_show),0) as bought_tickets
+                            from
+                                shows left outer join tickets on shows.id_show = tickets.id_show
+                            group by
+                                shows.id_show) as ticketsdados on shows.id_show = ticketsdados.id_show
+                        where 
+                            shows.active = 1 and shows.id_movie = :movieId
+                        group by
+                            shows.id_show
+                        having
+                        sum(theatres.capacity - ticketsdados.bought_tickets) > 0
+                        order by
+                            shows.projection_time asc;";
+                $parameters['movieId'] = $movieId;
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query,$parameters);
+            
+                return $this->parseToObject($resultSet);
+            }catch(Exception $ex){
+                throw $ex;
+            }
+        }
         public function getAllByDate($date){
             try
             {
@@ -263,14 +297,16 @@
                                 ifnull(count(tickets.id_show),0) as bought_tickets
                             from
                                 shows left outer join tickets on shows.id_show = tickets.id_show
+                            group by
+                                shows.id_show) as ticketsdados on shows.id_show = ticketsdados.id_show
+                        where 
+                            shows.active = 1
                         group by
-                    shows.id_show) as ticketsdados on shows.id_show = ticketsdados.id_show
-            where 
-                shows.active = 1
-            group by
-                shows.id_show
-            having
-                sum(theatres.capacity - ticketsdados.bought_tickets) > 0;";
+                            shows.id_show
+                        having
+                        sum(theatres.capacity - ticketsdados.bought_tickets) > 0
+                        order by
+                            shows.projection_time asc;";
                 
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
@@ -278,6 +314,74 @@
                 return $this->parseToObject($resultSet);
             }catch(Exception $ex){
                 throw $ex;
+            }
+        }
+        public function totalAmountByCinema($cinemaId,$firstDate,$lastDate)
+        {
+            $query = 'SELECT
+                        A.id_cinema,
+                        sum(A.theaterRevenue) as money
+                    from
+                        (select 
+                            t.id_cinema,t.id_theater, (count(s.id_show) * t.seat_price) as theaterRevenue
+                        from 
+                            theatres as t inner join shows as s on t.id_theater = s.id_theater
+                            left outer join tickets on s.id_show = tickets.id_show
+                        where
+                             id_cinema = :cinemaId and
+                                s.projection_time between :firstDate and :lastDate 
+                        group by
+                            t.id_theater) A
+                    group by
+                        A.id_cinema;';
+                        
+                $parameters['cinemaId'] = $cinemaId;
+                $parameters['firstDate'] = $firstDate;
+                $parameters['lastDate'] = $lastDate;
+            try {
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                return $resultSet[0]['money'];
+            } catch (Exception $e) {
+                throw $e;
+            }
+        }
+        public function totalAmountByMovie($movieId,$firstDate,$lastDate)
+        {
+            $query = 'SELECT
+                            A.id_movie,
+                            sum(A.money) as money
+                    from
+                            (SELECT 
+                                shows.id_show as id_show,
+                                shows.projection_time as projection_time,
+                                shows.id_movie as id_movie,
+                                shows.id_theater as id_theater,
+                                ifnull(count(tickets.id_show),0) as bought_tickets,
+                                purchases.total_amount as money
+                            from
+                                shows left outer join tickets on shows.id_show = tickets.id_show
+                                left outer join purchases on tickets.id_purchase = purchases.id_purchase
+                            
+                            where 
+                                shows.id_movie = :movieId  and
+                                shows.projection_time between :firstDate and :lastDate
+                            group by
+                                shows.id_theater) A
+                    group by
+                            A.id_movie;';
+            $parameters['movieId'] = $movieId;
+            $parameters['firstDate'] = $firstDate;
+            $parameters['lastDate'] = $lastDate;
+        
+            try {
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query,$parameters);
+
+                return $resultSet[0]['money'];
+            } catch (Exception $e) {
+                throw $e;
             }
         }
     }

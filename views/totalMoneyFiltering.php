@@ -15,7 +15,7 @@
                 <label>Total vendido entre fechas</label>
                 
                 <p>Entre la fecha:</p>
-                <input type="date" name="firstDate" class="date" required min=<?php date("Y-m-d") ?>>
+                <input type="date" name="firstDate" class="date" required>
 
                 <p>Y la fecha:</p>
                 <input type="date" name="lastDate" class="date" required>
