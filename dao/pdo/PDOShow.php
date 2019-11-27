@@ -71,10 +71,11 @@
                 throw $e;
             }
         }
+        
         public function getByIdMovie($idMovie){
-            $query = 'Select * from '. $this->tableName. ' WHERE idMovie = :idMovie;';
+            $query = 'Select * from '. $this->tableName. ' WHERE id_movie = :id_movie;';
             
-            $parameters['id_show'] = $idMovie;
+            $parameters['id_movie'] = $idMovie;
             try{
                 $this->connection = Connection::GetInstance();
 
