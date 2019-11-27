@@ -39,8 +39,8 @@
                 <td><?php echo $show['show']->getTheater()->getName(); ?></td>
                 <td><?php echo $show['show']->getTheater()->getCapacity(); ?></td>
                 <td><?php echo $show['show']->getMovie()->getName(); ?></td>
-                <td><?php echo $show['boughttickets']->getMovie()->getName(); ?></td>
-                <td><?php echo ($show['show']->getMovie()->getName()-$show['boughttickets']->getMovie()->getName()); ?></td>
+                <td><?php echo $show['boughttickets']; ?></td>
+                <td><?php echo ($show['show']->getTheater()->getCapacity() - $show['boughttickets']); ?></td>
             </tr>
         <?php } ?>
     

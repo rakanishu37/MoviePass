@@ -76,12 +76,16 @@ class CinemaController
 
     public function add($name, $address)
     {
+		
         $newCinema = new Cinema($name, $address);
         try {
             $this->daoCinema->add($newCinema);
             $this->showCinemas();
         } catch (Exception $ex) {
-            echo $ex;
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
+			
         }        
     }
 
@@ -91,10 +95,12 @@ class CinemaController
         try {
             $cinemaList = $this->convertToArray($this->daoCinema->getAll());
             include VIEWS . 'cinemaModifyChooseForm.php';
-        } catch (Exception $e) {
-            echo $e;
+        } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+		include VIEWS.'footer.php'; } 
         }
-    }
+    
 
     public function selectCinemaToClose()
     {
@@ -108,33 +114,27 @@ class CinemaController
         try {
             $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
             include VIEWS . 'cinemaToCloseForm.php';
-        } catch (Exception $th) {
-            echo $th;
+        } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
         }      
     }
 
 
-    public function modify($idCinema, $mensaje= '')
+    public function modify($idCinema, $arrayOfErrors= array())
     {
         try {
 
             $cinemaToModify = $this->daoCinema->getByID($idCinema);
             include VIEWS . 'cinemaModifyForm.php';
-
-
-            if(!empty($mensaje)){
-                echo '<script>
-                swal({
-                    title: "Cuidado",
-                    text: "El nombre o direccion contiene caracteres no validos",
-                    icon: "warning"
-                });
-                </script>';
-            }
+			include VIEWS.'footer.php';
+            
         }    
-        catch (Exception $th) {
-            echo $th;
-        }
+        catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+		include VIEWS.'footer.php';}
     }
 
     public function validateDataModify($id,$name,$address,$name_unmodified, $address_unmodified,$status)
@@ -143,10 +143,11 @@ class CinemaController
         $message = 0;
         if(!preg_match('/^[a-z0-9A-Z ]/', $name) or !preg_match('/^[a-z0-9A-Z ]/', $address)){
             $flag = 1;
-            $message = 1;     
+            $message = "Hay caracteres invalidos en uso";     
         }
         
         if($flag == 1){
+			$arrayOfErrors [] = $message;
             $this->modify($id,$message);
         }
         else{
@@ -169,8 +170,10 @@ class CinemaController
             
             $this->showCinemas();
         }
-        catch(Exception $ex){
-            echo $ex;
+        catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
         }
     }
     /**
@@ -188,9 +191,10 @@ class CinemaController
 
             $this->showCinemas();
         }
-        catch(Exception $ex){
-            echo $ex;
-        }
+        catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+		include VIEWS.'footer.php';}
     }
 
     public function showCinemas()
@@ -208,26 +212,13 @@ class CinemaController
             $cinemaList = is_null($activeCinemas) ? [] : $this->convertToArray($activeCinemas);
             
             include VIEWS . 'cinemasList.php';  
-        } catch (Exception $th) {
-            echo $th;
+        } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
         }
     }
 
-    
-/*
-    public function showCinemasTest()
-    {
-        try{
-            $cinemas = $this->daoCinema->getAll();
-            
-            $cinemaList = is_null($cinemas) ? [] : $this->convertToArray($cinemas);
-            
-            include VIEWS . 'cinemasList.php';    
-        }
-        catch (Exception $th) {
-            echo $th;
-        }
-    }*/
 
     private function convertToArray($value){
         $arrayToReturn = array();

@@ -17,7 +17,7 @@
 
     <p>Peliculas</p>
 
-    <form action="<?php echo FRONT_ROOT."show/elegirFuncion" ?>" method="post">
+    <form action="<?php echo FRONT_ROOT."show/chooseShow" ?>" method="post">
     <table border="1">
         <thead class="thead">
 
