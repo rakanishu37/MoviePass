@@ -198,8 +198,8 @@
                             shows.id_show as id_show,
                             shows.projection_time as projection_time,
                             shows.id_movie as id_movie,
-                            shows.id_cinema as id_cinema,
-                            shows.active as active
+                            shows.id_theater as id_theater,
+                            shows.active as active,
                             ifnull(count(tickets.id_show),0) as bought_tickets
                         from
                             shows left outer join tickets on shows.id_show = tickets.id_show
