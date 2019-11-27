@@ -7,23 +7,12 @@
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>/generalStyle.css">
     <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
+
+ 
 </head>
 <body>
-    
-<header>
-        <div class="contenedor">
-          <div class="logo">
-            <p>MoviePass</p>
-          </div>
-          <nav class="menu-fixed">
-                <ul>
-                  <p>MoviePass</p>
-                  <li><a href="<?php echo FRONT_ROOT?>user/signin.php">| Registrarse |</a></li>
-                  <li><a href="">| Inicio |</a></li>
-                </ul>
-          </nav>
-        </div>
-  </header>
+
+<?php require 'headerUser.php'; ?>
   
      <div class="form">
           <form action="<?php echo FRONT_ROOT?>user/tryLogin" method="post" >
@@ -36,7 +25,12 @@
                     <br>
                     <input type="password" name="userPassword"  placeholder="Ingresar constraseña" required>
                     <br><br><br><br>
-               <button type="submit">Iniciar Sesión</button>
+               <button type="submit" class="boton">
+                 <span></span>
+                 <span></span>
+                 <span></span>
+                 <span></span>
+               Iniciar Sesión</button>
                <br>
           </form>
      </div>

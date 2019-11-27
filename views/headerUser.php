@@ -12,9 +12,9 @@
 
                 <li><a href="<?php echo FRONT_ROOT ?>">| Inicio |</a></li>
                 
-                <li><a href="<?php echo FRONT_ROOT ?>user/signin">| Registrarse |</a></li>
+                <!-- <li><a href="<?php //echo FRONT_ROOT ?>user/signin">| Registrarse |</a></li> -->
 
-                <li><a href="<?php echo FRONT_ROOT ?>user/login">| Iniciar sesion |</a></li>
+                <!-- <li><a href="<?php //echo FRONT_ROOT ?>user/login">| Iniciar sesion |</a></li> -->
                 
                 <li><a href="<?php echo FRONT_ROOT ?>user/logout">| Salir de la sesion |</a></li>
 
