@@ -2,9 +2,10 @@
     namespace controllers;
 
     use models\Purchase as Purchase;
+    use models\Ticket as Ticket;
     use dao\pdo\PDOTicket as DAOTicket;
     use dao\pdo\PDOPurchase  as DAOPurchase;
-    //use dao\pdo\PDOUser  as DAOUser;
+    use dao\pdo\PDOUser  as DAOUser;
     use dao\pdo\PDOShow  as DAOShow;
     use \Exception as Exception;
 
@@ -12,50 +13,66 @@
 
         private $daoTicket;
         private $daoPurchase;
-        //private $daoUser;
+        private $daoUser;
         private $daoShow;
 
         public function __construct(){
             $this->daoPurchase = new DAOPurchase();
             $this->daoTicket = new DAOTicket();
-            //$this->daoUser = new DAOUser();
+            $this->daoUser = new DAOUser();
             $this->daoShow = new DAOShow();
         }
 
-        public function add($date,$time,$idshow/*,$user*/,$quantityOfTickets){
+        public function add($date,$time,$idShow,$quantityOfTickets){
+            $arrayOfErrors = array();
             try{
-                $datePurchase = $date." ".$time;
-                $discount = 0;
-                $totalamount = $this->daoPurchase->getTotalAmount($quantityOfTickets, $idshow);
+                if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
-                $newPurchase = new Purchase($quantityOfTickets, $totalamount, $datePurchase, $discount);
-                $idpurchase = $this->daoPurchase->add($newPurchase);
-                $show = $this->daoShow->getByID($idshow);
-                $newTicket = new Ticket("",$idpurchase,$show);
-                for ($i=0; $i < $quantityOfTickets ; $i++) { 
-                    $this->daoTicket->add($newTicket);
+                if(isset($_SESSION['loggedUser'])){
+                    $user = $_SESSION['loggedUser'];
+                 
+                    $datePurchase = $date." ".$time;
+                    $discount = 0;
+                    $totalamount = $this->daoPurchase->getTotalAmount($quantityOfTickets, $idShow);
+                    $newPurchase = new Purchase($quantityOfTickets, $totalamount, $datePurchase, $discount,$user);
+                    $idpurchase = $this->daoPurchase->add($newPurchase);
+                    
+                    $show = $this->daoShow->getByID($idShow);
+                    $j = $this->daoTicket->countSeats($idShow);
+                    
+                    for ($i=1; $i <= $quantityOfTickets ; $i++) { 
+                        $seat = $j+$i;
+                        $newTicket = new Ticket($seat,$idpurchase,$show);
+                        $this->daoTicket->add($newTicket);
+                    }
+
+                    array_push($arrayOfErrors,'Compra realizad con exito');
+                }else{
+                    array_push($arrayOfErrors,'ERROR: No se pudo realizar la compra');
+
                 }
-            }catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+            }catch (Exception $e){
+
+                array_push($arrayOfErrors,$e->getMessage());
+            }
+            finally{
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
             }
         }
-        public function getTotalAmount(Type $var = null)
-        {
-            # code...
-        }
+
         
-        public function goToTicketQuantitySelection($idShow/*, $user*/){
-            $show = $this->daoShow->getByID($idShow);
+        public function goToTicketQuantitySelection($idShow){
+            $show = $this->daoShow->getByID($idShow);      
             try{
                 $seatsOccupied = $this->daoTicket->countSeats($idShow);
-                $seatsLeft= $show->getTheater()->getCapacity();
+                $seatsLeft= $show->getTheater()->getCapacity() - $seatsOccupied;
                 include VIEWS.'purchaseTicket.php';
-                } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                } 
+            catch (Exception $ex) {
+                $arrayOfErrors [] = $ex->getMessage;
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
             }
         }
 

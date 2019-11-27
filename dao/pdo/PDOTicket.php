@@ -18,11 +18,11 @@
         }
 
         public function add($newTicket){
-            $ticket = countSeats($newTicket->getShow()->getId());
+            //$ticket = countSeats($newTicket->getShow()->getId());
             $query = "INSERT INTO ".$this->tableName." (ticket_number, id_purchase, id_show) 
             VALUES (:ticket_number, :id_purchase, :id_show);";
-            $parameters['id_ticket'] = $ticket;
-            $parameters['id_purchase'] = $newTicket->getPurchase();
+            $parameters['ticket_number'] = $newTicket->getNumberTicket();
+            $parameters['id_purchase'] = $newTicket->getIdPurchase();
             $parameters['id_show'] = $newTicket->getShow()->getId();
             
             try{

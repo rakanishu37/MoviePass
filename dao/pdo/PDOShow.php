@@ -71,10 +71,11 @@
                 throw $e;
             }
         }
+        
         public function getByIdMovie($idMovie){
-            $query = 'Select * from '. $this->tableName. ' WHERE idMovie = :idMovie;';
+            $query = 'Select * from '. $this->tableName. ' WHERE id_movie = :id_movie;';
             
-            $parameters['id_show'] = $idMovie;
+            $parameters['id_movie'] = $idMovie;
             try{
                 $this->connection = Connection::GetInstance();
 
@@ -243,6 +244,40 @@
             }
             catch(Exception $e){
                 throw $e;
+            }
+        }
+
+        public function getAvailableShows(){
+            try{
+                $query="SELECT
+                            shows.id_show as id_show,
+                            shows.projection_time as projection_time,
+                            shows.id_movie as id_movie,
+                            shows.id_theater as id_theater,
+                            shows.active as active,
+                            sum(theatres.capacity - ticketsdados.bought_tickets) as remanente
+                        from
+                            shows inner join theatres on shows.id_theater = theatres.id_theater left outer join
+                            (SELECT 
+                                shows.id_show as id_show,
+                                ifnull(count(tickets.id_show),0) as bought_tickets
+                            from
+                                shows left outer join tickets on shows.id_show = tickets.id_show
+                        group by
+                    shows.id_show) as ticketsdados on shows.id_show = ticketsdados.id_show
+            where 
+                shows.active = 1
+            group by
+                shows.id_show
+            having
+                sum(theatres.capacity - ticketsdados.bought_tickets) > 0;";
+                
+                $this->connection = Connection::GetInstance();
+                $resultSet = $this->connection->Execute($query);
+            
+                return $this->parseToObject($resultSet);
+            }catch(Exception $ex){
+                throw $ex;
             }
         }
     }

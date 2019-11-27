@@ -349,7 +349,7 @@
         {
             
             try {
-                $allShows = $this->daoShow->getAll();
+                $allShows = $this->daoShow->getAvailableShows();
 
                 $showList = is_null($allShows) ? [] : $this->convertToArray($allShows);
             } catch (Exception $e) {

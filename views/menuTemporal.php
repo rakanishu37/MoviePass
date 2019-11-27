@@ -29,9 +29,6 @@
       require VIEWS.'headerUser.php';
       echo 'sos plebe';
     }
-    echo '<pre>';
-    var_dump($_SESSION['loggedUser']);
-    echo '</pre>'; ;
     ?>
     
 

@@ -13,7 +13,7 @@ class Ticket
         private $show;
         private $qr;
 
-        public function __construct($numberTicket='',$idPurchase='',Show $show = NULL,$qr='',$idTicket='') {
+        public function __construct($numberTicket='',$idPurchase='',$show = NULL,$idTicket='',$qr='') {
                 $this->setNumberTicket($numberTicket);
                 $this->setIdPurchase($idPurchase);
                 $this->setShow($show);
@@ -61,11 +61,11 @@ class Ticket
 
         public function getShow()
         {
-                return $this->showing;
+                return $this->show;
         }
 
-        public function setShow(Showing $showing)
+        public function setShow($show)
         {
-                $this->showing = $showing;
+                $this->show = $show;
         }
 }
