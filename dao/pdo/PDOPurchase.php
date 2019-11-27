@@ -59,7 +59,7 @@
         public function getTotalAmount($quantityOfTickets, $idshow){
             try
             {
-                $query = "SELECT theatres.capacity FROM theatres inner join shows on theatres.id_theater = shows.id_theater where shows.id_show = :id_show";
+                $query = "SELECT theatres.seat_price FROM theatres inner join shows on theatres.id_theater = shows.id_theater where shows.id_show = :id_show";
 
                 $parameters['id_show'] = $idshow;
 
@@ -67,7 +67,7 @@
 
                 $resultSet = $this->connection->Execute($query, $parameters);
                 
-                return ($resultSet[0]['capacity'] * $quantityOfTickets);
+                return ($resultSet[0]['seat_price'] * $quantityOfTickets);
             }
             catch(Exception $ex)
             {
