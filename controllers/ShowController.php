@@ -37,8 +37,10 @@
                 $showList = $this->daoShow->getAll();
             
                 $this->showMainView($showList);
-            } catch (Exception $e) {
-                echo $e;
+            }catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
             
         }
@@ -54,9 +56,10 @@
                 $this->daoShow->add($newShow);
     
                 $this->showMainView($this->daoShow->getAll());
-            }
-            catch(Exception $e){
-                echo $e;
+            }catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
         }
 
@@ -84,8 +87,10 @@
                 $theaterList = $this->daoTheater->getByIdCinema($cinemaId);
                 $theaterList = $this->convertToArray($theaterList);
                 include VIEWS."showChooseTheaterForm.php";
-            } catch (Exception $e) {
-                echo $e;
+            } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
             include VIEWS.'footer.php';
         }
@@ -97,8 +102,10 @@
                 $movieList = $this->getMoviesAvailable($date,$theaterId);
                
                 include VIEWS."showChooseMovieCinemasForm.php";
-            } catch (Exception $e) {
-                echo $e;
+            } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
         }
         private function validateDate($date, $time, $theaterId,$movie){
@@ -204,8 +211,10 @@
             try {
                 $genreList = $this->daoGenre->getAll();
                 include VIEWS."showChooseGenreToFilterForm.php";    
-            } catch (Exception $e) {
-                echo $e;
+            } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
             
         }
@@ -215,8 +224,10 @@
             try {
                 $showList = $this->convertToArray($this->daoShow->getAllByDate($filter));
                 $this->showMainView($showList);
-            } catch (Exception $e) {
-                echo $e;
+            } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
         }
 
@@ -225,8 +236,10 @@
             try {
                 $showList = $this->daoShow->getAllByGenre($filter);
                 $this->showMainView($showList);
-            } catch (Exception $e) {
-                echo $e;
+            } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
             
         }
@@ -283,13 +296,15 @@
             try {
                 $this->daoShow->deleteById($showId);
                 $this->index();
-            } catch (Exception $e) {
-                echo $e;
+            } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
             
         }
 
-        public function elegirFuncion(){
+        public function chooseShow(){
 
         }
 
@@ -344,9 +359,16 @@
         }
 
         public function quantitiesAndRemnants(){
-            $showList = $this->daoShow->getShowsWithTickets();
-        }
-        
+            try{
+                $showList = $this->daoShow->getShowsWithTickets();
+            }
+            catch(Exception $e){
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
+            }
+            include VIEWS.'quantitiesAndRemnants.php';
+        } 
     }
 ?>
 

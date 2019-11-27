@@ -35,23 +35,27 @@
                 for ($i=0; $i < $quantityOfTickets ; $i++) { 
                     $this->daoTicket->add($newTicket);
                 }
-            }catch (Exception $e){
-                echo $e;
+            }catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
         }
-public function getTotalAmount(Type $var = null)
-{
-    # code...
-}
+        public function getTotalAmount(Type $var = null)
+        {
+            # code...
+        }
+        
         public function goToTicketQuantitySelection($idShow/*, $user*/){
             $show = $this->daoShow->getByID($idShow);
             try{
                 $seatsOccupied = $this->daoTicket->countSeats($idShow);
                 $seatsLeft= $show->getTheater()->getCapacity();
                 include VIEWS.'purchaseTicket.php';
-                } 
-            catch (Exception $e) {
-                    echo $e;
+                } catch (Exception $ex) {
+            $arrayOfErrors [] = $ex->getMessage;
+			include VIEWS.'menuTemporal.php';
+			include VIEWS.'footer.php';
             }
         }
 
