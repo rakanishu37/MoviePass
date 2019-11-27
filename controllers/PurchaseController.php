@@ -67,7 +67,7 @@
             
             try{
                 $seatsOccupied = $this->daoTicket->countSeats($idShow);
-                $seatsLeft= $show->getTheater()->getCapacity();
+                $seatsLeft= $show->getTheater()->getCapacity() - $seatsOccupied;
                 include VIEWS.'purchaseTicket.php';
                 } 
             catch (Exception $e) {

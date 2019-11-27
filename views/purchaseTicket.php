@@ -42,7 +42,6 @@
             <input type="hidden" name="date" value="<?php echo $date ?>">
             <input type="hidden" name="time" value="<?php echo $time ?>">
             <input type="hidden" name="idshow" value="<?php echo $idShow ?>">
-            <!-- <input type="hidden" name="user" value="php echo $user"> -->
             <td><input type="number" name="quantityOfTickets" min="1" max="<?php echo $seatsLeft ?>" required></td>
             <td>
             <button type="submit" class="boton"> 
