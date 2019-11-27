@@ -21,10 +21,12 @@
                 $show = $this->daoShow->getByID($idShow);
                 // faltaria el de purchase
                 $newTicket = new Ticket($numberTicket,$idPurchase,$show,$qr);
-                $this->daoTheater->add($newTheater);
+                $this->daoTicket->add($newTicket);
             } 
             catch (Exception $e) {
-                echo $e;
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
            
             //$this->showListView($idCinema);

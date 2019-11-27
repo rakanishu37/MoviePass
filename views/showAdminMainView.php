@@ -14,7 +14,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
     <table border="1">
         <tr>
             <th>Fecha</th>

@@ -14,11 +14,13 @@
         }
         
         public function showGenres(){
-            include VIEWS.'headerAdmi.php';
+            include VIEWS.'headerSelector.php';
             try {
                 $genreList = $this->daoGenre->getAll();
             } catch (Exception $e) {
-                echo $e;
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';;
             }
             
             echo '<pre>';            

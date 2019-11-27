@@ -15,7 +15,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
     <table border="1">
         <tr>
@@ -24,6 +24,7 @@
             <th>Lugar</th>
             <th>Sala</th>
             <th>Capacidad</th>
+            <th>Precio</th>
             <th>Pelicula</th>
             <th>Cantidades</th>
             <th>Remanentes</th>
@@ -38,6 +39,7 @@
                 <td><?php echo $show['show']->getTheater()->getCinema()->getName(); ?></td>
                 <td><?php echo $show['show']->getTheater()->getName(); ?></td>
                 <td><?php echo $show['show']->getTheater()->getCapacity(); ?></td>
+                <td>$<?php echo $show['show']->getTheater()->getSeatPrice(); ?></td>
                 <td><?php echo $show['show']->getMovie()->getName(); ?></td>
                 <td><?php echo $show['boughttickets']; ?></td>
                 <td><?php echo ($show['show']->getTheater()->getCapacity() - $show['boughttickets']); ?></td>

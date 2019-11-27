@@ -1,9 +1,7 @@
 
 <script src="<?php echo FRONT_ROOT?>/views/js/sweetalert.min.js"></script>
 <?php
-   echo '<pre>';
-   var_dump($arrayOfErrors);
-   echo '</pre>';
+
    if(!empty($arrayOfErrors)){
       $arrayOfErrors = implode('\n',$arrayOfErrors);?>
       <script>

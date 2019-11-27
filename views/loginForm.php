@@ -12,7 +12,20 @@
 </head>
 <body>
 
-<?php require 'headerUser.php'; ?>
+     <header>
+          <div class="contenedor">
+               <div class="logo">
+               <p>MoviePass</p>
+               </div>
+               <nav class="menu-fixed">
+                    <ul>
+                    <p>MoviePass</p>
+                    <li><a href="<?php echo FRONT_ROOT?>user/signin">| Registrarse |</a></li>
+                    <li><a href="">| Inicio |</a></li>
+                    </ul>
+               </nav>
+          </div>
+     </header>
   
      <div class="form">
           <form action="<?php echo FRONT_ROOT?>user/tryLogin" method="post" >

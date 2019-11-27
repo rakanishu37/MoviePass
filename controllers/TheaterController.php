@@ -34,7 +34,9 @@ use \Exception as Exception;
                 include VIEWS.'theaterList.php';
             }
             catch(Exception $e){
-                echo $e;
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
         }
 
@@ -48,7 +50,9 @@ use \Exception as Exception;
                 $this->daoTheater->add($newTheater);
             } 
             catch (Exception $e) {
-                echo $e;
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
            
             $this->showListView($idCinema);
@@ -76,8 +80,10 @@ use \Exception as Exception;
             try {
                 $theater = $this->daoTheater->getByID($id);
                 include VIEWS . 'theaterModifyForm.php'; //suponiendo la existencia de este archivo
-            } catch (Exception $th) {
-                echo $th;
+            } catch (Exception $ex) {
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
         }
 
@@ -111,7 +117,9 @@ use \Exception as Exception;
                 $this->ShowListView($cinema->getId());
             }
             catch(Exception $ex){
-                echo $ex;
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
         }
 		

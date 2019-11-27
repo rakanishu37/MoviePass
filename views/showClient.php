@@ -15,7 +15,7 @@
 
 <body>
     
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
     <form action="<?php echo FRONT_ROOT."Purchase/goToTicketQuantitySelection" ?>" method="post">
     <table border="1">

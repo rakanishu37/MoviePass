@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
     <form action="<?php echo FRONT_ROOT ?>movie/filterMovies" method="post">
         <h2>Elija el genero que quiera filtrar</h2>

@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php include VIEWS.'headerAdmi.php'?>
+    <?php include VIEWS.'headerSelector.php'?>
     <form action="<?php echo FRONT_ROOT ?>show/validateData" method="post" class="form">
         <input type="hidden" name="date" value="<?php echo $date ?>">
         <input type="hidden" name="time" value="<?php echo $time ?>">

@@ -320,7 +320,7 @@
         {
             $query = 'SELECT
                         A.id_cinema,
-                        sum(A.theaterRevenue) as money
+                        ifnull(sum(A.theaterRevenue),0) as money
                     from
                         (select 
                             t.id_cinema,t.id_theater, (count(s.id_show) * t.seat_price) as theaterRevenue
@@ -351,7 +351,7 @@
         {
             $query = 'SELECT
                             A.id_movie,
-                            sum(A.money) as money
+                            ifnull(sum(A.money),0) as money
                     from
                             (SELECT 
                                 shows.id_show as id_show,
@@ -359,11 +359,11 @@
                                 shows.id_movie as id_movie,
                                 shows.id_theater as id_theater,
                                 ifnull(count(tickets.id_show),0) as bought_tickets,
-                                purchases.total_amount as money
+                                ( ifnull(  count(tickets.id_show)   *    theatres.seat_price,0)) as money
                             from
-                                shows left outer join tickets on shows.id_show = tickets.id_show
+                                 shows inner join theatres on shows.id_theater = theatres.id_theater
+                                left outer join tickets on shows.id_show = tickets.id_show
                                 left outer join purchases on tickets.id_purchase = purchases.id_purchase
-                            
                             where 
                                 shows.id_movie = :movieId  and
                                 shows.projection_time between :firstDate and :lastDate
@@ -378,8 +378,13 @@
             try {
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query,$parameters);
-
-                return $resultSet[0]['money'];
+                if(empty($resultSet)){
+                    $monto = 0;
+                }
+                else {
+                    $monto = $resultSet[0]['money'];
+                }
+                return $monto;
             } catch (Exception $e) {
                 throw $e;
             }

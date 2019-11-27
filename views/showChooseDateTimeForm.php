@@ -13,7 +13,7 @@
 
 <body>
 
-        <?php require 'headerAdmi.php'; ?>
+        <?php require 'headerSelector.php'; ?>
 
         <?php $date = date("Y-m-d"); ?>
         <form action="<?php echo FRONT_ROOT ?>show/continueForm" method="post" class="form">

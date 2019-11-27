@@ -13,7 +13,7 @@
 
 <body>
 
-        <?php require 'headerAdmi.php'; ?>
+        <?php require 'headerSelector.php'; ?>
 
       
         <form action="<?php echo FRONT_ROOT ?>show/totalAmountByCinema" method="post" class="form">

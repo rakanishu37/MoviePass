@@ -9,7 +9,7 @@
     <title>Movie Pass</title>
 </head>
 <body>
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
     <form action="<?php echo FRONT_ROOT ?>show/metodo" method="post" class="form">
                 <label>Total vendido entre fechas</label>

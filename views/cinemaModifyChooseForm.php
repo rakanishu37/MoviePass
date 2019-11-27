@@ -15,7 +15,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
     <form class="form" action="<?php echo FRONT_ROOT ?>cinema/modify" method="post">
         

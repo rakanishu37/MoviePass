@@ -28,7 +28,7 @@ class MovieController
 
             include VIEWS . 'moviesList.php';
         } catch (Exception $ex) {
-            $arrayOfErrors[] = $ex->getMessage;
+            $arrayOfErrors[] = $ex->getMessage();
             include VIEWS . 'menuTemporal.php';
             include VIEWS . 'footer.php';
         }
@@ -40,7 +40,7 @@ class MovieController
             $genreList = $this->daoGenre->getAll();
             include VIEWS . 'movieChooseGenreToFilterForm.php';
         } catch (Exception $ex) {
-            $arrayOfErrors[] = $ex->getMessage;
+            $arrayOfErrors[] = $ex->getMessage();
             include VIEWS . 'menuTemporal.php';
             include VIEWS . 'footer.php';
         }
@@ -70,7 +70,7 @@ class MovieController
             }
             include VIEWS . 'moviesList.php';
         } catch (Exception $ex) {
-            $arrayOfErrors[] = $ex->getMessage;
+            $arrayOfErrors[] = $ex->getMessage();
             include VIEWS . 'menuTemporal.php';
             include VIEWS . 'footer.php';
         }

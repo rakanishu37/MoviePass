@@ -13,7 +13,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
     <p>Cines disponibles</p>
 
     <form action="<?php echo FRONT_ROOT."theater/ShowListView" ?>" method="post">

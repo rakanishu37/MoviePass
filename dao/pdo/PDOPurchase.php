@@ -81,7 +81,7 @@
                 $resp = array_map(function($p){
                     $pdoUser = new PDOUser();
                     $c = $pdoUser->getByID($p['id_user']);
-                    return new Ticket($c,$p['quantity_of_tickets'],$p['total_amount'],$p['date_purchase'],$p['discount']);
+                    return new Purchase($c,$p['quantity_of_tickets'],$p['total_amount'],$p['date_purchase'],$p['discount']);
                 }, $value);
                 
                 if(empty($resp)){

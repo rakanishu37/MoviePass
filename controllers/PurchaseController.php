@@ -70,7 +70,7 @@
                 include VIEWS.'purchaseTicket.php';
                 } 
             catch (Exception $ex) {
-                $arrayOfErrors [] = $ex->getMessage;
+                $arrayOfErrors [] = $ex->getMessage();
                 include VIEWS.'menuTemporal.php';
                 include VIEWS.'footer.php';
             }

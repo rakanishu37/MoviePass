@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
 
     <form action="<?php echo FRONT_ROOT ?>show/getFilteredShowsByGenre" method="post" class="form">

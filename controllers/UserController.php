@@ -13,16 +13,19 @@
         }
         public function signin($arrayOfErrors = array())
         {
-            include VIEWS.'signIn.php';
+            include VIEWS.'singinForm.php';
             include_once VIEWS.'footer.php';
         }
 
         public function validateUser($email,$password){
-			try{
+            $arrayOfErrors = array();
+            try{
                 if(!empty($this->daoUser->getByEmail($email)))	{
                     throw new Exception("Ese email ya esta siendo usado, ingrese otro");    
                 }
-                $this->tryLogin($email,$password);
+                else{
+                    $this->add($email,$password);
+                }
 			} 
 			catch (Exception $e) {
                 array_push($arrayOfErrors,$e->getMessage());
@@ -30,7 +33,20 @@
 			}
              
         }
-		
+        public function add($email,$password)
+        {
+            $arrayOfErrors = array();
+            $newUser = new User($email, $password);
+            try {
+                $this->daoUser->add($newUser);
+                array_push($arrayOfErrors,"Se ha registrado correctamente");
+                $this->login($arrayOfErrors);
+            } catch (Exception $ex) {
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
+            }
+        }
         public function login($arrayOfErrors = array()){
             include VIEWS. 'loginForm.php';
             include VIEWS. 'footer.php';
@@ -54,6 +70,8 @@
             }
             catch(Exception $e){
                 array_push($arrayOfErrors,$e->getMessage());
+                
+                $this->login($arrayOfErrors);
             }
         }
 

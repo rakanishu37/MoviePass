@@ -32,18 +32,8 @@ class CinemaController
             }
         }
         include VIEWS . "cinemaAddForm.php";
-
-        /* meter de alguna forma el source para que funcione
-        entra aca cuando llega con un mensaje cargado y el objeto distinto de nulo*/
-        if(!empty($mensaje)){
-            echo '<script>
-            swal({
-                title: "Cuidado",
-                text: "El nombre o direccion contiene caracteres no validos",
-                icon: "warning"
-            });
-            </script>';
-        }
+        include VIEWS . 'footer.php';
+        
     }
 
     public function validateDataAdd($name,$address)
@@ -55,13 +45,13 @@ class CinemaController
         $message = 0;
         if(!preg_match('/^[a-z0-9A-Z ]/', $name)){
             $flag = 1;
-            $message = 1;
+            $message = 'Caracteres incorrectos en el nombre';
             $tempName = $name;
         }
 
         if(!preg_match('/^[a-z0-9A-Z ]/', $address)){
             $flag = 1;
-            $message= 1;
+            $message= 'Caracteres incorrectos en la direccion';
             $tempAddress = $address;
         }
         $tempCinema = new Cinema($tempName,$tempAddress); 
@@ -82,7 +72,7 @@ class CinemaController
             $this->daoCinema->add($newCinema);
             $this->showCinemas();
         } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
 			
@@ -96,9 +86,9 @@ class CinemaController
             $cinemaList = $this->convertToArray($this->daoCinema->getAll());
             include VIEWS . 'cinemaModifyChooseForm.php';
         } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
-		include VIEWS.'footer.php'; } 
+		    include VIEWS.'footer.php'; } 
         }
     
 
@@ -115,7 +105,7 @@ class CinemaController
             $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
             include VIEWS . 'cinemaToCloseForm.php';
         } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
         }      
@@ -132,7 +122,7 @@ class CinemaController
             
         }    
         catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 		include VIEWS.'footer.php';}
     }
@@ -171,7 +161,7 @@ class CinemaController
             $this->showCinemas();
         }
         catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
         }
@@ -192,7 +182,7 @@ class CinemaController
             $this->showCinemas();
         }
         catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 		include VIEWS.'footer.php';}
     }
@@ -213,7 +203,7 @@ class CinemaController
             
             include VIEWS . 'cinemasList.php';  
         } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
         }

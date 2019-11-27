@@ -14,7 +14,7 @@
 
 <body>
 
-    <?php require 'headerAdmi.php'; ?>
+    <?php require 'headerSelector.php'; ?>
 
     <?php   
         $date = date("Y-m-d"); 
@@ -29,6 +29,7 @@
             <th>Lugar</th>
             <th>Sala</th>
             <th>Pelicula</th>
+            <th>Precio Individual</th>
             <th>¿Cantidad de entradas?</th>
            
             <th></th>
@@ -39,6 +40,7 @@
             <td><?php echo $show->getTheater()->getCinema()->getName(); ?></td>
             <td><?php echo $show->getTheater()->getName(); ?></td>
             <td><?php echo $show->getMovie()->getName(); ?></td>
+            <td>$<?php echo $show->getTheater()->getSeatPrice(); ?></td>
             <input type="hidden" name="date" value="<?php echo $date ?>">
             <input type="hidden" name="time" value="<?php echo $time ?>">
             <input type="hidden" name="idshow" value="<?php echo $idShow ?>">

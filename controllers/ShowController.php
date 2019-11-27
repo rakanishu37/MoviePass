@@ -38,7 +38,7 @@
             
                 $this->showMainView($showList);
             }catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -57,7 +57,7 @@
     
                 $this->showMainView($this->daoShow->getAll());
             }catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -88,7 +88,7 @@
                 $theaterList = $this->convertToArray($theaterList);
                 include VIEWS."showChooseTheaterForm.php";
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -103,7 +103,7 @@
                
                 include VIEWS."showChooseMovieCinemasForm.php";
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -212,7 +212,7 @@
                 $genreList = $this->daoGenre->getAll();
                 include VIEWS."showChooseGenreToFilterForm.php";    
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -225,7 +225,7 @@
                 $showList = $this->convertToArray($this->daoShow->getAllByDate($filter));
                 $this->showMainView($showList);
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -237,7 +237,7 @@
                 $showList = $this->daoShow->getAllByGenre($filter);
                 $this->showMainView($showList);
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -297,7 +297,7 @@
                 $this->daoShow->deleteById($showId);
                 $this->index();
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage;
+            $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
 			include VIEWS.'footer.php';
             }
@@ -317,7 +317,7 @@
                     include_once VIEWS."showClient.php";
                 }
             } catch (Exception $e) {
-                $arrayOfErrors [] = $e->getMessage;
+                $arrayOfErrors [] = $e->getMessage();
                 include VIEWS.'menuTemporal.php';
                 include VIEWS.'footer.php';
             }
@@ -369,7 +369,9 @@
 
                 $showList = is_null($allShows) ? [] : $this->convertToArray($allShows);
             } catch (Exception $e) {
-                echo $e;
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
             include_once VIEWS."showClient.php";
         }
@@ -391,9 +393,9 @@
                 $cinemaList= $this->convertToArray($this->daoCinema->getAll());
             }
             catch(Exception $ex){
-                echo '<pre>';
-                echo $ex;
-                echo '</pre>';
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
             include VIEWS.'selectCinemaForTotal.php';
         }
@@ -403,7 +405,9 @@
                 $revenue = $this->daoShow->totalAmountByCinema($cinemaId,$firstDate,$lastDate);
             }
             catch(Exception $e){
-                echo $e;
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
             include VIEWS.'showTotalMoney.php';
         }
@@ -413,9 +417,9 @@
                 $movieList= $this->convertToArray($this->daoMovie->getAll());
             }
             catch(Exception $ex){
-                echo '<pre>';
-                echo $ex;
-                echo '</pre>';
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
             include VIEWS.'selectMoviesForTotal.php';
         }      
@@ -424,7 +428,9 @@
                 $revenue = $this->daoShow->totalAmountByMovie($movieId,$firstDate,$lastDate);
             }
             catch(Exception $e){
-                echo $e;
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS. 'footer.php';
             }
             include VIEWS.'showTotalMoney.php';
         }

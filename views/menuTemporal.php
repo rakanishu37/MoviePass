@@ -19,17 +19,9 @@
 </style>
 
 <body>
- 
-    <?php 
-    if($_SESSION['loggedUser']->getStatus()){
-      require VIEWS.'headerAdmi.php';
-      echo 'sos admin';
-    }
-    else{
-      require VIEWS.'headerUser.php';
-      echo 'sos plebe';
-    }
-    ?>
+  <?php
+    require VIEWS.'headerSelector.php';
+  ?>
     
 
 </body>

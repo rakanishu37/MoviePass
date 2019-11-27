@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php include VIEWS . 'headerAdmi.php' ?>
+    <?php include VIEWS . 'headerSelector.php' ?>
 
     <form action="<?php echo FRONT_ROOT ?>show/totalAmountByMovie" method="post" class="form">
 
