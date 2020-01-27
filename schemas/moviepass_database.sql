@@ -9,7 +9,7 @@ CREATE TABLE cinemas(
     constraint pk_id_cinema primary key (id_cinema),
     constraint unq_name_cinema unique (name_cinema),
     constraint unq_address_cinema unique (address_cinema)
-    );
+);
 
 CREATE TABLE genres(
     id_genre int,
@@ -37,18 +37,6 @@ CREATE TABLE movies_by_genres(
     constraint fk_id_movie_movies foreign key (id_movie) references movies (id_movie)
 );
 
-CREATE TABLE shows(
-    id_show int auto_increment,
-    projection_time datetime,
-    id_movie int,
-    id_theater int,
-    active boolean,
-    constraint pk_id_show primary key (id_show),
-    constraint fk_id_theater_theatres foreign key (id_theater) references theatres (id_theater),
-    constraint fk_id_movie_shows_movies foreign key (id_movie) references movies (id_movie)
-);
-
--- Lauty's doing
 CREATE TABLE theatres(
     id_theater int auto_increment,
     capacity int,
@@ -59,6 +47,17 @@ CREATE TABLE theatres(
     constraint fk_id_cinema_cinemas foreign key (id_cinema) references cinemas (id_cinema),
     constraint chk_capacity check (capacity>0),
     constraint chk_seat_price check (seat_price>0)
+);
+
+CREATE TABLE shows(
+    id_show int auto_increment,
+    projection_time datetime,
+    id_movie int,
+    id_theater int,
+    active boolean,
+    constraint pk_id_show primary key (id_show),
+    constraint fk_id_theater_theatres foreign key (id_theater) references theatres (id_theater),
+    constraint fk_id_movie_shows_movies foreign key (id_movie) references movies (id_movie)
 );
 
 CREATE TABLE users(

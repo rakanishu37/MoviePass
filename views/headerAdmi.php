@@ -14,7 +14,7 @@
 
                 <li><a href="<?php echo FRONT_ROOT ?>user/logout">| Salir de la sesion |</a></li>
                 
-                <li><a href="">| Finanzas |</a>
+                <li><a href="<?php echo FRONT_ROOT ?>">| Finanzas |</a>
                     <ul>
                         <li>
                             <a href='<?php echo FRONT_ROOT ?>show/quantitiesAndRemnants'>Cantidades y Remanentes</a>
@@ -45,7 +45,7 @@
                     </ul>
                 </li>
 
-                <li><a href="">| Funciones |</a>
+                <li><a href="<?php echo FRONT_ROOT ?>">| Funciones |</a>
                     <ul>
                         <li><a href="<?php echo FRONT_ROOT . "show/" ?>">Vista Principal</a></li>
                         <li><a href="<?php echo FRONT_ROOT . "show/filterByDate" ?>">Filtrar por fecha</a></li>
@@ -55,7 +55,7 @@
                     </ul>
                 </li>
 
-                <li><a href="">| Peliculas |</a>
+                <li><a href="<?php echo FRONT_ROOT ?>">| Peliculas |</a>
                     <ul>
                         <li>
                             <a href='<?php echo FRONT_ROOT ?>movie/showMovies'>Ver peliculas</a>
