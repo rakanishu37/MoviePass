@@ -3,3 +3,33 @@ Trabajo-Final-Tesis/user/tryLogin
 
 Fatal error: Uncaught ArgumentCountError: Too few arguments to function controllers\UserController::tryLogin(), 0 passed and exactly 2 expected in C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\controllers\UserController.php:55 Stack trace: #0 [internal function]: controllers\UserController->tryLogin() #1 C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\config\Router.php(40): call_user_func(Array) #2 C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\index.php(29): config\Router::route(Object(config\Request)) #3 {main} thrown in C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\controllers\UserController.php on line 55
 "
+
+
+Usuario pueda ver su historial de compras
+
+
+Arreglar ticket controller(solo tiene add)
+
+
+Sacar los session start ya que esta en el index.php central(esperar a lucas y flor?)
+
+
+PurchaseController revisar que la cant de asientos no supere a la disponible
+(casi seguro que esta controlado previamente)
+Lo esta pero solo en la vista
+
+
+No dejar agregar funciones si no hay cines-salas(esperar a flor lucas)
+
+
+Finanzas si no hay salas avisar que no se puede realizar porque no hay cines ni salas creadas
+
+Mover algun otro lado el update a la tabla de movies
+
+revisar que todo sea un array para las vistas
+
+agregar excepciones:
+    *para bdd no encontrada o alguna tabla no creada
+
+
+    descuentos
