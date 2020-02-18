@@ -273,7 +273,7 @@
                     return $resp;
                 }
                 else {
-                    return count($resp) > 1 ? $resp : $resp['0'];
+                    return $resp;
                 }
             }
             catch(Exception $e){

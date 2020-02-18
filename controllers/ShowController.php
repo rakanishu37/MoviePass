@@ -2,7 +2,7 @@
     namespace controllers;
 
     use models\Movie as Movie;
-    use models\Cinema as Cinema;
+    //use models\Cinema as Cinema;
     use models\Show as Show;
     use dao\pdo\PDOShow as DAOShow;
     use dao\pdo\PDOMovie as DAOMovie;
@@ -334,32 +334,6 @@
             }
             return $arrayToReturn;
         }
-
-        /*este no iria, es solo para probar 
-        public function showClient($showList = '')
-        {
-            try {
-                $allShows = $this->daoShow->getAll();
-            
-                $showlist = is_null($allShows) ? [] : $this->convertToArray($allShows);
-            } catch (Exception $e) {
-                echo $e;
-            }
-            include_once VIEWS."showClient.php";
-        }
-
-        public function showClient($showList = '')
-        {
-            try {
-                $showList = $this->daoShow->getAll();
-            
-                $this->convertToArray($showList);
-            } catch (Exception $e) {
-                echo $e;
-            }
-            include_once VIEWS."showClient.php";
-        }
-        */
 
         public function showClient()
         {

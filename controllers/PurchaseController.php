@@ -38,6 +38,7 @@
                     $idpurchase = $this->daoPurchase->add($newPurchase);
                     
                     $show = $this->daoShow->getByID($idShow);
+                    //Devuelve el numero del asiento del ticket a emitir
                     $j = $this->daoTicket->countSeats($idShow);
                     
                     for ($i=1; $i <= $quantityOfTickets ; $i++) { 

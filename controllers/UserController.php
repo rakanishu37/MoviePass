@@ -81,6 +81,7 @@
             
             if(isset($_SESSION['loggedUser'])){
                 unset($_SESSION['loggedUser']);
+                //session_destroy();
                 $arrayOfErrors[] = "Se ha deslogueado con exito!";
                 $this->login($arrayOfErrors);
             }

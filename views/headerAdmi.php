@@ -28,7 +28,7 @@
                     </ul>
                 </li>
 
-                <li><a href="<?php echo FRONT_ROOT ?>cinema/showCinemas">| Cines |</a>
+                <li><a href="<?php echo FRONT_ROOT ?>">| Cines |</a>
                     <ul>
                         <li>
                             <a href='<?php echo FRONT_ROOT ?>cinema/createCinema'>Dar de alta</a>

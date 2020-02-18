@@ -16,7 +16,7 @@
             $this->daoShow = new DAOShow();
         }
 
-        public function add($numberTicket,$idPurchase,$idShow,$qr ='',){
+        public function add($numberTicket,$idPurchase,$idShow,$qr =''){
             try{
                 $show = $this->daoShow->getByID($idShow);
                 // faltaria el de purchase

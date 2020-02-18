@@ -35,7 +35,6 @@
             }             
         }
     
-        //me rendi intentando hacer funcionar el stored procedure, meti el select que se que funciona
         public function countSeats($id_show){
             try {
                 $query="SELECT 
@@ -91,8 +90,7 @@
                 if(empty($resp)){
                     return $resp;
                 }
-                else {
-					
+                else {					
                     return count($resp) > 1 ? $resp : $resp['0'];
                 }
             } catch (Exception $e) {
