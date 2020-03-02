@@ -1,5 +1,0 @@
-recargar la pagina
-Trabajo-Final-Tesis/user/tryLogin
-
-Fatal error: Uncaught ArgumentCountError: Too few arguments to function controllers\UserController::tryLogin(), 0 passed and exactly 2 expected in C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\controllers\UserController.php:55 Stack trace: #0 [internal function]: controllers\UserController->tryLogin() #1 C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\config\Router.php(40): call_user_func(Array) #2 C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\index.php(29): config\Router::route(Object(config\Request)) #3 {main} thrown in C:\Users\Fede\Documents\GitHub\Trabajo-Final-Tesis\controllers\UserController.php on line 55
-"
