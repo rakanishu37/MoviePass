@@ -2,52 +2,46 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
-    <link rel="stylesheet" type="text/css" href="<?php echo FRONT_ROOT ?>views/css/styleShowCinemas.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<?php include(VIEWS . '/materialHeader.php'); ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/generalStyles.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/material-customizations.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/align-layout.css">
 </head>
 
 <body>
-
-    <?php require 'headerSelector.php'; ?>
-    <p>Cines disponibles</p>
-
-    <form action="<?php echo FRONT_ROOT."theater/ShowListView" ?>" method="post">
-        <table border="1">
-
-            <thead class="thead">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Dirección</th>
-                    <th>Salas</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <?php foreach ($cinemaList as $cinema) { ?>
-                    <tr>
-                        <td><?php echo $cinema->getName(); ?> </td>
-                        <td><?php echo $cinema->getAddress(); ?></td>
-                        <td>
-                            <button name="idCinema" type="submit" value="<?php echo $cinema->getId() ?>" class="boton"> 
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                Ver</a>
-                            </button>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-
-        </table>
-    </form> 
-
+	<?php require VIEWS . '/appHeader.php' ?>
+	<?php require VIEWS . '/userFilter.php' ?>
+	<div class="flexbox">
+		<p>Cines disponibles</p>
+		<form action = "<?php echo FRONT_ROOT."/theater/ShowListView"?>" method="post">
+			<?php echo ($MaterialDataTable([
+				"columns" => [
+					["content" => "Nombre"],
+					["content" => "Dirección"],
+					["content" => "Salas"]
+				],
+				"rows" => array_map(function ($cinema) use ($MaterialSubmitButton) {
+					return [
+						"data" => [
+							["content" => $cinema->getName()],
+							["content" => $cinema->getAddress()],
+							["content" => $MaterialSubmitButton([
+								"title" => "Ver",
+								"name" => "idCinema",
+								"value" => $cinema->getId(),
+								"target" => FRONT_ROOT . "/theater/ShowListView"
+							])]
+						]
+					];
+				}, $cinemaList)
+			])); ?>
+		</form>
+	</div>
+	<?php include(VIEWS . '/materialFooter.php'); ?>
 </body>
 
 </html>

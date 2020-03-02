@@ -13,22 +13,23 @@
 </head>
 
 <body>
-
     <?php include VIEWS.'/appHeader.php'?>
-    <?php require VIEWS . '/userFilter.php' ?>
     <div class="flexbox">
+        <h2>Menu</h2>
         <?php echo ($MaterialDataTable([
-                    "columns" => [
-                        ["content" => "Cantidad total de dinero:"]
-                    ],
-                    "rows" => array_map(function ($revenue) {
-                        return [
-                            "data" => [
-                                ["content" => '$'.$revenue]
-                            ]
-                        ];
-                    },$a)
-                ])); ?>
+            "columns" => [],
+            "rows" => array_map(function ($item) use ($MaterialButtonLink){
+                return [
+                    "data" => [
+                        ["content" => $MaterialButtonLink([
+                            "title" => $item['title'],
+                            "link" => $item['link']
+                            ])
+                        ]
+                    ]
+                ];
+            },$menus)
+            ])); ?>
     </div>
     <?php include(VIEWS . '/materialFooter.php'); ?>
 </body>

@@ -1,0 +1,11 @@
+.mdc-top-app-bar__title {
+	height: 1.5rem;
+}
+
+.mdc-top-app-bar__title img {
+	height: 100%;
+}
+
+body > .mdc-layout-grid {
+	padding-top: 96px;
+}

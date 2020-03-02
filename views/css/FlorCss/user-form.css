@@ -1,0 +1,24 @@
+.form {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: center;
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+form > * {
+	margin: 5px;
+}
+
+.radio-buttons {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+

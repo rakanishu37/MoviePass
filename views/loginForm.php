@@ -1,52 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Iniciar Sesión</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo CSS_PATH ?>/generalStyle.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
-
- 
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Iniciar Sesión</title>
+	<?php include(VIEWS . '/materialHeader.php'); ?>
+	<?php include(VIEWS . '/materialComponents.php'); ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/generalStyles.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/material-customizations.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/user-form.css">
 </head>
+
 <body>
-
-     <header>
-          <div class="contenedor">
-               <div class="logo">
-               <p>MoviePass</p>
-               </div>
-               <nav class="menu-fixed">
-                    <ul>
-                    <p>MoviePass</p>
-                    <li><a href="<?php echo FRONT_ROOT?>user/signin">| Registrarse |</a></li>
-                    <li><a href="">| Inicio |</a></li>
-                    </ul>
-               </nav>
-          </div>
-     </header>
-  
-     <div class="form">
-          <form action="<?php echo FRONT_ROOT?>user/tryLogin" method="post" >
-               
-                    <label for="userName">Usuario</label>
-                    <br>
-                    <input type="email" name="userName"  placeholder="Ingresar usuario" required>
-                    <br><br><br>
-                    <label for="userPassword">Contraseña</label>
-                    <br>
-                    <input type="password" name="userPassword"  placeholder="Ingresar constraseña" required>
-                    <br><br><br><br>
-               <button type="submit" class="boton">
-                 <span></span>
-                 <span></span>
-                 <span></span>
-                 <span></span>
-               Iniciar Sesión</button>
-               <br>
-          </form>
-     </div>
-
+	<?php include(VIEWS . '/appHeader.php'); ?>
+	<div class="form">
+		<form action="<?php echo FRONT_ROOT ?>/user/tryLogin" method="post">
+			<?php echo ($MaterialTextField([
+				"name" => "username",
+				"required" => true,
+				"title" => "Correo Electrónico",
+				"type" => "email"
+			])); ?>
+			<?php echo ($MaterialTextField([
+				"name" => "userPassword",
+				"required" => true,
+				"title" => "Contraseña",
+				"type" => "password"
+			])); ?>
+			<?php echo ($MaterialSubmitButton([
+				"title" => "Iniciar Sesión"
+			])); ?>
+			<?php echo ($MaterialButtonLink([
+				"link" => FRONT_ROOT . '/user/signup',
+				"title" => "Registrarse"
+			])); ?>
+		</form>
+	</div>
+	<?php include(VIEWS . '/materialFooter.php'); ?>
 </body>
+
 </html>

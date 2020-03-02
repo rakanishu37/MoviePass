@@ -1,0 +1,15 @@
+.flexbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+.flexbox > * {
+	margin: 10px;
+}
+
+.mdc-data-table {
+	min-width: 60vw;
+}

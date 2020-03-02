@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Movie Pass</title>
+	<title>Registrarse</title>
 	<?php include(VIEWS . '/materialHeader.php'); ?>
 	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/generalStyles.css">
 	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/material-customizations.css">
@@ -13,26 +13,28 @@
 </head>
 
 <body>
-
-	<?php require VIEWS . '/appHeader.php' ?>
-	<?php require VIEWS . '/userFilter.php' ?>
+	<?php include(VIEWS . '/appHeader.php'); ?>
 
 	<div class="form">
-		<form class="form" action="<?php echo FRONT_ROOT; ?>/cinema/validateDataAdd" method="post">
+		<form action="<?php echo FRONT_ROOT ?>/user/validateUser" method="post">
 			<?php echo ($MaterialTextField([
-				"name" => "name",
+				"name" => "userEmail",
 				"required" => true,
-				"title" => "Nombre del Cine",
-				"type" => "text"
+				"title" => "Correo Electrónico",
+				"type" => "email"
 			])); ?>
 			<?php echo ($MaterialTextField([
-				"name" => "address",
+				"name" => "userPassword",
 				"required" => true,
-				"title" => "Dirección del Cine",
-				"type" => "text"
+				"title" => "Contraseña",
+				"type" => "password"
 			])); ?>
 			<?php echo ($MaterialSubmitButton([
-				"title" => "Crear Cine"
+				"title" => "Registrarse"
+			])); ?>
+			<?php echo ($MaterialButtonLink([
+				"title" => "Iniciar Sesión",
+				"link" => FRONT_ROOT . '/'
 			])); ?>
 		</form>
 	</div>

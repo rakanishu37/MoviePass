@@ -16,51 +16,46 @@ class CinemaController
         $this->daoCinema = new DAOCinema;
     }
     
-    public function createCinema($cinema = null, $mensaje= '')
+    public function index()
+    {
+        $menus = array();
+        $item['title'] = "Dar alta cine";
+        $item['link'] = FRONT_ROOT . "/cinema" . "/createCinema";
+        array_push($menus,$item);
+        $item['title'] = "Ver lista de cines";
+        $item['link'] = FRONT_ROOT . "/cinema" . "/showCinemas";
+        array_push($menus,$item);
+        $item['title'] = "Modificar cine";
+        $item['link'] = FRONT_ROOT . "/cinema" . "/selectCinemaToModify";
+        array_push($menus,$item);
+        $item['title'] = "Cerrar cine";
+        $item['link'] = FRONT_ROOT . "/cinema" . "/selectCinemaToClose";
+        array_push($menus,$item);
+        include VIEWS . "menu.php";
+    }
+
+    public function createCinema($arrayOfErrors = array())
     {
         $placeholderName = 'Ingrese el nombre del cine';
-        $placeholderAddress = 'Ingresar la direccion del cine';
-        if(!is_null($cinema)){
-            /**
-             * @var Cinema $cinema
-             */
-            if(!empty($cinema->getName())){
-                $placeholderName = $cinema->getName();
-            }
-            if(!empty($cinema->getAddress())){
-                $placeholderAddress = $cinema->getAddress();
-            }
-        }
+        $placeholderAddress = 'Ingresar la direccion del cine';        
         include VIEWS . "cinemaAddForm.php";
-        include VIEWS . 'footer.php';
-        
+        include VIEWS . 'footer.php';   
     }
 
     public function validateDataAdd($name,$address)
     {
-        
-        $tempName = '';
-        $tempAddress = '';
-        $flag = 0;
-        $message = 0;
-        if(!preg_match('/^[a-z0-9A-Z ]/', $name)){
-            $flag = 1;
-            $message = 'Caracteres incorrectos en el nombre';
-            $tempName = $name;
-        }
-
-        if(!preg_match('/^[a-z0-9A-Z ]/', $address)){
-            $flag = 1;
-            $message= 'Caracteres incorrectos en la direccion';
-            $tempAddress = $address;
-        }
-        $tempCinema = new Cinema($tempName,$tempAddress); 
-
-        if($flag == 1){
-            $this->createCinema($tempCinema,$message);
-        }
-        else{
+        try {
+            if($this->invalidString($name)){
+                throw new Exception("Hay caracteres invalidos en el nombre", 1);
+            }
+            if($this->invalidString($address)){
+                throw new Exception("Hay caracteres invalidos en la direccion", 1);            
+            }            
             $this->add($name,$address);
+        }
+        catch(Exception $e){
+            array_push($arrayOfErrors,$e->getMessage());
+            $this->createCinema($arrayOfErrors);
         }
     }
 
@@ -94,13 +89,6 @@ class CinemaController
 
     public function selectCinemaToClose()
     {
-        /*$activeCinemaList = $this->daoCinema->getAll();
-        $cinemaList = array();
-        foreach ($activeCinemaList as $cinema) {
-            if ($cinema->getStatus() == 1) {
-                array_push($cinemaList, $cinema);
-            }
-        }*/
         try {
             $cinemaList = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
             include VIEWS . 'cinemaToCloseForm.php';
@@ -124,36 +112,46 @@ class CinemaController
         catch (Exception $ex) {
             $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
-		include VIEWS.'footer.php';}
+            include VIEWS.'footer.php';
+        }
+    }
+
+    private function invalidString($string){
+        $a = array();
+        if(!preg_match('/^[a-z0-9A-Z ]/', $string,$a)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public function validateDataModify($id,$name,$address,$name_unmodified, $address_unmodified,$status)
     {
-        $flag = 0;
-        $message = 0;
-        if(!preg_match('/^[a-z0-9A-Z ]/', $name) or !preg_match('/^[a-z0-9A-Z ]/', $address)){
-            $flag = 1;
-            $message = "Hay caracteres invalidos en uso";     
-        }
-        
-        if($flag == 1){
-			$arrayOfErrors [] = $message;
-            $this->modify($id,$message);
-        }
-        else{
-            $this->update($id,$name,$address,$name_unmodified, $address_unmodified,$status);
-        }
-    }
-
-    public function update($id,$name, $address, $name_unmodified, $address_unmodified,$status)
-    {
+        $arrayOfErrors = array();
         if(empty($name)){
             $name = $name_unmodified;    
         }
         if(empty($address)){
             $address = $address_unmodified;    
         }
-       
+        try {
+            if($this->invalidString($name)){
+                throw new Exception("Hay caracteres invalidos en el nombre", 1);            
+            }
+            if($this->invalidString($address)){
+                throw new Exception("Hay caracteres invalidos en la direccion", 1);            
+            }
+            $this->update($id,$name,$address,$status);
+        } 
+        catch (Exception $e) {
+            array_push($arrayOfErrors, $e->getMessage());
+            $this->modify($id,$arrayOfErrors);
+        }
+    }
+
+   public function update($id,$name, $address,$status)
+    {       
         $cinemaModified = new Cinema($name, $address, $status, $id);
         try{
             $this->daoCinema->update($cinemaModified);
@@ -184,18 +182,12 @@ class CinemaController
         catch (Exception $ex) {
             $arrayOfErrors [] = $ex->getMessage();
 			include VIEWS.'menuTemporal.php';
-		include VIEWS.'footer.php';}
+            include VIEWS.'footer.php';
+        }
     }
 
     public function showCinemas()
     {
-        /*$activeCinemaList = $this->daoCinema->getAll();
-        $cinemaList = array();
-        foreach ($activeCinemaList as $cinema) {
-            if ($cinema->getStatus() == 1) {
-                array_push($cinemaList, $cinema);
-            }
-        }*/
         try {
             $activeCinemas = $this->daoCinema->getAllActiveCinemas();
             

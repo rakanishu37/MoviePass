@@ -2,67 +2,55 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Movie Pass</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo FRONT_ROOT ?>views/css/styleShowMovies.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>/header.css">
-
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Movie Pass</title>
+	<?php include(VIEWS . '/materialHeader.php'); ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/generalStyles.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/material-customizations.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/table-form.css">
 </head>
 
 <body>
 
-    <?php require 'headerSelector.php'; ?>
-
-    <p>Peliculas</p>
-
-    <form action="<?php echo FRONT_ROOT."show/chooseShow" ?>" method="post">
-    <table border="1">
-        <thead class="thead">
-
-        
-                <tr>
-                    <th>Imagen</th>
-                    <th>Nombre</th>
-                    <th>Duracion</th>
-                    <th>Idioma</th>
-                    <th>Genero</th>
-                    <th>Entradas</th>
-                </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($movieList as $movie) { ?>
-                <tr>
-                    <td id="imagen"><img src="<?php echo API_IMAGE_URL . POSTER_WIDTH_185 . $movie->getImageURL(); ?>"></td>
-                    <td><?php echo $movie->getName(); ?> </td>
-                    <td><?php echo $movie->getRuntime(); ?></td>
-                    <td><?php echo $movie->getLanguage(); ?></td>
-                    <td>
-                        <?php foreach ($movie->getGenre() as $genre) {
-                                echo $genre->getName() . '<br>';
-                            } ?>
-                    </td>
-                    <td>
-                         <button name="idMovie" type="submit" value="<?php echo $movie->getId() ?>" class="boton"> 
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                Comprar</a>
-                            </button>
-                        </td>
-                  
-                </tr>
-            <?php } ?>
-        </tbody>
-
-    </table>
-
-      </form>
- 
-
- 
+	<?php require VIEWS . '/appHeader.php' ?>
+	
+	<div class="form">
+		<h2>Peliculas</h2>
+		<form action="<?php echo FRONT_ROOT."/show/chooseShow" ?>" method="post">
+			<?php echo ($MaterialDataTable([
+				"columns" => [
+					["content" => "Imagen"],
+					["content" => "Nombre"],
+					["content" => "Duracion"],
+					["content" => "Idioma"],
+					["content" => "Genero"],
+					["content" => "Entradas"]
+				],
+				"rows" => array_map(function ($movie) use ($MaterialSubmitButton,$MaterialImage) {
+					return [
+						"data" => [
+							["content" => $MaterialImage([
+								"img" => API_IMAGE_URL . POSTER_WIDTH_185 . $movie->getImageURL()  
+							])],
+							["content" => $movie->getName()],
+							["content" => $movie->getRuntime()],
+							["content" => $movie->getLanguage()],
+							["content" => $movie->getGenres()],
+							["content" => $MaterialSubmitButton([
+								"title" => "Comprar",
+								"name" => "idMovie",
+								"value" => $movie->getId(),
+								"target" => FRONT_ROOT . "/show/chooseShow"
+							])]
+						]
+					];
+				}, $movieList)
+			])); ?>
+		</form>
+	</div>
+	<?php include(VIEWS . '/materialFooter.php'); ?>
 </body>
 
 </html>

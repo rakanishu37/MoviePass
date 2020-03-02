@@ -78,7 +78,7 @@ CREATE TABLE purchases(
     date_purchase datetime,
     discount int,
     constraint pk_id_purchase primary key (id_purchase),
-    constraint fk_id_user_users foreign key (id_user) references users (id_user)
+    constraint fk_id_user_users foreign key (id_user) references users (id_user),
 );
 
 CREATE TABLE tickets(
@@ -90,9 +90,7 @@ CREATE TABLE tickets(
     constraint fk_id_purchase_purchases foreign key (id_purchase) references purchases (id_purchase),
     constraint fk_id_show_shows foreign key (id_show) references shows (id_show)
 );
--- hacer procedure para agregar tickets --
--- END
--- 3era entrega
+
 /*
 CREATE TABLE roles(
     id_role int auto_increment,
@@ -100,23 +98,3 @@ CREATE TABLE roles(
     constraint pk_id_role primary key (id_role)
     /*constraint unq_name_role un
 );*/
-/*
-
-*/
-
-/* falta pensarlo mas y cambiarle el nombre estos serian los  tipos de pago
-CREATE TABLE purchases(
-    id_purchase int auto_increment,
-    id_purchase_type int,
-    date_purchase datetime,
-    authenticationCode varchar(50),
-    total float(2),
-    constraint pk_id_purchase
-);
-*/
-/*
-
-*/
-/*
-
-*/

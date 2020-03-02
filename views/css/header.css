@@ -28,7 +28,7 @@ li a:hover {
     position: absolute;
     min-width: 100px;
     overflow: hidden;
-    padding-top: 10px; 
+    padding-top: 10px;
 }
 
 .nav li:hover > ul {
@@ -49,11 +49,6 @@ li a:hover {
 
 .logo {
     float: left;
-}
-
-img {
-    display: inline;
-    margin: 100%;
 }
 
 .menu-fixed{

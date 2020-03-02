@@ -20,12 +20,26 @@ class MovieController
         $this->daoGenre = new DAOGenre();
     }
 
+    public function index()
+    {
+        $menus = array();
+        $item['title'] = "Ver lista de peliculas";
+        $item['link'] = FRONT_ROOT . "/movie" . "/showMovies";
+        array_push($menus,$item);
+        $item['title'] = "Actualizar lista de peliculas";
+        $item['link'] = FRONT_ROOT . "/movie" . "/updateMovieDatabase";
+        array_push($menus,$item);
+        
+        include VIEWS . "menu.php";
+    }
+
     public function showMovies()
     {
         try {
-            $this->daoMovie->updateLatestMovies();
             $movieList = $this->daoMovie->getLatestMovies();
-
+            if(empty($movieList)){
+                throw new Exception("No hay peliculas cargadas", 1);                
+            }
             include VIEWS . 'moviesList.php';
         } catch (Exception $ex) {
             $arrayOfErrors[] = $ex->getMessage();
@@ -33,7 +47,7 @@ class MovieController
             include VIEWS . 'footer.php';
         }
     }
-
+/*
     public function chooseGenreForFilter()
     {
         try {
@@ -45,16 +59,29 @@ class MovieController
             include VIEWS . 'footer.php';
         }
     }
+*/
 
-    private function movieContainsGenre($movie, $searchedGenre)
+    public function updateMovieDatabase()
+    {
+        try {
+            $this->daoMovie->updateLatestMovies();            
+
+            $this->showMovies();
+        } catch (Exception $ex) {
+            $arrayOfErrors[] = $ex->getMessage();
+            include VIEWS . 'menuTemporal.php';
+            include VIEWS . 'footer.php';
+        }
+    }
+    /*private function movieContainsGenre($movie, $searchedGenre)
     {
         foreach ($movie->getGenre() as $genre) {
             if ($genre->getApiKey() == $searchedGenre) {
                 return true;
             }
         }
-    }
-
+    }*/
+/*
     public function filterMovies($filteredGenre)
     {
         $filter = $filteredGenre;
@@ -74,6 +101,6 @@ class MovieController
             include VIEWS . 'menuTemporal.php';
             include VIEWS . 'footer.php';
         }
-    }
+    }*/
 }
 ?>

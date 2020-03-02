@@ -5,42 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>showChooseMovieCinemasFormStyle.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
-    <title>Movie Pass</title>
+	<title>Movie Pass</title>
+	<?php include(VIEWS . '/materialHeader.php'); ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/generalStyles.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/material-customizations.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/FlorCss/user-form.css">
 </head>
 
 <body>
 
-    <?php include VIEWS . 'headerSelector.php' ?>
+    <?php include VIEWS . '/appHeader.php' ?>
+    <?php require VIEWS . '/userFilter.php' ?>
+	<div class="form">
+        <form action="<?php echo FRONT_ROOT; ?>/show/totalAmountByMovie" method="post">
+            <h3>Pelicula</h3>
+            <select name="movieId" id="">
+                <?php foreach ($movieList as $movie) { ?>
+                    <option value="<?php echo $movie->getId() ?>"><?php echo $movie->getName() ?></option>
+                <?php } ?>
+            </select>
+            <br>
 
-    <form action="<?php echo FRONT_ROOT ?>show/totalAmountByMovie" method="post" class="form">
+            <h3>Total vendido entre fechas</h3>
 
+            <p>Entre la fecha:</p>
+            <input type="date" name="firstDate" class="date" required>
 
-        <label>Pelicula</label>
-        <select name="movieId" id="">
-            <?php foreach ($movieList as $movie) { ?>
-                <option value="<?php echo $movie->getId() ?>"><?php echo $movie->getName() ?></option>
-            <?php } ?>
-        </select>
-        <br>
+            <p>Y la fecha:</p>
+            <input type="date" name="lastDate" class="date" required>
+            <br>
 
-        <label>Total vendido entre fechas</label>
-
-        <p>Entre la fecha:</p>
-        <input type="date" name="firstDate" class="date" required>
-
-        <p>Y la fecha:</p>
-        <input type="date" name="lastDate" class="date" required>
-        <br>
-
-        <button type="submit" class="boton">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Continuar</button>
-    </form>
+            <?php echo ($MaterialSubmitButton([
+                    "title" => "Continuar"
+                ])); ?>	
+        </form>
+	</div>
+	<?php include(VIEWS . '/materialFooter.php'); ?>
 </body>
 
 </html>

@@ -1,0 +1,16 @@
+:root {
+	--mdc-theme-primary: #01579b;
+	--mdc-theme-secondary: #002f6c;
+	--mdc-theme-on-primary: #fff;
+	--mdc-theme-on-secondary: #fff;
+}
+
+body {
+	font-family: sans-serif;
+	height: 100vh;
+	margin: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding: 0;
+	width: 100vw;
+}
