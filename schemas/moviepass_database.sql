@@ -73,12 +73,14 @@ CREATE TABLE users(
 CREATE TABLE purchases(
     id_purchase int auto_increment,
     id_user int,
+	id_show int,
     quantity_of_tickets int not null,
     total_amount int,
     date_purchase datetime,
     discount int,
     constraint pk_id_purchase primary key (id_purchase),
     constraint fk_id_user_users foreign key (id_user) references users (id_user),
+	constraint fk_purchasesid_show_shows foreign key (id_show) references shows (id_show)
 );
 
 CREATE TABLE tickets(
