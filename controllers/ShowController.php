@@ -2,7 +2,7 @@
     namespace controllers;
 
     use models\Movie as Movie;
-    //use models\Cinema as Cinema;
+    use models\Cinema as Cinema;
     use models\Show as Show;
     use dao\pdo\PDOShow as DAOShow;
     use dao\pdo\PDOMovie as DAOMovie;
@@ -33,33 +33,87 @@
         }
 
         public function index(){
+            if (session_status() !== PHP_SESSION_ACTIVE) {
+                session_start();
+            }
+            if ($_SESSION['loggedUser']->getStatus()){
+                $menus = array();
+                $item['title'] = "Administrar funciones";
+                $item['link'] = FRONT_ROOT . "/show" . "/listShows";
+                array_push($menus,$item);
+            }
+
+            $item['title'] = "Filtrar por genero";
+            $item['link'] = FRONT_ROOT . "/show" . "/filterByGenre";
+            array_push($menus,$item);
+            $item['title'] = "Filtrar por fecha";
+            $item['link'] = FRONT_ROOT . "/show" . "/filterByDate";
+            array_push($menus,$item);
+            $item['title'] = "Lista de funciones";
+            $item['link'] = FRONT_ROOT . "/show" . "/showClient";
+            array_push($menus,$item);
+
+            include VIEWS . "menu.php";
+        }
+        
+        public function menu()
+        {
+            $menus = array();
+            $item['title'] = "Lista de funciones";
+            $item['link'] = FRONT_ROOT . "/show" . "/showClient";
+            array_push($menus,$item);
+            $item['title'] = "Filtrar por genero";
+            $item['link'] = FRONT_ROOT . "/show" . "/filterByGenre";
+            array_push($menus,$item);
+            $item['title'] = "Filtrar por fecha";
+            $item['link'] = FRONT_ROOT . "/show" . "/filterByDate";
+            array_push($menus,$item);
+
+            include VIEWS . "menuClient.php";
+        }
+
+        public function listShows($arrayOfErrors=array())
+        {
             try {
                 $showList = $this->daoShow->getAll();
             
                 $this->showMainView($showList);
+                include VIEWS.'footer.php';    
             }catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                $arrayOfErrors [] = $ex->getMessage();
+                include_once VIEWS.'menuTemporal.php';   
+                include VIEWS.'footer.php';            
             }
-            
         }
-        
 
-        public function add($date,$time,$theaterId,$movieId){
-            $projectionTime = $date." ".$time;
+        public function money()
+        {
+            $menus = array();
+            $item['title'] = "Cantidades y Remanentes";
+            $item['link'] = FRONT_ROOT . "/show" . "/quantitiesAndRemnants";
+            array_push($menus,$item);
+            $item['title'] = "Ventas segun cine";
+            $item['link'] = FRONT_ROOT . "/show" . "/moneyCollectionCinema";
+            array_push($menus,$item);
+            $item['title'] = "Ventas segun pelicula";
+            $item['link'] = FRONT_ROOT . "/show" . "/moneyCollectionMovie";
+            array_push($menus,$item);
+
+            include VIEWS . "menu.php";
+        }
+
+        public function add($projectionTime,$theaterId,$movieId){
             try {
                 $movie = $this->daoMovie->getById($movieId);
                 $theater = $this->daoTheater->getById($theaterId);
-                
+        
                 $newShow = new Show($projectionTime,$movie,$theater);
+                
                 $this->daoShow->add($newShow);
-    
                 $this->showMainView($this->daoShow->getAll());
             }catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                $arrayOfErrors [] = $ex->getMessage();
+                include_once VIEWS.'menuTemporal.php'; 
             }
         }
 
@@ -67,32 +121,42 @@
             try{
                 $cinemaList = array();
                 $cinemas = $this->convertToArray($this->daoCinema->getAllActiveCinemas());
-                foreach ($cinemas as $cinema) {
-                    if(!empty($this->daoTheater->getByCinemaID($cinema->getId()))){
-                        array_push($cinemaList,$cinema);
+                if(empty($cinemas)){
+                    throw new Exception("No hay cines disponibles", 1);
+                }
+                else{
+                    foreach ($cinemas as $cinema) {
+                        if(!empty($this->daoTheater->getByIdCinema($cinema->getId()))){
+                            array_push($cinemaList,$cinema);
+                        }
                     }
-                }    
+                    if(empty($cinemaList)){
+                        throw new Exception("No hay salas cargadas", 1);                        
+                    }
+                    include_once VIEWS."showChooseDateTimeForm.php";
+                }
             }
             catch(Exception $e){
+                $arrayOfErrors = array();
                 array_push($arrayOfErrors,$e->getMessage());
-            }   
-            finally{
-                include VIEWS."showChooseDateTimeForm.php";
-                include VIEWS.'footer.php';    
-            } 
+                $this->listShows($arrayOfErrors);
+                include VIEWS . 'footer.php';
+            }
         }
 
         public function continueForm($date, $time, $cinemaId,$arrayOfErrors = array()){
             try {
                 $theaterList = $this->daoTheater->getByIdCinema($cinemaId);
                 $theaterList = $this->convertToArray($theaterList);
-                include VIEWS."showChooseTheaterForm.php";
+                if(empty($theaterList)){
+                    throw new Exception("No hay salas cargadas en ese cine", 1);                    
+                }
+                include_once VIEWS."showChooseTheaterForm.php";
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                $arrayOfErrors [] = $ex->getMessage();
+                include_once VIEWS.'menuTemporal.php';
+                include_once VIEWS.'footer.php';
             }
-            include VIEWS.'footer.php';
         }
 
         
@@ -100,12 +164,13 @@
             
             try {
                 $movieList = $this->getMoviesAvailable($date,$theaterId);
-               
-                include VIEWS."showChooseMovieCinemasForm.php";
+                if(empty($movieList)){
+                    throw new Exception("No hay peliculas cargadas", 1);                    
+                }
+                include_once VIEWS."showChooseMovieCinemasForm.php";
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                $arrayOfErrors [] = $ex->getMessage();
+                include_once VIEWS.'menuTemporal.php';			 
             }
         }
         private function validateDate($date, $time, $theaterId,$movieId){
@@ -148,23 +213,29 @@
         
         public function validateData($date,$time, $theaterId,$movieId){
             $arrayOfErrors = array();
-            if($date<date("Y-m-d")){
-                array_push($arrayOfErrors,'La fecha tiene que ser una futura') ;
-                $this->startForm($arrayOfErrors);
+            try {
+                if($date<date("Y-m-d")){
+                    throw new Exception("La fecha tiene que ser una futura", 1);
+                }
+                if(is_null($time)){
+                    throw new Exception("La hora no puede ser nula", 1);
+                }
+                if($this->validateDate($date,$time, $theaterId,$movieId)){
+                    throw new Exception("En la fecha y hora elegidas la sala ya emite una pelicula", 1);
+                }
+                $projectionTime = $date." ".$time;
+                $aux = $this->daoShow->getByData(["time" => $projectionTime, "idMovie" => $movieId, "idTheater" =>$theaterId]);
+                if (!empty($aux)) {
+                    array_push($arrayOfErrors,"Esa funcion ya fue agregada");
+                    $this->listShows($arrayOfErrors);
+                }
+                else{
+                    $this->add($projectionTime,$theaterId,$movieId);
+                }   
+            } catch (Exception $e) {
+                array_push($arrayOfErrors,$e->getMessage());
+                $this->listShows($arrayOfErrors);
             }
-            if(is_null($time)){
-                array_push($arrayOfErrors,'La hora no puede ser nula');
-                $this->startForm($arrayOfErrors);
-            }
-            if($this->validateDate($date,$time, $theaterId,$movieId)){
-                $cinemaId = $this->daoTheater->getByID($theaterId)->getId();
-                array_push($arrayOfErrors,'En la fecha y hora elegidas la sala ya emite una pelicula');
-                $this->continueForm($date, $time, $cinemaId,$arrayOfErrors);
-            }
-
-            
-           $this->add($date,$time,$theaterId,$movieId);
-            
         }
 
 
@@ -189,7 +260,6 @@
                 }
             }
 
-
             /**
              * @var Movie $movie
              */
@@ -210,24 +280,25 @@
         public function filterByGenre(){
             try {
                 $genreList = $this->daoGenre->getAll();
-                include VIEWS."showChooseGenreToFilterForm.php";    
+                if(empty($genreList)){
+                    throw new Exception("No hay generos cargados", 1);                    
+                }
+                include_once VIEWS."showChooseGenreToFilterForm.php";    
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
-            }
-            
+                $arrayOfErrors [] = $ex->getMessage();
+                include_once VIEWS.'menuTemporal.php';			 
+            }            
         }
 
         public function getFilteredShowsByDate($filter)
         {
             try {
                 $showList = $this->convertToArray($this->daoShow->getAllByDate($filter));
-                $this->showMainView($showList);
+                $this->showClient($showList);
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
             }
         }
 
@@ -235,13 +306,12 @@
         {
             try {
                 $showList = $this->daoShow->getAllByGenre($filter);
-                $this->showMainView($showList);
+                $this->showClient($showList);
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
-            }
-            
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
+            }            
         }
 
         public function showMainView($showList = '')
@@ -250,30 +320,6 @@
             include_once VIEWS."showAdminMainView.php";
         }
 
-
-        /*        private function getMoviesNotScreened($date){
-            try {
-                $showList = $this->daoShow->getAllByDate($date);
-            
-                //#TODO cambiar a que sean solo las recientes
-                $movieList = $this->daoMovie->getAll();
-                $moviesScreened = array();
-                $moviesNotScreened = array();
-    
-                foreach($showList as $show){
-                    array_push($moviesScreened,$show->getMovie());
-                }
-                 foreach($movieList as $movie){
-                    if(!$this->movieInArray($movie,$moviesScreened)){
-                        array_push($moviesNotScreened,$movie);
-                    }
-                }
-    
-               return $moviesNotScreened; }
-            catch (Exception $e) {
-                echo $e;
-            }   
-        }*/
        
         private function movieInArray($searchedMovie,$movieList= ''){
             if(empty($movieList)== false){
@@ -295,33 +341,28 @@
         {
             try {
                 $this->daoShow->deleteById($showId);
-                $this->index();
+                $this->listShows();
             } catch (Exception $ex) {
-            $arrayOfErrors [] = $ex->getMessage();
-			include VIEWS.'menuTemporal.php';
-			include VIEWS.'footer.php';
+                $arrayOfErrors [] = $ex->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
             }
             
         }
 
         public function chooseShow($movieId){
             try {
-                $showList = $this->convertToArray($this->daoShow->getAvailableShowsByMovieId($movieId));
-                
-                if(empty($showList)){
-                    $arrayOfErrors [] = "No hay funciones disponibles";
-                    include VIEWS.'menuTemporal.php';
-                    include VIEWS.'footer.php';
+                $showList = $this->convertToArray($this->daoShow->getAvailableShowsByMovieId($movieId));                
+                $movie = $this->daoMovie->getById($movieId);
+                if(empty($showList)){        
+                    throw new Exception("No hay funciones disponibles para ".$movie->getName(), 1);
                 }
-                else{
-                    include_once VIEWS."showClient.php";
-                }
+                include_once VIEWS."showClient.php";                
             } catch (Exception $e) {
                 $arrayOfErrors [] = $e->getMessage();
-                include VIEWS.'menuTemporal.php';
-                include VIEWS.'footer.php';
-            }
-            
+                include_once VIEWS.'menuTemporal.php';
+                include_once VIEWS.'footer.php';             
+            }            
         }
 
         
@@ -335,78 +376,100 @@
             return $arrayToReturn;
         }
 
-        public function showClient()
-        {
-            
+    
+        public function showClient($showList= null){            
             try {
-                $allShows = $this->daoShow->getAvailableShows();
-
-                $showList = is_null($allShows) ? [] : $this->convertToArray($allShows);
+                if(is_null($showList)){
+                    $showList = $this->daoShow->getAvailableShows();                                    
+                }
+                if(empty($showList)){        
+                    throw new Exception("No hay funciones disponibles", 1);
+                }
+                include_once VIEWS."showClient.php";
             } catch (Exception $e) {
                 $arrayOfErrors [] = $e->getMessage();
-                include VIEWS.'menuTemporal.php';
-                include VIEWS. 'footer.php';
+                include_once VIEWS.'menuTemporal.php';
+                include_once VIEWS. 'footer.php';
             }
-            include_once VIEWS."showClient.php";
         }
 
+
         public function quantitiesAndRemnants(){
-            try{
+            try{                
                 $showList = $this->daoShow->getShowsWithTickets();
+                if (empty($showList)) {
+                    throw new Exception("No hay ninguna funcion cargada", 1);                    
+                }
+                
+                include_once VIEWS.'quantitiesAndRemnants.php';
             }
             catch(Exception $e){
                 $arrayOfErrors [] = $e->getMessage();
-                include VIEWS.'menuTemporal.php';
-                include VIEWS. 'footer.php';
+                include_once VIEWS.'menuTemporal.php';
+                include_once VIEWS. 'footer.php';
             }
-            include VIEWS.'quantitiesAndRemnants.php';
-        } 
+        }
 
         public function moneyCollectionCinema(){
             try{
                 $cinemaList= $this->convertToArray($this->daoCinema->getAll());
+                if (empty($cinemaList)) {                    
+                    throw new Exception("No hay ninguna cine cargado", 1);                    
+                }
+                include_once VIEWS.'selectCinemaForTotal.php';
             }
             catch(Exception $ex){
                 $arrayOfErrors [] = $ex->getMessage();
-                include VIEWS.'menuTemporal.php';
-                include VIEWS. 'footer.php';
+                include_once VIEWS.'menuTemporal.php';
+                include_once VIEWS. 'footer.php';
             }
-            include VIEWS.'selectCinemaForTotal.php';
         }
 
         public function totalAmountByCinema($cinemaId,$firstDate,$lastDate){
             try{
+                $theaterList = $this->daoTheater->getByIdCinema($cinemaId);
+                if(empty($theaterList)){
+                    throw new Exception("No hay salas cargadas en ese cine", 1);                    
+                }
                 $revenue = $this->daoShow->totalAmountByCinema($cinemaId,$firstDate,$lastDate);
+                $a = array();
+                array_push($a,$revenue);
+                include_once VIEWS.'showTotalMoney.php';
             }
             catch(Exception $e){
                 $arrayOfErrors [] = $e->getMessage();
-                include VIEWS.'menuTemporal.php';
-                include VIEWS. 'footer.php';
+                include_once VIEWS.'menuTemporal.php';
+                include_once VIEWS. 'footer.php';
             }
-            include VIEWS.'showTotalMoney.php';
         }
 
         public function moneyCollectionMovie(){
             try{
                 $movieList= $this->convertToArray($this->daoMovie->getAll());
+                if(empty($movieList)){
+                    throw new Exception("No hay peliculas cargadas", 1);                    
+                }
+                include_once VIEWS.'selectMoviesForTotal.php';
             }
             catch(Exception $ex){
                 $arrayOfErrors [] = $ex->getMessage();
-                include VIEWS.'menuTemporal.php';
-                include VIEWS. 'footer.php';
+                 include_once VIEWS.'menuTemporal.php';
+                 include_once VIEWS. 'footer.php';
             }
-            include VIEWS.'selectMoviesForTotal.php';
-        }      
+        } 
+        
         public function totalAmountByMovie($movieId,$firstDate,$lastDate){
             try{
                 $revenue = $this->daoShow->totalAmountByMovie($movieId,$firstDate,$lastDate);
+                $a = array();
+                array_push($a,$revenue);
+                include VIEWS.'showTotalMoney.php';
             }
             catch(Exception $e){
                 $arrayOfErrors [] = $e->getMessage();
                 include VIEWS.'menuTemporal.php';
                 include VIEWS. 'footer.php';
             }
-            include VIEWS.'showTotalMoney.php';
         }
         
     }

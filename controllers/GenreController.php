@@ -5,16 +5,16 @@
     use dao\pdo\PDOGenre as DAOGenre;
     use \Exception as Exception;
     class GenreController
-    {   
+    {
         private $daoGenre;
 
         public function __construct()
         {
             $this->daoGenre = new DAOGenre();
         }
-        
+
         public function showGenres(){
-            include VIEWS.'headerSelector.php';
+            include VIEWS . '/appHeader.php';
             try {
                 $genreList = $this->daoGenre->getAll();
             } catch (Exception $e) {
@@ -22,11 +22,11 @@
                 include VIEWS.'menuTemporal.php';
                 include VIEWS. 'footer.php';;
             }
-            
-            echo '<pre>';            
+
+            echo '<pre>';
             print_r($genreList);
-            echo '</pre>';  
-            
+            echo '</pre>';
+
         }
     }
 ?>

@@ -35,6 +35,26 @@
             }             
         }
     
+        public function getByData($ticket_number,$id_show){
+            $query = 'Select * from '. $this->tableName. ' where ticket_number = :ticket_number and id_show = :id_show';
+
+            $parameters['ticket_number'] = $ticket_number;
+            $parameters['id_show'] = $id_show;
+            
+            try{
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+
+                $ticket = $this->parseToObject($resultSet);
+
+                return $ticket;
+            }
+            catch(Exception $e){
+                throw $e;
+            }
+        }
+        
         public function countSeats($id_show){
             try {
                 $query="SELECT 
@@ -55,12 +75,7 @@
                 throw $ex;
             }
         }
-        /**
-         * C:\wamp\www\Trabajo-Final-Tesis\controllers\PurchaseController.php:47:
-         * array (size=2)
-         * 'resultado' => string '1' (length=1)
-         * 0 => string '1' (length=1)
-         */
+
         public function getAll(){
             try
             {
@@ -90,7 +105,8 @@
                 if(empty($resp)){
                     return $resp;
                 }
-                else {					
+                else {
+					
                     return count($resp) > 1 ? $resp : $resp['0'];
                 }
             } catch (Exception $e) {

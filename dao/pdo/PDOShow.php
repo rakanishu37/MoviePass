@@ -54,6 +54,33 @@
             }
         }
 
+        public function getByData($data){
+            
+            $query = 'Select * from '. $this->tableName. ' where projection_time like :projection_time and id_movie = :id_movie and id_theater = :id_theater and active = 1';
+            
+            /*$parameters['projection_time'] = $data->time . '%';
+            $parameters['id_movie'] = $data->idMovie;
+            $parameters['id_theater'] = $data->idTheater;*/
+            
+            
+            $parameters['projection_time'] = $data['time'] . '%';
+            $parameters['id_movie'] = $data['idMovie'];
+            $parameters['id_theater'] = $data['idTheater'];
+            
+            try{
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+
+                $show = $this->parseToObject($resultSet);
+
+                return $show;
+            }
+            catch(Exception $e){
+                throw $e;
+            }
+        }
+
         public function getByID($showId){
             $query = 'Select * from '. $this->tableName. ' WHERE id_show = :id_show;';
             
@@ -115,6 +142,7 @@
                         sum(theatres.capacity - ticketsdados.bought_tickets) > 0
                         order by
                             shows.projection_time asc;";
+
                 $parameters['movieId'] = $movieId;
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query,$parameters);
@@ -124,10 +152,60 @@
                 throw $ex;
             }
         }
+
+        /*
+                $query="SELECT
+                            shows.id_show as id_show,
+                            shows.projection_time as projection_time,
+                            shows.id_movie as id_movie,
+                            shows.id_theater as id_theater,
+                            shows.active as active,
+                            sum(theatres.capacity - ticketsdados.bought_tickets) as remanente
+                        from
+                            shows inner join theatres on shows.id_theater = theatres.id_theater left outer join
+                            (SELECT 
+                                shows.id_show as id_show,
+                                ifnull(count(tickets.id_show),0) as bought_tickets
+                            from
+                                shows left outer join tickets on shows.id_show = tickets.id_show
+                            group by
+                                shows.id_show) as ticketsdados on shows.id_show = ticketsdados.id_show
+                        where 
+                            shows.active = 1 and projection_time like :projectionTime
+                        group by
+                            shows.id_show
+                        having
+                            sum(theatres.capacity - ticketsdados.bought_tickets) > 0
+                        order by
+                            shows.projection_time asc;";
+        */
         public function getAllByDate($date){
             try
             {
-                $query = "SELECT * FROM ".$this->tableName." WHERE projection_time like :projectionTime order by projection_time asc;";
+                $query="SELECT
+                shows.id_show as id_show,
+                shows.projection_time as projection_time,
+                shows.id_movie as id_movie,
+                shows.id_theater as id_theater,
+                shows.active as active,
+                sum(theatres.capacity - ticketsdados.bought_tickets) as remanente
+            from
+                shows inner join theatres on shows.id_theater = theatres.id_theater left outer join
+                (SELECT 
+                    shows.id_show as id_show,
+                    ifnull(count(tickets.id_show),0) as bought_tickets
+                from
+                    shows left outer join tickets on shows.id_show = tickets.id_show
+                group by
+                    shows.id_show) as ticketsdados on shows.id_show = ticketsdados.id_show
+            where 
+                shows.active = 1 and shows.projection_time like :projectionTime
+            group by
+                shows.id_show
+            having
+                sum(theatres.capacity - ticketsdados.bought_tickets) > 0
+            order by
+                shows.projection_time asc;";
                 $parameters['projectionTime'] = $date.'%';
 
                 $this->connection = Connection::GetInstance();
@@ -214,11 +292,11 @@
 
                     return new Show($p['projection_time'],$movie,$theater,$p['active'],$p['id_show']);
                 }, $value);
-                
+
                 if(empty($resp)){
                     return $resp;
                 }
-                else {
+                else{
                     return count($resp) > 1 ? $resp : $resp['0'];
                 }
             }
@@ -239,7 +317,9 @@
                         from
                             shows left outer join tickets on shows.id_show = tickets.id_show
                         group by
-                            shows.id_show";
+                            shows.id_show
+                        having
+                            count(tickets.id_show) >0";
                 $this->connection = Connection::GetInstance();
                 $resultSet = $this->connection->Execute($query);
             
@@ -269,12 +349,8 @@
                     return $array;
                 }, $value);
                 
-                if(empty($resp)){
-                    return $resp;
-                }
-                else {
-                    return $resp;
-                }
+                //return count($resp) > 1 ? $resp : $resp['0'];
+                return $resp;
             }
             catch(Exception $e){
                 throw $e;
@@ -304,7 +380,7 @@
                         group by
                             shows.id_show
                         having
-                        sum(theatres.capacity - ticketsdados.bought_tickets) > 0
+                            sum(theatres.capacity - ticketsdados.bought_tickets) > 0
                         order by
                             shows.projection_time asc;";
                 
@@ -316,6 +392,7 @@
                 throw $ex;
             }
         }
+
         public function totalAmountByCinema($cinemaId,$firstDate,$lastDate)
         {
             $query = 'SELECT

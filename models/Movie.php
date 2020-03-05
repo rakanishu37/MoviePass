@@ -20,6 +20,14 @@ class Movie
                 $this->setImageURL($imageURL);
         }
 
+        public function getGenres()
+        {
+                $genres = array();
+                foreach ($this->getGenre() as $genre) {
+                        array_push($genres,$genre->getName().'<br>');
+                }
+                return join($genres);
+        }
         public function getId()
         {
                 return $this->id;

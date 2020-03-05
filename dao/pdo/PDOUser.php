@@ -68,6 +68,25 @@
             }
         }
 
+        public function getByID($idUser)
+        {
+            try
+            {
+                $query = "SELECT * FROM ".$this->tableName." where  id_user= :id_user";
+                $parameters['id_user'] = $idUser;
+
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query,$parameters);
+                
+                return $this->parseToObject($resultSet);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
         protected function parseToObject($value) {
 			$value = is_array($value) ? $value : [];
 			$resp = array_map(function($p){

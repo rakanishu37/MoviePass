@@ -88,9 +88,30 @@
                 return $theater;
             } catch (Exception $e) {
                 throw $e;
+            }		
+        }
+        
+        public function getByData($data){
+            
+            $query = 'Select * from '. $this->tableName. ' where id_cinema = :id_cinema and theater_name = :theater_name';
+            
+            $parameters['id_cinema'] = $data['idCinema'];
+            $parameters['theater_name'] = $data['theaterName'];
+            
+            try{
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+
+                $theater = $this->parseToObject($resultSet);
+
+                return $theater;
             }
-		
-		}
+            catch(Exception $e){
+                throw $e;
+            }
+        }
+
 		protected function parseToObject($value) {
             $value = is_array($value) ? $value : [];
             try {
@@ -103,8 +124,7 @@
                 if(empty($resp)){
                     return $resp;
                 }
-                else {
-					
+                else {	
                     return count($resp) > 1 ? $resp : $resp['0'];
                 }
             } catch (Exception $e) {
@@ -136,8 +156,6 @@
                 $parameters['name'] = $theater->getName();
                 $parameters['cinema'] = $theater->getCinema()->getName();
                 $parameters['seatPrice'] = $theater->getSeatPrice();
-             
-               
                
                 $this->connection = Connection::GetInstance(); 
                 return $this->connection->ExecuteNonQuery($query, $parameters);
@@ -147,28 +165,5 @@
                 throw $ex;
             }
         }
-     
-        public function getByCinemaID($cinemaId){
-            try
-            {
-                $query = 'Select * from '. $this->tableName. ' WHERE id_cinema = :id_cinema;';
-                
-                $parameters['id_cinema'] = $cinemaId;
-
-                $this->connection = Connection::GetInstance();
-
-                $resultSet = $this->connection->Execute($query, $parameters);
-
-                $theaterbycinema = $this->parseToObject($resultSet);
-
-                return $theaterbycinema;
-            }
-            catch(Exception $ex)
-            {
-                throw $ex;
-            }
-        }
-
-    }
-    
+    }    
 ?>

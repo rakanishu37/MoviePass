@@ -1,0 +1,16 @@
+.form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    min-width: 80vw;
+    height: 100vw;
+    padding-top: 15%;
+}
+
+.mdc-data-tablecell {
+    max-width: 15vw;
+}
+
+.mdc-data-tablerow .mdc-data-table__cell:nth-child(1) {
+    max-width: 20vw;
+}

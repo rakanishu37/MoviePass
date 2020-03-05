@@ -16,7 +16,8 @@ namespace controllers;
         }
 
         public function metodo(){
-			$b= array();
+			var_dump($_POST);
+			/*$b= array();
 			$a = array("a","b","c","d","e");
 			foreach ($a as $value) {
 				

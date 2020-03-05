@@ -2,23 +2,26 @@
 
 namespace models;
 use models\User as User;
+use models\Show as Show;
 
 class Purchase
 {
         private $user;
+        private $show;
         private $quantityOfTickets;
         private $totalAmount;
         private $datePurchase;
         private $discount;
         private $idPurchase;
 
-        public function __construct($quantityOfTickets='', $totalAmount='',$datePurchase='',$discount='',$user='',$idPurchase=''){
-                $this->setUser($user);
-                $this->setQuantityOfTickets($quantityOfTickets);
-                $this->setTotalAmount($totalAmount);
-                $this->setDatePurchase($datePurchase);
-                $this->setDiscount($discount);
-                $this->setIdPurchase($idPurchase);
+        public function __construct($data){
+                $this->setUser($data["user"]);
+                $this->setShow($data["show"]);
+                $this->setQuantityOfTickets($data['ticketsQuantity']);
+                $this->setTotalAmount($data['totalAmount']);
+                $this->setDatePurchase($data['date']);
+                $this->setDiscount($data['discount']);
+                $this->setIdPurchase($data['idPurchase']);
         }
 
         public function getUser(){
@@ -28,6 +31,13 @@ class Purchase
                 $this->user = $user;
         }
         
+        public function getShow(){
+                return $this->show;
+        }
+        public function setShow($show){
+                $this->show = $show;
+        }
+
         public function getQuantityOfTickets(){
                 return $this->quantityOfTickets;
         }

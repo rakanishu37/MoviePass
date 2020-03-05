@@ -6,50 +6,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>quiantitiesAndRemnants.css">
-    <link rel="stylesheet" media="screen" href="<?php echo CSS_PATH ?>header.css">
-
+	<?php include(VIEWS . '/materialHeader.php'); ?>
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/generalStyles.css">
+    <link rel="stylesheet" href="<?php echo CSS_PATH; ?>/material-customizations.css">
+	<link rel="stylesheet" href="<?php echo CSS_PATH; ?>/user-form.css">
     <title>Movie Pass</title>
 
 </head>
 
 <body>
 
-    <?php require 'headerSelector.php'; ?>
-
-    <table border="1">
-        <tr>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Lugar</th>
-            <th>Sala</th>
-            <th>Capacidad</th>
-            <th>Precio</th>
-            <th>Pelicula</th>
-            <th>Cantidades</th>
-            <th>Remanentes</th>
-           
-            <th></th>
-        </tr>
-
-        <?php foreach ($showList as $show) { ?>
-            <tr>
-                <td><?php echo $show['show']->getDate(); ?></td>
-                <td><?php echo $show['show']->getTime(); ?></td>
-                <td><?php echo $show['show']->getTheater()->getCinema()->getName(); ?></td>
-                <td><?php echo $show['show']->getTheater()->getName(); ?></td>
-                <td><?php echo $show['show']->getTheater()->getCapacity(); ?></td>
-                <td>$<?php echo $show['show']->getTheater()->getSeatPrice(); ?></td>
-                <td><?php echo $show['show']->getMovie()->getName(); ?></td>
-                <td><?php echo $show['boughttickets']; ?></td>
-                <td><?php echo ($show['show']->getTheater()->getCapacity() - $show['boughttickets']); ?></td>
-            </tr>
-        <?php } ?>
-    
-    </table>
-
-  
-
+    <?php require VIEWS . '/appHeader.php' ?>
+	<?php require VIEWS . '/userFilter.php' ?>
+    <div class="form">
+		<h2>Recuento de Ventas</h2>		
+		<?php echo ($MaterialDataTable([
+			"columns" => [
+				["content" => "Fecha"],
+				["content" => "Hora"],
+				["content" => "Lugar"],
+				["content" => "Sala"],
+				["content" => "Capacidad"],
+				["content" => "Precio"],
+				["content" => "Pelicula"],
+				["content" => "Cantidades"],
+				["content" => "Remanentes"]
+			],
+			"rows" => array_map(function ($show) {
+				return [
+					"data" => [
+						["content" => $show['show']->getDate()],
+						["content" => $show['show']->getTime()],
+						["content" => $show['show']->getTheater()->getCinema()->getName()],
+						["content" => $show['show']->getTheater()->getName()],
+						["content" => $show['show']->getTheater()->getCapacity()],
+						["content" => '$'.$show['show']->getTheater()->getSeatPrice()],
+						["content" => $show['show']->getMovie()->getName()],
+						["content" => $show['boughttickets']],
+						["content" => ($show['show']->getTheater()->getCapacity() - $show['boughttickets'])],
+					]
+				];
+			}, $showList)
+		])); ?>
+	</div>
+	<?php include(VIEWS . '/materialFooter.php'); ?>
 </body>
 
 </html>

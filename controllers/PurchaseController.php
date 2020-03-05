@@ -23,39 +23,74 @@
             $this->daoShow = new DAOShow();
         }
 
-        public function add($date,$time,$idShow,$quantityOfTickets){
+        public function validateData($date,$time,$idShow,$seatsOccupied,$quantityOfTickets){
+            $seats= array();
+            try {
+                $show = $this->daoShow->getByID($idShow);
+                $seatsRemaining = $show->getTheater()->getCapacity() - $seatsOccupied;
+                if($quantityOfTickets > $seatsRemaining){
+                    throw new Exception("La cantidad de asientos a comprar supera los restantes", 1);
+                }
+
+                for ($i=1; $i <= $quantityOfTickets ; $i++) { 
+                    $seat = $seatsOccupied + $i;
+                    $newTicket = new Ticket($seat,"",$show);
+                    if(!empty($this->daoTicket->getByData($newTicket->getNumberTicket(),$idShow))){
+                        throw new Exception("Esa compra ya fue ingresada", 1);                        
+                    }
+                    array_push($seats,$newTicket);
+                }
+                
+                $datePurchase = $date." ".$time;
+                
+                $this->add($datePurchase,$idShow,$quantityOfTickets,$seats);
+            } catch (Exception $e) {
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS."showClient.php";
+                include VIEWS."footer.php";
+            }            
+        }
+        
+        public function add($datePurchase,$idShow,$quantityOfTickets,$seats){
             $arrayOfErrors = array();
             try{
                 if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 
                 if(isset($_SESSION['loggedUser'])){
                     $user = $_SESSION['loggedUser'];
-                 
-                    $datePurchase = $date." ".$time;
+                    $show = $this->daoShow->getByID($idShow);
                     $discount = 0;
-                    $totalamount = $this->daoPurchase->getTotalAmount($quantityOfTickets, $idShow);
-                    $newPurchase = new Purchase($quantityOfTickets, $totalamount, $datePurchase, $discount,$user);
+                    $nameOfTheDay = date("l",strtotime($datePurchase));
+                    $totalAmount = $this->daoPurchase->getTotalAmount($quantityOfTickets, $idShow);
+
+                    if($quantityOfTickets >= 2 && (($nameOfTheDay == "Tuesday" || $nameOfTheDay == "Wednesday"))){                        
+                        $discount = $totalAmount * 0.25;
+                        $totalAmount = $totalAmount - $discount;                        
+                    }
+                    $data = [
+                        "ticketsQuantity"=> $quantityOfTickets,
+                        "show"=> $show,
+                        "totalAmount"=> $totalAmount,
+                        "discount"=> $discount,
+                        "date"=> $datePurchase,
+                        "user" => $user,
+                        "idPurchase" => ""
+                    ];
+                    $newPurchase = new Purchase($data);
+
                     $idpurchase = $this->daoPurchase->add($newPurchase);
                     
-                    $show = $this->daoShow->getByID($idShow);
-                    //Devuelve el numero del asiento del ticket a emitir
-                    $j = $this->daoTicket->countSeats($idShow);
-                    
-                    for ($i=1; $i <= $quantityOfTickets ; $i++) { 
-                        $seat = $j+$i;
-                        $newTicket = new Ticket($seat,$idpurchase,$show);
-                        $this->daoTicket->add($newTicket);
+                    foreach ($seats as $seat) {
+                        $seat->setIdPurchase($idpurchase);
+                        $this->daoTicket->add($seat);
                     }
-
                     array_push($arrayOfErrors,'Compra realizad con exito');
                 }else{
                     array_push($arrayOfErrors,'ERROR: No se pudo realizar la compra');
-
                 }
             }catch (Exception $e){
-
                 array_push($arrayOfErrors,$e->getMessage());
-            }
+            }            
             finally{
                 include VIEWS.'menuTemporal.php';
                 include VIEWS.'footer.php';
@@ -64,8 +99,12 @@
 
         
         public function goToTicketQuantitySelection($idShow){
-            $show = $this->daoShow->getByID($idShow);      
             try{
+                $showList = array();      
+                
+                $show = $this->daoShow->getByID($idShow);
+                
+                array_push($showList,$show);
                 $seatsOccupied = $this->daoTicket->countSeats($idShow);
                 $seatsLeft= $show->getTheater()->getCapacity() - $seatsOccupied;
                 include VIEWS.'purchaseTicket.php';
@@ -87,6 +126,29 @@
             }
             return $arrayToReturn;
         }
+
+        public function purchaseRecord()
+        {
+            try {
+                if(isset($_SESSION['loggedUser'])){
+                    $user = $_SESSION['loggedUser'];
+                    $purchaseList = $this->daoPurchase->getPurchasesMade($user->getId());
+                    $purchaseList = $this->convertToArray($purchaseList);
+                    if(empty($purchaseList)){
+                        throw new Exception("No hay ninguna compra realizada", 1);                        
+                    }
+                    include VIEWS. 'purchasesMade.php';
+                }
+                else{
+                    throw new Exception("No hay usuario logeado", 1);                
+                }
+            } catch (Exception $e) {
+                $arrayOfErrors [] = $e->getMessage();
+                include VIEWS.'menuTemporal.php';
+                include VIEWS.'footer.php';
+            }
+        }
     }
 
 ?>
+

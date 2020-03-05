@@ -20,17 +20,17 @@ use \Exception as Exception;
         }
 
         public function ShowAddView($idCinema = '')
-        {
-            //require_once(VIEWS."validate-session.php");
+        {            
             require_once(VIEWS."theaterAddForm.php");
         }
 
         public function ShowListView($idCinema){
             //require_once(VIEWS."validate-session.php");
             try{
-				
+
                 $theaterList = $this->daoTheater->getByIdCinema($idCinema);
 				$theaterList = $this->convertToArray($theaterList);
+				$cinemaName = $this->daoCinema->getByID($idCinema)->getName();
                 include VIEWS.'theaterList.php';
             }
             catch(Exception $e){
@@ -40,24 +40,35 @@ use \Exception as Exception;
             }
         }
 
+        public function validateData($idCinema,$name,$seatPrice,$capacity)
+        {
+            $aux = $this->daoTheater->getByData(["idCinema" =>$idCinema, "theaterName" => $name]);
+            if (!empty($aux)) {
+                array_push($arrayOfErrors,"Esa sala ya fue agregada");
+                $this->ShowListView($idCinema,$arrayOfErrors);
+            }
+            else{
+                $this->add($idCinema,$name,$seatPrice,$capacity);
+            }
+        }
+
         public function add($idCinema,$name,$seatPrice,$capacity){
-            //require_once(VIEWS."validate-session.php");
-           
             try {
                 $cinema = $this->daoCinema->getByID($idCinema);
            
                 $newTheater = new Theater($name,$capacity,$seatPrice,$cinema,$idCinema);
                 $this->daoTheater->add($newTheater);
+
+                $this->showListView($idCinema);
             } 
             catch (Exception $e) {
                 $arrayOfErrors [] = $e->getMessage();
                 include VIEWS.'menuTemporal.php';
                 include VIEWS. 'footer.php';
-            }
-           
-            $this->showListView($idCinema);
+            }                  
         }
 
+        //Borrar?
         public function showMainView($theaterList = '')
         {
             $theaterList = $this->convertToArray($theaterList);
@@ -68,12 +79,11 @@ use \Exception as Exception;
 
         public function removeById($id)
         {
-            //require_once(VIEWS."validate-session.php");
             $this->daoTheater->delete($id);
             $this->ShowListView($id);
         }
 
-
+        //No tiene uso
         public function modify($id)
         {
             //require_once(VIEWS."validate-session.php");
@@ -90,30 +100,30 @@ use \Exception as Exception;
 
         public function update($id, $capacity, $name, $cinema, $seatPrice, $id_unmodified, $capacity_unmodified, $name_unmodified, $cinema_unmodified, $seatPrice_unmodified)
         {
-        
+
             //require_once(VIEWS."validate-session.php");
 
             if(empty($id)){
-                $id = $id_unmodified;    
+                $id = $id_unmodified;
             }
             if(empty($capacity)){
-                $capacity = $capacity_unmodified;    
+                $capacity = $capacity_unmodified;
             }
             if(empty($name)){
-                $name = $name_unmodified;    
+                $name = $name_unmodified;
             }
-            
+
             if(empty($cinema)){
-                $cinema = $cinema_unmodified;    
+                $cinema = $cinema_unmodified;
             }
             if(empty($seatPrice)){
-                $seatPrice = $seatPrice_unmodified;    
+                $seatPrice = $seatPrice_unmodified;
             }
-            
+
             $theaterModified = new Theater( $name,$capacity,$seatPrice, $cinema,$id);
             try{
                 $this->daoTheater->update($theaterModified);
-                
+
                 $this->ShowListView($cinema->getId());
             }
             catch(Exception $ex){
@@ -122,11 +132,11 @@ use \Exception as Exception;
                 include VIEWS. 'footer.php';
             }
         }
-		
+
        private function convertToArray($value){
         $arrayToReturn = array();
         if(is_array($value)){
-            $arrayToReturn = $value;    
+            $arrayToReturn = $value;
         }
         else {
             $arrayToReturn [] = $value;

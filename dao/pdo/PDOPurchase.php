@@ -4,6 +4,7 @@
     use \Exception as Exception;
     use interfaces\CRUD as CRUD;
     use dao\pdo\PDOUser as PDOUser;
+    use dao\pdo\PDOShow as PDOShow;
     use models\Purchase as Purchase;
     use models\User as User;
     use dao\pdo\Connection as Connection;
@@ -19,10 +20,11 @@
 
         public function add($newPurchase){
             try{
-                $query = "INSERT INTO ".$this->tableName." (id_user,quantity_of_tickets,total_amount,date_purchase,discount)
+                $query = "INSERT INTO ".$this->tableName." (id_user,id_show,quantity_of_tickets,total_amount,date_purchase,discount)
                 VALUES
-                (:id_user, :quantity_of_tickets, :total_amount, :date_purchase, :discount);";
+                (:id_user,:id_show, :quantity_of_tickets, :total_amount, :date_purchase, :discount);";
                 $parameters['id_user'] = $newPurchase->getUser()->getId();
+                $parameters['id_show'] = $newPurchase->getShow()->getId();
                 $parameters['quantity_of_tickets'] = $newPurchase->getQuantityOfTickets();
                 $parameters['total_amount'] = $newPurchase->getTotalAmount();
                 $parameters['date_purchase'] = $newPurchase->getDatePurchase();
@@ -75,20 +77,45 @@
             }
         }
 
+        public function getPurchasesMade($idUser)
+        {
+            $query = "SELECT * FROM " . $this->tableName . " WHERE id_user = :id_user";
+            $parameters['id_user'] = $idUser;
+            try {
+                $this->connection = Connection::GetInstance();
+
+                $resultSet = $this->connection->Execute($query, $parameters);
+                return $this->parseToObject($resultSet);
+            }
+            catch(Exception $ex)
+            {
+                throw $ex;
+            }
+        }
+
         protected function parseToObject($value) {
             $value = is_array($value) ? $value : [];
             try {
                 $resp = array_map(function($p){
                     $pdoUser = new PDOUser();
+                    $pdoShow = new PDOShow();
                     $c = $pdoUser->getByID($p['id_user']);
-                    return new Purchase($c,$p['quantity_of_tickets'],$p['total_amount'],$p['date_purchase'],$p['discount']);
+                    $s = $pdoShow->getByID($p['id_show']);
+                    return new Purchase([
+                        "user" => $c,
+                        "show" => $s,
+                        "ticketsQuantity" => $p['quantity_of_tickets'],
+                        "totalAmount" => $p['total_amount'],
+                        "date" => $p['date_purchase'],
+                        "discount" =>$p['discount'] ,
+                        "idPurchase" => $p['id_purchase'],
+                    ]);
                 }, $value);
-                
+
                 if(empty($resp)){
                     return $resp;
                 }
-                else {
-					
+                else{
                     return count($resp) > 1 ? $resp : $resp['0'];
                 }
             } catch (Exception $e) {
